@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Sne Syn](https://up.htmlacademy.ru/javascript/18/user/543355).
-* Наставник:  [Владислав Балабанович](https://up.htmlacademy.ru/htmlcss/20/user/6394).
+* Наставник:  [Владислав Балабанович](https://up.htmlacademy.ru/javascript/18/user/6394).
 
 ---
 
