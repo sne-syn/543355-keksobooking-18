@@ -2,15 +2,108 @@
 
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var TYPES_OF_ACCOMODATION = ['palace', 'flat', 'house', 'bungalo'];
+var ACCOMODATION_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
 
+var rentOffersQuantity = 8
+var similarRentOffers = [];
+var randomNumbers = [];
+var startNum = 1;
+var locationMinY = 130;
+var locationMaxY = 630;
 
-var similarObjects = [];
+document.querySelector('.map').classList.remove('map--faded');
 
-var generateSimilarObject = function () {
+// Наполняет массив числами от 1 до 8
 
+var fillArray = function (numberOfItems, array) {
+
+  for (var i = 0; i < numberOfItems; i++) {
+    array.push(startNum++);
+  }
 };
 
-generateSimilarObject();
+fillArray(rentOffersQuantity, randomNumbers);
+
+// Перемешивает массив с числами
+
+var shuffleArray = function (array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+};
+
+shuffleArray(randomNumbers);
+shuffleArray(FEATURES);
+
+
+// Выдает случайное число в диапазоне
+
+var getRandomValueFromInterval = function (min, max) {
+  var randomFromInterval = Math.floor(Math.random() * (max - min + 1)) + min;
+  return randomFromInterval;
+};
+
+// Выдает случайное значение из массива
+
+var getRandomValue = function (array) {
+  var randomIndex = Math.floor(Math.random() * array.length);
+
+  return array[randomIndex];
+};
+
+var featuresAmount = getRandomValueFromInterval(0, FEATURES.length);
+var listOfFeatures = [];
+var chooseFeatures = function (array) {
+  for (var i = 0; i < featuresAmount; i++) {
+    listOfFeatures.push(array[i]);
+  }
+};
+
+chooseFeatures(FEATURES);
+
+//  Генерирует массив похожих предложений
+
+var generateSimilarObject = function (numberOfSimilarItems, array) {
+  for (var i = 0; i < numberOfSimilarItems; i++) {
+    array.push({
+      'author': {
+        'avatar': 'img/avatars/user' + '0' + randomNumbers[i]
+      },
+      'offer': {
+        'title': 'YourTitle',
+        'adress': 'location.x, location.y',
+        'price': 4000,
+        'type': '',
+        'rooms': 2,
+        'guests': 5,
+        'checkin': CHECK_IN[i],
+        'checkout': CHECK_OUT[i],
+        'features': listOfFeatures,
+        'description': 'Write Your Description Here',
+        'photos': getRandomValue(PHOTOS)
+      },
+      'location': {
+        'x': 'number',
+        'y': getRandomValueFromInterval(locationMinY, locationMaxY)
+      }
+    });
+  }
+};
+
+generateSimilarObject(rentOffersQuantity, similarRentOffers);
+
+
+var addSimilarItems = function (items) {
+  for (var i = 0; i < items.length; i++) {
+
+  }
+};
+
+addSimilarItems(similarRentOffers);
+
+console.log(similarRentOffers);
