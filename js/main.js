@@ -110,13 +110,13 @@ var pinTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 
 var addSimilarItems = function (items) {
-  for (var i = 0; i < similarRentOffers.length; i++) {
+  for (var i = 0; i < items.length; i++) {
     var pinElement = pinTemplate.cloneNode(true);
 
     // Не работают координаты
     // pinElement.querySelector('.map__pin').style.left = similarRentOffers[i].location.x;
-    pinElement.querySelector('.map__pin img').alt = similarRentOffers[i].offer.title;
-    pinElement.querySelector('.map__pin img').src = similarRentOffers[i].author.avatar;
+    pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
+    pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
 
     mapPins.appendChild(pinElement);
   }
