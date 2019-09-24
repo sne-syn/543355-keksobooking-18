@@ -6,10 +6,12 @@ var ACCOMODATION_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
 
-var rentOffersQuantity = 8
+var rentOffersQuantity = 8;
 var similarRentOffers = [];
 var randomNumbers = [];
 var startNum = 1;
+var mapHeight = 170;
+var mapPinHeight = 85;
 var locationMinY = 130;
 var locationMaxY = 630;
 
@@ -26,8 +28,8 @@ var fillArray = function (numberOfItems, array) {
 
 fillArray(rentOffersQuantity, randomNumbers);
 
-// Перемешивает массив с числами
-
+// Перемешивает массив
+var shuffledFeatures = FEATURES.slice();
 var shuffleArray = function (array) {
   for (var i = array.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -38,8 +40,6 @@ var shuffleArray = function (array) {
 };
 
 shuffleArray(randomNumbers);
-shuffleArray(FEATURES);
-
 
 // Выдает случайное число в диапазоне
 
@@ -56,54 +56,53 @@ var getRandomValue = function (array) {
   return array[randomIndex];
 };
 
+// Добавляет логику в Features
+var shuffledFeatures = FEATURES.slice();
 var featuresAmount = getRandomValueFromInterval(0, FEATURES.length);
 var listOfFeatures = [];
-var chooseFeatures = function (array) {
+
+var chooseFeaturesAmount = function (array) {
   for (var i = 0; i < featuresAmount; i++) {
     listOfFeatures.push(array[i]);
   }
 };
+shuffleArray(shuffledFeatures);
+chooseFeaturesAmount(shuffledFeatures);
 
-chooseFeatures(FEATURES);
 
 //  Генерирует массив похожих предложений
 
 var generateSimilarObject = function (numberOfSimilarItems, array) {
   for (var i = 0; i < numberOfSimilarItems; i++) {
+
+    var randomXLocation = getRandomValueFromInterval(0, mapHeight);
+    var randomYLocation = getRandomValueFromInterval(locationMinY, locationMaxY);
+
     array.push({
       'author': {
         'avatar': 'img/avatars/user' + '0' + randomNumbers[i]
       },
       'offer': {
         'title': 'YourTitle',
-        'adress': 'location.x, location.y',
+        'adress': [randomXLocation, randomYLocation],
         'price': 4000,
-        'type': '',
+        'type': ACCOMODATION_TYPES[3],
         'rooms': 2,
         'guests': 5,
-        'checkin': CHECK_IN[i],
-        'checkout': CHECK_OUT[i],
+        'checkin': CHECK_IN[2],
+        'checkout': CHECK_OUT[1],
         'features': listOfFeatures,
         'description': 'Write Your Description Here',
         'photos': getRandomValue(PHOTOS)
       },
       'location': {
-        'x': 'number',
-        'y': getRandomValueFromInterval(locationMinY, locationMaxY)
+        'x': randomXLocation,
+        'y': randomYLocation
       }
     });
   }
 };
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
-
-
-var addSimilarItems = function (items) {
-  for (var i = 0; i < items.length; i++) {
-
-  }
-};
-
-addSimilarItems(similarRentOffers);
 
 console.log(similarRentOffers);
