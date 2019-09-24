@@ -104,16 +104,25 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
-
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
-for (var i = 0; i < similarRentOffers.length; i++) {
-  var pinElement = pinTemplate.cloneNode(true);
-  mapPins.appendChild(pinElement);
-}
+var addSimilarItems = function (items) {
+  for (var i = 0; i < similarRentOffers.length; i++) {
+    var pinElement = pinTemplate.cloneNode(true);
 
-console.log(pinElement);
+    // Не работают координаты
+    // pinElement.querySelector('.map__pin').style.left = similarRentOffers[i].location.x;
+    pinElement.querySelector('.map__pin img').alt = similarRentOffers[i].offer.title;
+    pinElement.querySelector('.map__pin img').src = similarRentOffers[i].author.avatar;
+
+    mapPins.appendChild(pinElement);
+  }
+};
+
+addSimilarItems(similarRentOffers);
+
 console.log(similarRentOffers);
+console.log(document);
