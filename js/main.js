@@ -11,7 +11,7 @@ var similarRentOffers = [];
 var randomNumbers = [];
 var startNum = 1;
 var mapHeight = 170;
-var mapPinHeight = 85;
+// var mapPinHeight = 85;
 var locationMinY = 130;
 var locationMaxY = 630;
 
@@ -29,7 +29,6 @@ var fillArray = function (numberOfItems, array) {
 fillArray(rentOffersQuantity, randomNumbers);
 
 // Перемешивает массив
-var shuffledFeatures = FEATURES.slice();
 var shuffleArray = function (array) {
   for (var i = array.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -105,4 +104,4 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
-console.log(similarRentOffers);
+// console.log(similarRentOffers);
