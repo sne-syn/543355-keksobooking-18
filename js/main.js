@@ -79,7 +79,7 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
     array.push({
       'author': {
-        'avatar': 'img/avatars/user' + '0' + randomNumbers[i]
+        'avatar': 'img/avatars/user' + '0' + randomNumbers[i] + '.png'
       },
       'offer': {
         'title': 'YourTitle',
@@ -104,4 +104,16 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
-// console.log(similarRentOffers);
+
+var mapPins = document.querySelector('.map__pins');
+var pinTemplate = document.querySelector('#pin')
+  .content
+  .querySelector('.map__pin');
+
+for (var i = 0; i < similarRentOffers.length; i++) {
+  var pinElement = pinTemplate.cloneNode(true);
+  mapPins.appendChild(pinElement);
+}
+
+console.log(pinElement);
+console.log(similarRentOffers);
