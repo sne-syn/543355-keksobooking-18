@@ -92,12 +92,14 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
+// Добавляет пины на карту
+
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
-var addSimilarItems = function (items) {
+var addMapPins = function (items) {
   for (var i = 0; i < items.length; i++) {
     var pinElement = pinTemplate.cloneNode(true);
 
@@ -110,4 +112,4 @@ var addSimilarItems = function (items) {
   }
 };
 
-addSimilarItems(similarRentOffers);
+addMapPins(similarRentOffers);
