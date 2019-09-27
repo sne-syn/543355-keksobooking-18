@@ -10,8 +10,9 @@ var rentOffersQuantity = 8;
 var similarRentOffers = [];
 var randomNumbers = [];
 var startNum = 1;
-var mapHeight = 170;
-// var mapPinHeight = 85;
+var mapWidth = 1200;
+var mapPinHeight = 85;
+var mapPinWidth = 40;
 var locationMinY = 130;
 var locationMaxY = 630;
 
@@ -55,26 +56,12 @@ var getRandomValue = function (array) {
   return array[randomIndex];
 };
 
-// Добавляет логику в Features
-var shuffledFeatures = FEATURES.slice();
-var featuresAmount = getRandomValueFromInterval(0, FEATURES.length);
-var listOfFeatures = [];
-
-var chooseFeaturesAmount = function (array) {
-  for (var i = 0; i < featuresAmount; i++) {
-    listOfFeatures.push(array[i]);
-  }
-};
-shuffleArray(shuffledFeatures);
-chooseFeaturesAmount(shuffledFeatures);
-
-
 //  Генерирует массив похожих предложений
 
 var generateSimilarObject = function (numberOfSimilarItems, array) {
   for (var i = 0; i < numberOfSimilarItems; i++) {
 
-    var randomXLocation = getRandomValueFromInterval(0, mapHeight);
+    var randomXLocation = getRandomValueFromInterval(0, mapWidth);
     var randomYLocation = getRandomValueFromInterval(locationMinY, locationMaxY);
 
     array.push({
@@ -90,7 +77,8 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
         'guests': 5,
         'checkin': CHECK_IN[2],
         'checkout': CHECK_OUT[1],
-        'features': listOfFeatures,
+        'features': FEATURES.slice(0, getRandomValueFromInterval(0, FEATURES.length)),
+
         'description': 'Write Your Description Here',
         'photos': getRandomValue(PHOTOS)
       },
@@ -113,8 +101,8 @@ var addSimilarItems = function (items) {
   for (var i = 0; i < items.length; i++) {
     var pinElement = pinTemplate.cloneNode(true);
 
-    // Не работают координаты
-    // pinElement.querySelector('.map__pin').style.left = similarRentOffers[i].location.x;
+    pinElement.style.left = (items[i].location.x - mapPinWidth / 2)  + 'px';
+    pinElement.style.top = (items[i].location.y - mapPinHeight) + 'px';
     pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
     pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
 
@@ -123,6 +111,3 @@ var addSimilarItems = function (items) {
 };
 
 addSimilarItems(similarRentOffers);
-
-console.log(similarRentOffers);
-console.log(document);
