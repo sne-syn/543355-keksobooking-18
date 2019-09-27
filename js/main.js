@@ -16,8 +16,6 @@ var mapPinWidth = 40;
 var locationMinY = 130;
 var locationMaxY = 630;
 
-document.querySelector('.map').classList.remove('map--faded');
-
 // Наполняет массив числами от 1 до 8
 
 var fillArray = function (numberOfItems, array) {
@@ -92,6 +90,8 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
+document.querySelector('.map').classList.remove('map--faded');
+
 // Добавляет пины на карту
 
 var mapPins = document.querySelector('.map__pins');
@@ -113,3 +113,24 @@ var addMapPins = function (items) {
 };
 
 addMapPins(similarRentOffers);
+
+
+// Добавляет карточки
+var map = document.querySelector('.map');
+var cardTemplate = document.querySelector('#card')
+  .content
+  .querySelector('.map__card');
+
+  var addMapCards = function (items) {
+    for (var j = 0; j < items.length; j++) {
+      var cardElement = cardTemplate.cloneNode(true);
+
+      // map.appendChild(cardElement);
+      map.insertAfter(cardElement, map.firstChild);
+    }
+  };
+
+  addMapCards(similarRentOffers);
+
+console.log(document);
+console.log(similarRentOffers);
