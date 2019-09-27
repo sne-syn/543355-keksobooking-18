@@ -101,7 +101,7 @@ var addSimilarItems = function (items) {
   for (var i = 0; i < items.length; i++) {
     var pinElement = pinTemplate.cloneNode(true);
 
-    pinElement.style.left = (items[i].location.x - mapPinWidth / 2)  + 'px';
+    pinElement.style.left = (items[i].location.x - mapPinWidth / 2) + 'px';
     pinElement.style.top = (items[i].location.y - mapPinHeight) + 'px';
     pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
     pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
