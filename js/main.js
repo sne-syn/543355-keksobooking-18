@@ -8,50 +8,17 @@ var CHECK_OUT = ['12:00', '13:00', '14:00'];
 
 var rentOffersQuantity = 8;
 var similarRentOffers = [];
-var randomNumbers = [];
-var startNum = 1;
 var mapWidth = 1200;
 var mapPinHeight = 85;
 var mapPinWidth = 40;
 var locationMinY = 130;
 var locationMaxY = 630;
 
-// Наполняет массив числами от 1 до 8
-
-var fillArray = function (numberOfItems, array) {
-
-  for (var i = 0; i < numberOfItems; i++) {
-    array.push(startNum++);
-  }
-};
-
-fillArray(rentOffersQuantity, randomNumbers);
-
-// Перемешивает массив
-var shuffleArray = function (array) {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-};
-
-shuffleArray(randomNumbers);
-
 // Выдает случайное число в диапазоне
 
 var getRandomValueFromInterval = function (min, max) {
   var randomFromInterval = Math.floor(Math.random() * (max - min + 1)) + min;
   return randomFromInterval;
-};
-
-// Выдает случайное значение из массива
-
-var getRandomValue = function (array) {
-  var randomIndex = Math.floor(Math.random() * array.length);
-
-  return array[randomIndex];
 };
 
 //  Генерирует массив похожих предложений
@@ -64,12 +31,12 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
     array.push({
       'author': {
-        'avatar': 'img/avatars/user' + '0' + randomNumbers[i] + '.png'
+        'avatar': 'img/avatars/user0' + [i + 1] + '.png'
       },
       'offer': {
         'title': 'YourTitle',
-        'adress': [randomXLocation, randomYLocation],
-        'price': 4000,
+        'address': [randomXLocation, randomYLocation],
+        'price': 400,
         'type': ACCOMODATION_TYPES[3],
         'rooms': 2,
         'guests': 5,
@@ -78,7 +45,7 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
         'features': FEATURES.slice(0, getRandomValueFromInterval(0, FEATURES.length)),
 
         'description': 'Write Your Description Here',
-        'photos': getRandomValue(PHOTOS)
+        'photos': PHOTOS
       },
       'location': {
         'x': randomXLocation,
@@ -114,23 +81,67 @@ var addMapPins = function (items) {
 
 addMapPins(similarRentOffers);
 
+// Добавляет карточку
 
-// Добавляет карточки
 var map = document.querySelector('.map');
 var cardTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
 
-  var addMapCards = function (items) {
-    for (var j = 0; j < items.length; j++) {
-      var cardElement = cardTemplate.cloneNode(true);
+var addMapCards = function (items) {
+  for (var j = 0; j < items.length; j++) {
+    var cardElement = cardTemplate.cloneNode(true);
+    map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 
-      // map.appendChild(cardElement);
-      map.insertAfter(cardElement, map.firstChild);
+    var title = cardElement.querySelector('.popup__title');
+    title.textContent = items[j].offer.title;
+
+    var address = cardElement.querySelector('.popup__text--address');
+    address.textContent = items[j].offer.address;
+
+    var price = cardElement.querySelector('.popup__text--price');
+    price.textContent = items[j].offer.price + '₽/ночь';
+
+    var type = cardElement.querySelector('.popup__type');
+    if (items[j].offer.type === 'palace') {
+      type.textContent = 'Дворец';
     }
-  };
+    if (items[j].offer.type === 'flat') {
+      type.textContent = 'Квартира';
+    }
+    if (items[j].offer.type === 'house') {
+      type.textContent = 'Дом';
+    }
+    if (items[j].offer.type === 'bungalo') {
+      type.textContent = 'Бунгало';
+    }
 
-  addMapCards(similarRentOffers);
+    var rooms = cardElement.querySelector('.popup__text--capacity');
+    rooms.textContent = items[j].offer.rooms + ' комнаты для ' + items[j].offer.guests + ' гостей';
+
+    var checkInOut = cardElement.querySelector('.popup__text--time');
+    checkInOut.textContent = 'Заезд после ' + items[j].offer.checkin + ', выезд до ' + items[j].offer.checkout;
+
+    var features = cardElement.querySelector('.popup__features li');
+    features.textContent = items[j].offer.features;
+
+    var description = cardElement.querySelector('.popup__description');
+    description.textContent = items[j].offer.description;
+
+    var photos = cardElement.querySelector('.popup__photos');
+    // for (var g = 0; g < PHOTOS.length; g++) {
+    //   var img = document.createElement('img');
+    //   img.src = items[j].offer.photos[g];
+    //   photos.appendChild(img);
+    // }
+
+    var avatar = cardElement.querySelector('.map__card img');
+    avatar.src = items[j].author.avatar;
+  }
+};
+
+addMapCards(similarRentOffers);
 
 console.log(document);
+
 console.log(similarRentOffers);
