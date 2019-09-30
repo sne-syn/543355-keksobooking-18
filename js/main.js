@@ -34,17 +34,17 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
         'avatar': 'img/avatars/user0' + [i + 1] + '.png'
       },
       'offer': {
-        'title': 'YourTitle',
+        'title': 'Qualia Jinnan flat',
         'address': [randomXLocation, randomYLocation],
         'price': 400,
-        'type': ACCOMODATION_TYPES[3],
+        'type': ACCOMODATION_TYPES[2],
         'rooms': 2,
         'guests': 5,
         'checkin': CHECK_IN[2],
         'checkout': CHECK_OUT[1],
         'features': FEATURES.slice(0, getRandomValueFromInterval(0, FEATURES.length)),
 
-        'description': 'Write Your Description Here',
+        'description': 'Рядом с апартаментами находятся такие популярные достопримечательности, как концертный зал Шидакс, древнеегипетский художественный музей и музей Шикисай.',
         'photos': PHOTOS
       },
       'location': {
@@ -103,6 +103,7 @@ var addMapCards = function (items) {
     price.textContent = items[j].offer.price + '₽/ночь';
 
     var type = cardElement.querySelector('.popup__type');
+
     if (items[j].offer.type === 'palace') {
       type.textContent = 'Дворец';
     }
@@ -128,19 +129,30 @@ var addMapCards = function (items) {
     var description = cardElement.querySelector('.popup__description');
     description.textContent = items[j].offer.description;
 
-    var photos = cardElement.querySelector('.popup__photos');
-    // for (var g = 0; g < PHOTOS.length; g++) {
-    //   var img = document.createElement('img');
-    //   img.src = items[j].offer.photos[g];
-    //   photos.appendChild(img);
-    // }
+
+
+    var photo = cardElement.querySelector('.popup__photo');
+    photo.src = items[j].offer.photos[0];
 
     var avatar = cardElement.querySelector('.map__card img');
     avatar.src = items[j].author.avatar;
+
+  }
+};
+
+// Создала доп теги для изображений в галерее попапа; Как их теперь заполнить?
+
+var addCardsImg = function (photos) {
+  for (var g = 1; g < photos.length; g++) {
+    var popupDiv = document.querySelector('.popup__photos');
+    var imgTag = document.createElement('img');
+    imgTag.classList.add('popup__photo');
+    popupDiv.appendChild(imgTag);
   }
 };
 
 addMapCards(similarRentOffers);
+addCardsImg(PHOTOS);
 
 console.log(document);
 
