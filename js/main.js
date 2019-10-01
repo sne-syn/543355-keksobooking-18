@@ -123,13 +123,9 @@ var addMapCards = function (items) {
     var checkInOut = cardElement.querySelector('.popup__text--time');
     checkInOut.textContent = 'Заезд после ' + items[j].offer.checkin + ', выезд до ' + items[j].offer.checkout;
 
-    var features = cardElement.querySelector('.popup__features li');
-    features.textContent = items[j].offer.features;
 
     var description = cardElement.querySelector('.popup__description');
     description.textContent = items[j].offer.description;
-
-
 
     var photo = cardElement.querySelector('.popup__photo');
     photo.src = items[j].offer.photos[0];
@@ -151,8 +147,30 @@ var addCardsImg = function (photos) {
   }
 };
 
-addMapCards(similarRentOffers);
 addCardsImg(PHOTOS);
+
+// Удаление и создание новых li для features. Где оставить? Какие индексы использовать?
+
+var removeFeaturesTemplate = function () {
+  var features = document.querySelectorAll('.popup__feature');
+  features.innerHTML = '';
+};
+
+removeFeaturesTemplate();
+
+var addFeaturesItem = function () {
+var featuresBlock = document.querySelector('.popup__features');
+var featureClassName = 'popup__feature--' + item.offer.features[0];
+var featureItem = document.createElement('li');
+featureItem.classList.add('popup__feature');
+featureItem.classList.add(featureClassName);
+featuresBlock.appendChild(featureItem);
+};
+
+addFeaturesItem();
+
+addMapCards(similarRentOffers);
+
 
 console.log(document);
 
