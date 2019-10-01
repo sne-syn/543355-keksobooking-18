@@ -88,90 +88,70 @@ var cardTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
 
-var addMapCards = function (items) {
-  for (var j = 0; j < items.length; j++) {
-    var cardElement = cardTemplate.cloneNode(true);
-    map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
-
-    var title = cardElement.querySelector('.popup__title');
-    title.textContent = items[j].offer.title;
-
-    var address = cardElement.querySelector('.popup__text--address');
-    address.textContent = items[j].offer.address;
-
-    var price = cardElement.querySelector('.popup__text--price');
-    price.textContent = items[j].offer.price + '₽/ночь';
-
-    var type = cardElement.querySelector('.popup__type');
-
-    if (items[j].offer.type === 'palace') {
-      type.textContent = 'Дворец';
-    }
-    if (items[j].offer.type === 'flat') {
-      type.textContent = 'Квартира';
-    }
-    if (items[j].offer.type === 'house') {
-      type.textContent = 'Дом';
-    }
-    if (items[j].offer.type === 'bungalo') {
-      type.textContent = 'Бунгало';
-    }
-
-    var rooms = cardElement.querySelector('.popup__text--capacity');
-    rooms.textContent = items[j].offer.rooms + ' комнаты для ' + items[j].offer.guests + ' гостей';
-
-    var checkInOut = cardElement.querySelector('.popup__text--time');
-    checkInOut.textContent = 'Заезд после ' + items[j].offer.checkin + ', выезд до ' + items[j].offer.checkout;
-
-
-    var description = cardElement.querySelector('.popup__description');
-    description.textContent = items[j].offer.description;
-
-    var photo = cardElement.querySelector('.popup__photo');
-    photo.src = items[j].offer.photos[0];
-
-    var avatar = cardElement.querySelector('.map__card img');
-    avatar.src = items[j].author.avatar;
-
-  }
+var typeMap = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
 };
 
-// Создала доп теги для изображений в галерее попапа; Как их теперь заполнить?
-
-var addCardsImg = function (photos) {
-  for (var g = 1; g < photos.length; g++) {
-    var popupDiv = document.querySelector('.popup__photos');
+var addCardsImg = function (photos, cardElement) {
+  var popupDiv = cardElement.querySelector('.popup__photos');
+  popupDiv.innerHTML = '';
+  for (var j = 0; j < photos.length; j++) {
     var imgTag = document.createElement('img');
     imgTag.classList.add('popup__photo');
+    imgTag.src = photos[j];
+    imgTag.width = '45';
+    imgTag.height = '40';
+    imgTag.alt = 'Фотография жилья';
     popupDiv.appendChild(imgTag);
   }
 };
 
-addCardsImg(PHOTOS);
-
-// Удаление и создание новых li для features. Где оставить? Какие индексы использовать?
-
-var removeFeaturesTemplate = function () {
-  var features = document.querySelectorAll('.popup__feature');
-  features.innerHTML = '';
+var addFeaturesItem = function (features, cardElement) {
+  var featuresList = cardElement.querySelector('.popup__features');
+  featuresList.innerHTML = '';
+  for (var j = 0; j < features.length; j++) {
+    var featureItem = document.createElement('li');
+    var featureClassName = 'popup__feature--' + features[j];
+    featureItem.classList.add('popup__feature');
+    featureItem.classList.add(featureClassName);
+    featuresList.appendChild(featureItem);
+  }
 };
 
-removeFeaturesTemplate();
+var renderCard = function (obj) {
+  var cardElement = cardTemplate.cloneNode(true);
+  map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 
-var addFeaturesItem = function () {
-var featuresBlock = document.querySelector('.popup__features');
-var featureClassName = 'popup__feature--' + item.offer.features[0];
-var featureItem = document.createElement('li');
-featureItem.classList.add('popup__feature');
-featureItem.classList.add(featureClassName);
-featuresBlock.appendChild(featureItem);
+  var title = cardElement.querySelector('.popup__title');
+  title.textContent = obj.offer.title;
+
+  var address = cardElement.querySelector('.popup__text--address');
+  address.textContent = obj.offer.address;
+
+  var price = cardElement.querySelector('.popup__text--price');
+  price.textContent = obj.offer.price + '₽/ночь';
+
+  var type = cardElement.querySelector('.popup__type');
+  type.textContent = typeMap[obj.offer.title];
+
+
+  var rooms = cardElement.querySelector('.popup__text--capacity');
+  rooms.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
+
+  var checkInOut = cardElement.querySelector('.popup__text--time');
+  checkInOut.textContent = 'Заезд после ' + obj.offer.checkin + ', выезд до ' + obj.offer.checkout;
+
+  var description = cardElement.querySelector('.popup__description');
+  description.textContent = obj.offer.description;
+
+  var avatar = cardElement.querySelector('.map__card img');
+  avatar.src = obj.author.avatar;
+
+  addCardsImg(obj.offer.photos, cardElement);
+  addFeaturesItem(obj.offer.features, cardElement);
 };
 
-addFeaturesItem();
-
-addMapCards(similarRentOffers);
-
-
-console.log(document);
-
-console.log(similarRentOffers);
+renderCard(similarRentOffers[0]);
