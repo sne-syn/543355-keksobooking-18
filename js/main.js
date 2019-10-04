@@ -5,11 +5,14 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var ACCOMODATION_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
+var ENTER_KEYCODE = 13;
 
 var rentOffersQuantity = 8;
 var similarRentOffers = [];
 var mapWidth = 1200;
-var mapPinHeight = 85;
+var mapPinPointHeight = 22;
+var mapPinButtonHeight = 63;
+var mapPinHeight = mapPinPointHeight + mapPinButtonHeight;
 var mapPinWidth = 40;
 var locationMinY = 130;
 var locationMaxY = 630;
@@ -155,13 +158,30 @@ generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
 // renderCard(similarRentOffers[0]);
 
-// Неактивное состояние
+// Заполнение поля адреса
+
+var mainPin = document.querySelector('.map__pin--main');
+var coordsLeft = parseInt(mainPin.style.left, 10);
+var coordsTop = parseInt(mainPin.style.top, 10);
+
+var pinX = Math.round(coordsLeft + mapPinWidth / 2);
+var pinActiveY = Math.round(coordsTop + mapPinHeight);
+var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
+
+var getPinCoordinate = function (pinModeY) {
+  var addressInput = document.querySelector('#address');
+  addressInput.value = pinX + ', ' + pinModeY;
+};
+
+getPinCoordinate(pinNonActiveY);
+
+// переключает disabled для inputs
 
 var fieldset = document.querySelectorAll('.ad-form fieldset');
 
-var toggleEnableDisable = function (element, boolean) {
+var toggleEnableDisable = function (element, booleanType) {
   for (var i = 0; i < element.length; i++) {
-    element[i].disabled = boolean;
+    element[i].disabled = booleanType;
   }
 };
 
@@ -171,18 +191,19 @@ toggleEnableDisable(fieldset, true);
 
 var runActivePageMode = function () {
   toggleEnableDisable(fieldset, false);
+  getPinCoordinate(pinActiveY);
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+
 };
 
 // "Слушает" событие перетаскивания основного пина
 
-var mainPin = document.querySelector('.map__pin--main');
+
 mainPin.addEventListener('mousedown', function () {
   runActivePageMode();
 });
 
-var ENTER_KEYCODE = 13;
 mainPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     runActivePageMode();
