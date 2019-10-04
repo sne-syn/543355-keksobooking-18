@@ -199,7 +199,6 @@ var runActivePageMode = function () {
 
 // "Слушает" событие перетаскивания основного пина
 
-
 mainPin.addEventListener('mousedown', function () {
   runActivePageMode();
 });
@@ -207,5 +206,49 @@ mainPin.addEventListener('mousedown', function () {
 mainPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     runActivePageMode();
+  }
+});
+
+// Validation
+
+var form = document.querySelector('.ad-form');
+var titleInput = form.querySelector('#title');
+var priceInput = form.querySelector('#price');
+var typeSelect = form.querySelector('#type');
+var tymeInSelect = form.querySelector('#tymein');
+var tymeOutSelect = form.querySelector('#tymeout');
+
+var guestsCapacity = form.querySelector('#capacity');
+var roomSelect = form.querySelector('#room_number');
+var roomOptions = form.querySelectorAll('#room_number option');
+
+// console.log(roomSelect.options[roomSelect.selectedIndex].value);
+// console.log(guestsCapacity.options[guestsCapacity.selectedIndex].value);
+
+// Title-validation. 'border' при ошибке не виден из-за boxShadow
+
+titleInput.addEventListener('invalid', function (evt) {
+  if (titleInput.validity.tooShort) {
+    titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
+    titleInput.style.border = 'red';
+  } else if (titleInput.validity.valueMissing) {
+    titleInput.setCustomValidity('Обязательное поле');
+    titleInput.style.border = 'red';
+  } else {
+    titleInput.setCustomValidity('');
+  }
+});
+
+//  Price-validation. 'border' при ошибке не виден из-за boxShadow
+
+priceInput.addEventListener('invalid', function (evt) {
+  if (priceInput.validity.rangeOverflow) {
+    priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
+    priceInput.style.border = 'red';
+  } else if (priceInput.validity.valueMissing) {
+    priceInput.setCustomValidity('Обязательное поле');
+    priceInput.style.border = 'red';
+  } else {
+    priceInput.setCustomValidity('');
   }
 });
