@@ -72,7 +72,10 @@ var openCardWithPin = function (pinElement) {
   var pins = mapPins.querySelectorAll('.map__pin');
   for (var i = 1; i < pins.length; i++) {
     pins[i].addEventListener('click', function () {
+
       renderCard(similarRentOffers[0]);
+      pins[i].classList.add('map__pin--active');
+      console.log(pins[i]);
     });
   }
 };
