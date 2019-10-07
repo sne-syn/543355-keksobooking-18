@@ -6,6 +6,7 @@ var ACCOMODATION_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
 var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
 
 var rentOffersQuantity = 8;
 var similarRentOffers = [];
@@ -78,10 +79,9 @@ var addMapPins = function (items) {
     pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
 
     mapPins.appendChild(pinElement);
+
   }
 };
-
-addMapPins(similarRentOffers);
 
 // Добавляет карточку
 
@@ -156,8 +156,6 @@ var renderCard = function (obj) {
   addFeaturesItem(obj.offer.features, cardElement);
 };
 
-renderCard(similarRentOffers[0]);
-
 // Заполнение поля адреса
 
 var mainPin = document.querySelector('.map__pin--main');
@@ -192,9 +190,11 @@ toggleEnableDisable(fieldset, true);
 var runActivePageMode = function () {
   toggleEnableDisable(fieldset, false);
   getPinCoordinate(pinActiveY);
+  addMapPins(similarRentOffers);
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 
+  renderCard(similarRentOffers[0]);
 };
 
 // "Слушает" событие перетаскивания основного пина
@@ -223,7 +223,7 @@ var roomSelect = form.querySelector('#room_number');
 var roomOptions = roomSelect.querySelectorAll('#room_number option');
 
 var p = document.getElementById('p');
-roomSelect.addEventListener('change', function() {
+roomSelect.addEventListener('change', function () {
   var index = roomSelect.selectedIndex;
 
   p.innerHTML = 'selectedIndex: ' + index;
@@ -265,3 +265,45 @@ priceInput.addEventListener('invalid', function (evt) {
     priceInput.setCustomValidity('');
   }
 });
+
+
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+
+  console.log(startCoords);
+});
+
+
+
