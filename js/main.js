@@ -61,13 +61,21 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
-// Добавляет пины на карту
+// Добавляет пины на карту, pins' click&count
 
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
+var openCardWithPin = function (pinElement) {
+  var pins = mapPins.querySelectorAll('.map__pin');
+  for (var i = 1; i < pins.length; i++) {
+    pins[i].addEventListener('click', function () {
+      renderCard(similarRentOffers[0]);
+    });
+  }
+};
 
 var addMapPins = function (items) {
   for (var i = 0; i < items.length; i++) {
@@ -79,8 +87,8 @@ var addMapPins = function (items) {
     pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
 
     mapPins.appendChild(pinElement);
-
   }
+  openCardWithPin(pinElement);
 };
 
 // Добавляет карточку
@@ -139,7 +147,6 @@ var renderCard = function (obj) {
   var type = cardElement.querySelector('.popup__type');
   type.textContent = typeMap[obj.offer.title];
 
-
   var rooms = cardElement.querySelector('.popup__text--capacity');
   rooms.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
 
@@ -194,7 +201,7 @@ var runActivePageMode = function () {
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 
-  renderCard(similarRentOffers[0]);
+
 };
 
 // "Слушает" событие перетаскивания основного пина
@@ -228,14 +235,28 @@ roomSelect.addEventListener('change', function () {
 
   p.innerHTML = 'selectedIndex: ' + index;
 
-  if (index == 1) {
+  if (index == 2) {
     console.log("it works");
     console.log(roomSelect.options[roomSelect.selectedIndex].value);
+    console.log(guestsCapacity.options[guestsCapacity.selectedIndex].value);
   }
 });
 
-console.log(roomSelect.options[roomSelect.selectedIndex].value);
-console.log(guestsCapacity.options[guestsCapacity.selectedIndex].value);
+// Guest validation
+
+guestsCapacity.addEventListener('invalid', function (evt) {
+  if (roomSelect.options[roomSelect.selectedIndex].value === 1 && guestsCapacity.options[guestsCapacity.selectedIndex].value !== 1) {
+    guestsCapacity.setCustomValidity('Слишком много гостей для выбраного типа жилья');
+  } else if (roomSelect.options[roomSelect.selectedIndex].value === 2 && guestsCapacity.options[guestsCapacity.selectedIndex].value !== 1 || guestsCapacity.options[guestsCapacity.selectedIndex].value !== 2) {
+    guestsCapacity.setCustomValidity('Слишком много гостей для выбраного типа жилья');
+  } else if (roomSelect.options[roomSelect.selectedIndex].value === 3 && guestsCapacity.options[guestsCapacity.selectedIndex].value !== 1 || guestsCapacity.options[guestsCapacity.selectedIndex].value !== 2 || guestsCapacity.options[guestsCapacity.selectedIndex].value !== 3) {
+    guestsCapacity.setCustomValidity('Выбранный тип жилья подходит только для гостей');
+  } else if (roomSelect.options[roomSelect.selectedIndex].value === 4 && guestsCapacity.options[guestsCapacity.selectedIndex].value !== 4) {
+    guestsCapacity.setCustomValidity('Выбранный тип жилья не для гостей');
+  } else {
+    guestsCapacity.setCustomValidity('');
+  }
+});
 
 
 // Title-validation. 'border' при ошибке не виден из-за boxShadow
@@ -266,6 +287,7 @@ priceInput.addEventListener('invalid', function (evt) {
   }
 });
 
+// Перетаскивание пина
 
 mainPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -302,8 +324,4 @@ mainPin.addEventListener('mousedown', function (evt) {
   map.addEventListener('mousemove', onMouseMove);
   map.addEventListener('mouseup', onMouseUp);
 
-  console.log(startCoords);
 });
-
-
-
