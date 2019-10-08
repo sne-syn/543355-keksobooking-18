@@ -256,7 +256,6 @@ var runActivePageMode = function () {
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 };
 
-
 // Validation
 
 var form = document.querySelector('.ad-form');
@@ -280,22 +279,6 @@ roomSelect.addEventListener('change', function () {
     console.log("it works");
     console.log(roomSelect.options[roomSelect.selectedIndex].value);
     console.log(guestsCapacity.options[guestsCapacity.selectedIndex].value);
-  }
-});
-
-// Guest validation
-
-guestsCapacity.addEventListener('invalid', function (evt) {
-  if (roomSelect.options[roomSelect.selectedIndex].value === 1 && guestsCapacity.options[guestsCapacity.selectedIndex].value !== 1) {
-    guestsCapacity.setCustomValidity('Слишком много гостей для выбраного типа жилья');
-  } else if (roomSelect.options[roomSelect.selectedIndex].value === 2 && guestsCapacity.options[guestsCapacity.selectedIndex].value !== 1 || guestsCapacity.options[guestsCapacity.selectedIndex].value !== 2) {
-    guestsCapacity.setCustomValidity('Слишком много гостей для выбраного типа жилья');
-  } else if (roomSelect.options[roomSelect.selectedIndex].value === 3 && guestsCapacity.options[guestsCapacity.selectedIndex].value !== 1 || guestsCapacity.options[guestsCapacity.selectedIndex].value !== 2 || guestsCapacity.options[guestsCapacity.selectedIndex].value !== 3) {
-    guestsCapacity.setCustomValidity('Выбранный тип жилья подходит только для гостей');
-  } else if (roomSelect.options[roomSelect.selectedIndex].value === 4 && guestsCapacity.options[guestsCapacity.selectedIndex].value !== 4) {
-    guestsCapacity.setCustomValidity('Выбранный тип жилья не для гостей');
-  } else {
-    guestsCapacity.setCustomValidity('');
   }
 });
 
