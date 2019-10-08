@@ -61,24 +61,13 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
-// Добавляет пины на карту, pins' click&count
+// Все о пинах
+// Добавляет пины на карту
 
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
-
-var openCardWithPin = function (pinElement) {
-  var pins = mapPins.querySelectorAll('.map__pin');
-  for (var i = 1; i < pins.length; i++) {
-    pins[i].addEventListener('click', function () {
-
-      renderCard(similarRentOffers[0]);
-      pins[i].classList.add('map__pin--active');
-      console.log(pins[i]);
-    });
-  }
-};
 
 var addMapPins = function (items) {
   for (var i = 0; i < items.length; i++) {
@@ -93,6 +82,85 @@ var addMapPins = function (items) {
   }
   openCardWithPin(pinElement);
 };
+
+var openCardWithPin = function (pinElement) {
+  var pins = mapPins.querySelectorAll('.map__pin');
+  for (var i = 1; i < pins.length; i++) {
+    pins[i].addEventListener('click', function () {
+      renderCard(similarRentOffers[0]);
+      // pins[i].classList.add('map__pin--active');
+      // console.log(pins[i]);
+    });
+  }
+};
+
+// "Слушает" активацию основного пина
+
+var mainPin = document.querySelector('.map__pin--main');
+
+mainPin.addEventListener('mousedown', function () {
+  runActivePageMode();
+});
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    runActivePageMode();
+  }
+});
+
+// Перетаскивание основного пина
+
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    map.removeEventListener('mousemove', onMouseMove);
+    map.removeEventListener('mouseup', onMouseUp);
+  };
+
+  map.addEventListener('mousemove', onMouseMove);
+  map.addEventListener('mouseup', onMouseUp);
+});
+
+// Заполнение поля адреса
+
+var coordsLeft = parseInt(mainPin.style.left, 10);
+var coordsTop = parseInt(mainPin.style.top, 10);
+
+var pinX = Math.round(coordsLeft + mapPinWidth / 2);
+var pinActiveY = Math.round(coordsTop + mapPinHeight);
+var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
+
+var getPinCoordinate = function (pinModeY) {
+  var addressInput = document.querySelector('#address');
+  addressInput.value = pinX + ', ' + pinModeY;
+};
+
+getPinCoordinate(pinNonActiveY);
 
 // Добавляет карточку
 
@@ -166,24 +234,7 @@ var renderCard = function (obj) {
   addFeaturesItem(obj.offer.features, cardElement);
 };
 
-// Заполнение поля адреса
-
-var mainPin = document.querySelector('.map__pin--main');
-var coordsLeft = parseInt(mainPin.style.left, 10);
-var coordsTop = parseInt(mainPin.style.top, 10);
-
-var pinX = Math.round(coordsLeft + mapPinWidth / 2);
-var pinActiveY = Math.round(coordsTop + mapPinHeight);
-var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
-
-var getPinCoordinate = function (pinModeY) {
-  var addressInput = document.querySelector('#address');
-  addressInput.value = pinX + ', ' + pinModeY;
-};
-
-getPinCoordinate(pinNonActiveY);
-
-// переключает disabled для inputs
+// Переключает disabled для inputs
 
 var fieldset = document.querySelectorAll('.ad-form fieldset');
 
@@ -203,21 +254,8 @@ var runActivePageMode = function () {
   addMapPins(similarRentOffers);
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-
-
 };
 
-// "Слушает" событие перетаскивания основного пина
-
-mainPin.addEventListener('mousedown', function () {
-  runActivePageMode();
-});
-
-mainPin.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    runActivePageMode();
-  }
-});
 
 // Validation
 
@@ -261,7 +299,6 @@ guestsCapacity.addEventListener('invalid', function (evt) {
   }
 });
 
-
 // Title-validation. 'border' при ошибке не виден из-за boxShadow
 
 titleInput.addEventListener('invalid', function (evt) {
@@ -290,41 +327,3 @@ priceInput.addEventListener('invalid', function (evt) {
   }
 });
 
-// Перетаскивание пина
-
-mainPin.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
-
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
-
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
-  };
-
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-
-    map.removeEventListener('mousemove', onMouseMove);
-    map.removeEventListener('mouseup', onMouseUp);
-  };
-
-  map.addEventListener('mousemove', onMouseMove);
-  map.addEventListener('mouseup', onMouseUp);
-
-});
