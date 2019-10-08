@@ -5,11 +5,14 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var ACCOMODATION_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
+var ENTER_KEYCODE = 13;
 
 var rentOffersQuantity = 8;
 var similarRentOffers = [];
 var mapWidth = 1200;
-var mapPinHeight = 85;
+var mapPinPointHeight = 22;
+var mapPinButtonHeight = 63;
+var mapPinHeight = mapPinPointHeight + mapPinButtonHeight;
 var mapPinWidth = 40;
 var locationMinY = 130;
 var locationMaxY = 630;
@@ -57,14 +60,13 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
-document.querySelector('.map').classList.remove('map--faded');
-
 // Добавляет пины на карту
 
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
+
 
 var addMapPins = function (items) {
   for (var i = 0; i < items.length; i++) {
@@ -155,3 +157,111 @@ var renderCard = function (obj) {
 };
 
 renderCard(similarRentOffers[0]);
+
+// Заполнение поля адреса
+
+var mainPin = document.querySelector('.map__pin--main');
+var coordsLeft = parseInt(mainPin.style.left, 10);
+var coordsTop = parseInt(mainPin.style.top, 10);
+
+var pinX = Math.round(coordsLeft + mapPinWidth / 2);
+var pinActiveY = Math.round(coordsTop + mapPinHeight);
+var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
+
+var getPinCoordinate = function (pinModeY) {
+  var addressInput = document.querySelector('#address');
+  addressInput.value = pinX + ', ' + pinModeY;
+};
+
+getPinCoordinate(pinNonActiveY);
+
+// переключает disabled для inputs
+
+var fieldset = document.querySelectorAll('.ad-form fieldset');
+
+var toggleEnableDisable = function (element, booleanType) {
+  for (var i = 0; i < element.length; i++) {
+    element[i].disabled = booleanType;
+  }
+};
+
+toggleEnableDisable(fieldset, true);
+
+// Включает активный режим страницы
+
+var runActivePageMode = function () {
+  toggleEnableDisable(fieldset, false);
+  getPinCoordinate(pinActiveY);
+  document.querySelector('.map').classList.remove('map--faded');
+  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+
+};
+
+// "Слушает" событие перетаскивания основного пина
+
+mainPin.addEventListener('mousedown', function () {
+  runActivePageMode();
+});
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    runActivePageMode();
+  }
+});
+
+// Validation
+
+var form = document.querySelector('.ad-form');
+var titleInput = form.querySelector('#title');
+var priceInput = form.querySelector('#price');
+var typeSelect = form.querySelector('#type');
+var tymeInSelect = form.querySelector('#tymein');
+var tymeOutSelect = form.querySelector('#tymeout');
+
+var guestsCapacity = form.querySelector('#capacity');
+var roomSelect = form.querySelector('#room_number');
+var roomOptions = roomSelect.querySelectorAll('#room_number option');
+
+var p = document.getElementById('p');
+roomSelect.addEventListener('change', function() {
+  var index = roomSelect.selectedIndex;
+
+  p.innerHTML = 'selectedIndex: ' + index;
+
+  if (index == 1) {
+    console.log("it works");
+    console.log(roomSelect.options[roomSelect.selectedIndex].value);
+  }
+});
+
+console.log(roomSelect.options[roomSelect.selectedIndex].value);
+console.log(guestsCapacity.options[guestsCapacity.selectedIndex].value);
+
+
+// Title-validation. 'border' при ошибке не виден из-за boxShadow
+
+titleInput.addEventListener('invalid', function (evt) {
+  if (titleInput.validity.tooShort) {
+    titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
+    titleInput.style.border = 'red';
+  } else if (titleInput.validity.valueMissing) {
+    titleInput.setCustomValidity('Обязательное поле');
+    titleInput.style.border = 'red';
+  } else {
+    titleInput.setCustomValidity('');
+  }
+});
+
+//  Price-validation. 'border' при ошибке не виден из-за boxShadow
+
+priceInput.addEventListener('invalid', function (evt) {
+  if (priceInput.validity.rangeOverflow) {
+    priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
+    priceInput.style.border = 'red';
+  } else if (priceInput.validity.valueMissing) {
+    priceInput.setCustomValidity('Обязательное поле');
+    priceInput.style.border = 'red';
+  } else {
+    priceInput.setCustomValidity('');
+  }
+});
