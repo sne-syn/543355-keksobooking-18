@@ -79,20 +79,15 @@ var addMapPins = function (items) {
     pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
 
     mapPins.appendChild(pinElement);
+
+    pinElement.addEventListener('click', function () {
+      renderCard(similarRentOffers[0]);
+      pinElement.classList.add('map__pin--active');
+    });
+
   }
-  openCardWithPin(pinElement);
 };
 
-var openCardWithPin = function (pinElement) {
-  var pins = mapPins.querySelectorAll('.map__pin');
-  for (var i = 1; i < pins.length; i++) {
-    pins[i].addEventListener('click', function () {
-      renderCard(similarRentOffers[0]);
-      // pins[i].classList.add('map__pin--active');
-      // console.log(pins[i]);
-    });
-  }
-};
 
 // "Слушает" активацию основного пина
 
@@ -109,6 +104,12 @@ mainPin.addEventListener('keydown', function (evt) {
 });
 
 // Перетаскивание основного пина
+
+var addressInput = document.querySelector('#address');
+
+var fillAdressInput = function (x, y) {
+  addressInput.value = x + ', ' + y;
+};
 
 mainPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -131,8 +132,13 @@ mainPin.addEventListener('mousedown', function (evt) {
       y: moveEvt.clientY
     };
 
-    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+    var xCoords = (mainPin.offsetTop - shift.y);
+    var yCoords = (mainPin.offsetLeft - shift.x);
+
+    mainPin.style.top = xCoords + 'px';
+    mainPin.style.left = yCoords + 'px';
+
+    fillAdressInput(xCoords, yCoords);
   };
 
   var onMouseUp = function (upEvt) {
@@ -179,10 +185,10 @@ var typeMap = {
 var addCardsImg = function (photos, cardElement) {
   var popupDiv = cardElement.querySelector('.popup__photos');
   popupDiv.innerHTML = '';
-  for (var j = 0; j < photos.length; j++) {
+  for (var i = 0; i < photos.length; i++) {
     var imgTag = document.createElement('img');
     imgTag.classList.add('popup__photo');
-    imgTag.src = photos[j];
+    imgTag.src = photos[i];
     imgTag.width = '45';
     imgTag.height = '40';
     imgTag.alt = 'Фотография жилья';
@@ -193,9 +199,9 @@ var addCardsImg = function (photos, cardElement) {
 var addFeaturesItem = function (features, cardElement) {
   var featuresList = cardElement.querySelector('.popup__features');
   featuresList.innerHTML = '';
-  for (var j = 0; j < features.length; j++) {
+  for (var i = 0; i < features.length; i++) {
     var featureItem = document.createElement('li');
-    var featureClassName = 'popup__feature--' + features[j];
+    var featureClassName = 'popup__feature--' + features[i];
     featureItem.classList.add('popup__feature');
     featureItem.classList.add(featureClassName);
     featuresList.appendChild(featureItem);
@@ -309,4 +315,3 @@ priceInput.addEventListener('invalid', function (evt) {
     priceInput.setCustomValidity('');
   }
 });
-
