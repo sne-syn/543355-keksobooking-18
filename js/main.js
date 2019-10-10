@@ -61,7 +61,6 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
 
 generateSimilarObject(rentOffersQuantity, similarRentOffers);
 
-// Все о пинах
 // Добавляет пины на карту
 
 var mapPins = document.querySelector('.map__pins');
@@ -84,10 +83,8 @@ var addMapPins = function (items) {
       renderCard(similarRentOffers[0]);
       pinElement.classList.add('map__pin--active');
     });
-
   }
 };
-
 
 // "Слушает" активацию основного пина
 
@@ -175,7 +172,7 @@ var cardTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
 
-var typeMap = {
+var typeTitleMap = {
   'palace': 'Дворец',
   'flat': 'Квартира',
   'house': 'Дом',
@@ -222,7 +219,8 @@ var renderCard = function (obj) {
   price.textContent = obj.offer.price + '₽/ночь';
 
   var type = cardElement.querySelector('.popup__type');
-  type.textContent = typeMap[obj.offer.title];
+  type.textContent = typeTitleMap[obj.offer.title];
+
 
   var rooms = cardElement.querySelector('.popup__text--capacity');
   rooms.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
@@ -263,32 +261,58 @@ var runActivePageMode = function () {
 };
 
 // Validation
-
 var form = document.querySelector('.ad-form');
-var titleInput = form.querySelector('#title');
-var priceInput = form.querySelector('#price');
-var typeSelect = form.querySelector('#type');
-var tymeInSelect = form.querySelector('#tymein');
-var tymeOutSelect = form.querySelector('#tymeout');
 
 var guestsCapacity = form.querySelector('#capacity');
 var roomSelect = form.querySelector('#room_number');
-var roomOptions = roomSelect.querySelectorAll('#room_number option');
+var roomOptions = form.querySelectorAll('#room_number option');
+var secondSelectOptions = form.querySelectorAll('#capacity option');
 
-var p = document.getElementById('p');
-roomSelect.addEventListener('change', function () {
-  var index = roomSelect.selectedIndex;
+roomSelect.addEventListener('change', function (evt) {
+  var roomGuestsMap = {
+    1: [1],
+    2: [1, 2],
+    3: [1, 2, 3],
+    100: [0]
+  };
 
-  p.innerHTML = 'selectedIndex: ' + index;
+  var availableGuests = roomGuestsMap[roomSelect.value];
 
-  if (index == 2) {
-    console.log("it works");
-    console.log(roomSelect.options[roomSelect.selectedIndex].value);
-    console.log(guestsCapacity.options[guestsCapacity.selectedIndex].value);
+  // поставить disabled всем option внутри второго инпута
+  for (var i = 0; i < secondSelectOptions.length; i++) {
+    secondSelectOptions[i].setAttribute("disabled", "disabled");
+  }
+
+  for (var j = 0; j < availableGuests.length; j++) {
+    secondSelectOptions[availableGuests[j]].removeAttribute("disabled");
   }
 });
 
+// TimeInOut validation
+
+var timeInSelect = form.querySelector('#timein');
+var timeOutSelect = form.querySelector('#timeout');
+var timeInOption = form.querySelector('#timein option');
+var timeOutOption = form.querySelector('#timeout option');
+
+timeInSelect.addEventListener('change', function (evt) {
+  var timeInOutMap = {
+    '12:00': "12:00",
+    '13:00': '13:00',
+    '14:00': '14:00'
+  }
+
+  var timeInOutValue = timeInOutMap[timeInSelect.value];
+  console.log(timeInOutValue);
+
+  timeOutOption.setAttribute("disabled", "disabled");
+
+  // timeOutOption[timeInOutValue].removeAttribute("disabled");
+});
+
 // Title-validation. 'border' при ошибке не виден из-за boxShadow
+
+var titleInput = form.querySelector('#title');
 
 titleInput.addEventListener('invalid', function (evt) {
   if (titleInput.validity.tooShort) {
@@ -303,6 +327,7 @@ titleInput.addEventListener('invalid', function (evt) {
 });
 
 //  Price-validation. 'border' при ошибке не виден из-за boxShadow
+var priceInput = form.querySelector('#price');
 
 priceInput.addEventListener('invalid', function (evt) {
   if (priceInput.validity.rangeOverflow) {
@@ -314,4 +339,35 @@ priceInput.addEventListener('invalid', function (evt) {
   } else {
     priceInput.setCustomValidity('');
   }
+});
+
+// Type-validation
+
+var typeSelect = form.querySelector('#type');
+var typeOption = form.querySelector('#type option');
+
+typeSelect.addEventListener('change', function (evt) {
+  var types = typeOption.value;
+
+  var typeMap = {
+    'bungalo': {
+      'placeholder': '100',
+      'errorText': 'Минимальная цена за ночь 0'
+    },
+    'flat': {
+      'placeholder': '1000',
+      'errorText': 'Минимальная цена за ночь 1000'
+    },
+    'house': {
+      'placeholder': '5000',
+      'errorText': 'Минимальная цена за ночь 5000'
+    },
+    'palace': {
+      'placeholder': '10000',
+      'errorText': 'Минимальная цена за ночь 10000'
+    }
+  };
+
+  priceInput.placeholder = typeMap[types].placeholder;
+  typeSelect.setCustomValidity(typeMap[types].errorText);
 });
