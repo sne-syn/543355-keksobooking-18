@@ -105,7 +105,9 @@ var addMapPins = function (items) {
     pinElement.addEventListener('click', function () {
       renderCard(similarRentOffers[0]);
       pinElement.classList.add('map__pin--active');
+
     });
+
   }
 };
 
@@ -182,7 +184,6 @@ var pinActiveY = Math.round(coordsTop + mapPinHeight);
 var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
 
 var getPinCoordinate = function (pinModeY) {
-  var addressInput = document.querySelector('#address');
   addressInput.value = pinX + ', ' + pinModeY;
 };
 
@@ -295,11 +296,11 @@ roomSelect.addEventListener('change', function (evt) {
 
   // поставить disabled всем option внутри второго инпута
   for (var i = 0; i < secondSelectOptions.length; i++) {
-    secondSelectOptions[i].setAttribute("disabled", "disabled");
+    secondSelectOptions[i].setAttribute('disabled', 'disabled');
   }
 
   for (var j = 0; j < availableGuests.length; j++) {
-    secondSelectOptions[availableGuests[j]].removeAttribute("disabled");
+    secondSelectOptions[availableGuests[j]].removeAttribute('disabled');
   }
 });
 
@@ -312,17 +313,16 @@ var timeOutOption = form.querySelector('#timeout option');
 
 timeInSelect.addEventListener('change', function (evt) {
   var timeInOutMap = {
-    '12:00': "12:00",
+    '12:00': '12:00',
     '13:00': '13:00',
     '14:00': '14:00'
-  }
+  };
 
   var timeInOutValue = timeInOutMap[timeInSelect.value];
   console.log(timeInOutValue);
+  timeOutOption.setAttribute('disabled', 'disabled');
 
-  timeOutOption.setAttribute("disabled", "disabled");
-
-  // timeOutOption[timeInOutValue].removeAttribute("disabled");
+  // timeOutOption[timeInOutValue].removeAttribute('disabled');
 });
 
 // Title-validation. 'border' при ошибке не виден из-за boxShadow
@@ -342,6 +342,7 @@ titleInput.addEventListener('invalid', function (evt) {
 });
 
 //  Price-validation. 'border' при ошибке не виден из-за boxShadow
+
 var priceInput = form.querySelector('#price');
 
 priceInput.addEventListener('invalid', function (evt) {
