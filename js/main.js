@@ -18,6 +18,29 @@ var mapPinWidth = 40;
 var locationMinY = 130;
 var locationMaxY = 630;
 
+var typeMap = {
+  'bungalo': {
+    'title': 'Бунгало',
+    'placeholder': '100',
+    'errorText': 'Минимальная цена за ночь 0'
+  },
+  'flat': {
+    'title': 'Квартира',
+    'placeholder': '1000',
+    'errorText': 'Минимальная цена за ночь 1000'
+  },
+  'house': {
+    'title': 'Дом',
+    'placeholder': '5000',
+    'errorText': 'Минимальная цена за ночь 5000'
+  },
+  'palace': {
+    'title': 'Дворец',
+    'placeholder': '10000',
+    'errorText': 'Минимальная цена за ночь 10000'
+  }
+};
+
 // Выдает случайное число в диапазоне
 
 var getRandomValueFromInterval = function (min, max) {
@@ -172,13 +195,6 @@ var cardTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
 
-var typeTitleMap = {
-  'palace': 'Дворец',
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'bungalo': 'Бунгало'
-};
-
 var addCardsImg = function (photos, cardElement) {
   var popupDiv = cardElement.querySelector('.popup__photos');
   popupDiv.innerHTML = '';
@@ -219,8 +235,7 @@ var renderCard = function (obj) {
   price.textContent = obj.offer.price + '₽/ночь';
 
   var type = cardElement.querySelector('.popup__type');
-  type.textContent = typeTitleMap[obj.offer.title];
-
+  type.textContent = typeMap[obj.offer.type].title;
 
   var rooms = cardElement.querySelector('.popup__text--capacity');
   rooms.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
@@ -349,25 +364,29 @@ var typeOption = form.querySelector('#type option');
 typeSelect.addEventListener('change', function (evt) {
   var types = typeOption.value;
 
-  var typeMap = {
-    'bungalo': {
-      'placeholder': '100',
-      'errorText': 'Минимальная цена за ночь 0'
-    },
-    'flat': {
-      'placeholder': '1000',
-      'errorText': 'Минимальная цена за ночь 1000'
-    },
-    'house': {
-      'placeholder': '5000',
-      'errorText': 'Минимальная цена за ночь 5000'
-    },
-    'palace': {
-      'placeholder': '10000',
-      'errorText': 'Минимальная цена за ночь 10000'
-    }
-  };
-
   priceInput.placeholder = typeMap[types].placeholder;
   typeSelect.setCustomValidity(typeMap[types].errorText);
 });
+
+// var typeMap = {
+//   'bungalo': {
+//     'title': 'Бунгало',
+//     'placeholder': '100',
+//     'errorText': 'Минимальная цена за ночь 0'
+//   },
+//   'flat': {
+//     'title': 'Квартира',
+//     'placeholder': '1000',
+//     'errorText': 'Минимальная цена за ночь 1000'
+//   },
+//   'house': {
+//     'title': 'Дом',
+//     'placeholder': '5000',
+//     'errorText': 'Минимальная цена за ночь 5000'
+//   },
+//   'palace': {
+//     'title': 'Дворец',
+//     'placeholder': '10000',
+//     'errorText': 'Минимальная цена за ночь 10000'
+//   }
+// };
