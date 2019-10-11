@@ -68,7 +68,7 @@ var generateSimilarObject = function (numberOfSimilarItems, array) {
         'rooms': 2,
         'guests': 5,
         'checkin': CHECK_IN[2],
-        'checkout': CHECK_OUT[1],
+        'checkout': CHECK_OUT[2],
         'features': FEATURES.slice(0, getRandomValueFromInterval(0, FEATURES.length)),
 
         'description': 'Рядом с апартаментами находятся такие популярные достопримечательности, как концертный зал Шидакс, древнеегипетский художественный музей и музей Шикисай.',
@@ -91,6 +91,26 @@ var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
+var openCard = function (element, i) {
+  element.addEventListener('click', function () {
+    renderCard(similarRentOffers[i]);
+    element.classList.add('map__pin--active');
+    closeCard(element);
+  });
+};
+
+var closeCard = function (element) {
+  var closeButton = document.querySelector('.popup__close');
+  closeButton.addEventListener('click', function () {
+    element.classList.remove('map__pin--active');
+    var mapCard = document.querySelector('.map__card');
+    if (mapCard) {
+      mapCard.remove();
+    }
+  });
+};
+
+
 var addMapPins = function (items) {
   for (var i = 0; i < items.length; i++) {
     var pinElement = pinTemplate.cloneNode(true);
@@ -102,11 +122,8 @@ var addMapPins = function (items) {
 
     mapPins.appendChild(pinElement);
 
-    pinElement.addEventListener('click', function () {
-      renderCard(similarRentOffers[0]);
-      pinElement.classList.add('map__pin--active');
+    openCard(pinElement, i);
 
-    });
   }
 };
 
@@ -222,6 +239,7 @@ var addFeaturesItem = function (features, cardElement) {
 };
 
 var renderCard = function (obj) {
+
   var cardElement = cardTemplate.cloneNode(true);
   map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 
@@ -253,6 +271,8 @@ var renderCard = function (obj) {
   addFeaturesItem(obj.offer.features, cardElement);
 };
 
+
+
 // Переключает disabled для inputs
 
 var fieldset = document.querySelectorAll('.ad-form fieldset');
@@ -274,4 +294,3 @@ var runActivePageMode = function () {
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 };
-
