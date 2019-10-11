@@ -107,7 +107,6 @@ var addMapPins = function (items) {
       pinElement.classList.add('map__pin--active');
 
     });
-
   }
 };
 
