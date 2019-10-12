@@ -6,7 +6,7 @@ var ACCOMODATION_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
 var ENTER_KEYCODE = 13;
-var ESC_KEYCODE = 27;
+// var ESC_KEYCODE = 27;
 
 var rentOffersQuantity = 8;
 var similarRentOffers = [];
@@ -270,8 +270,6 @@ var renderCard = function (obj) {
   addCardsImg(obj.offer.photos, cardElement);
   addFeaturesItem(obj.offer.features, cardElement);
 };
-
-
 
 // Переключает disabled для inputs
 

@@ -1,24 +1,25 @@
-// Validation
+'use strict';
+
 (function () {
   var typeMap = {
     'bungalo': {
       'title': 'Бунгало',
-      'placeholder': '100',
+      'minprice': '0',
       'errorText': 'Минимальная цена за ночь 0 ₽/ночь'
     },
     'flat': {
       'title': 'Квартира',
-      'placeholder': '1000',
+      'minprice': '1000',
       'errorText': 'Минимальная цена за ночь 1000 ₽/ночь'
     },
     'house': {
       'title': 'Дом',
-      'placeholder': '5000',
+      'minprice': '5000',
       'errorText': 'Минимальная цена за ночь 5000 ₽/ночь'
     },
     'palace': {
       'title': 'Дворец',
-      'placeholder': '10000',
+      'minprice': '10000',
       'errorText': 'Минимальная цена за ночь 10000 ₽/ночь'
     }
   };
@@ -44,7 +45,7 @@
   var titleInput = form.querySelector('#title');
   var priceInput = form.querySelector('#price');
 
-  roomSelect.addEventListener('change', function (evt) {
+  roomSelect.addEventListener('change', function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
 
     for (var i = 0; i < secondSelectOptions.length; i++) {
@@ -65,7 +66,7 @@
   var timeOutSelect = form.querySelector('#timeout');
   var timeOutOption = form.querySelectorAll('#timeout option');
 
-  timeInSelect.addEventListener('change', function (evt) {
+  timeInSelect.addEventListener('change', function () {
     var availableTimeOption = timeInOutMap[timeInSelect.value];
 
     for (var i = 0; i < timeOutOption.length; i++) {
@@ -80,7 +81,7 @@
 
   // Title-validation. 'border' при ошибке не виден из-за boxShadow
 
-  titleInput.addEventListener('invalid', function (evt) {
+  titleInput.addEventListener('invalid', function () {
     if (titleInput.validity.tooShort) {
       titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
       titleInput.style.border = 'red';
@@ -92,30 +93,23 @@
     }
   });
 
-  //  Price-validation. 'border' при ошибке не виден из-за boxShadow
-
-  priceInput.addEventListener('invalid', function (evt) {
-    if (priceInput.validity.rangeOverflow) {
-      priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
-      priceInput.style.border = 'red';
-    } else if (priceInput.validity.valueMissing) {
-      priceInput.setCustomValidity('Обязательное поле');
-      priceInput.style.border = 'red';
-    } else {
-      priceInput.setCustomValidity('');
-    }
-  });
-
-  // Type-validation
+  // Type&price-validation
 
   typeSelect.addEventListener('change', function (evt) {
     var types = evt.target.value;
-    priceInput.placeholder = typeMap[types].placeholder;
-    console.log(priceInput.value);
-    if (priceInput < typeMap[types].placeholder) {
-      typeSelect.setCustomValidity(typeMap[types].errorText);
-    } else {
-      priceInput.setCustomValidity('');
-    }
+    priceInput.placeholder = typeMap[types].minprice;
+    priceInput.setAttribute('min', typeMap[types].minprice);
+
+    priceInput.addEventListener('invalid', function () {
+      if (priceInput.validity.rangeOverflow) {
+        priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
+      } else if (priceInput.validity.rangeUnderflow) {
+        priceInput.setCustomValidity(typeMap[types].errorText);
+      } else if (priceInput.validity.valueMissing) {
+        priceInput.setCustomValidity('Обязательное поле');
+      } else {
+        priceInput.setCustomValidity('');
+      }
+    });
   });
 })();
