@@ -6,7 +6,7 @@ var ACCOMODATION_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
 var ENTER_KEYCODE = 13;
-// var ESC_KEYCODE = 27;
+var ESC_KEYCODE = 27;
 var SPACE_KEYCODE = 13;
 
 var rentOffersQuantity = 8;
@@ -119,6 +119,14 @@ var closeCard = function (element) {
     }
   });
 
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      element.classList.remove('map__pin--active');
+      if (mapCard) {
+        mapCard.remove();
+      }
+    }
+  });
 };
 
 var addMapPins = function (items) {
