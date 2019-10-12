@@ -7,7 +7,6 @@ var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
 var ENTER_KEYCODE = 13;
 var ESC_KEYCODE = 27;
-var SPACE_KEYCODE = 13;
 
 var rentOffersQuantity = 8;
 var similarRentOffers = [];
@@ -100,7 +99,7 @@ var openCard = function (element, i) {
   });
 
   element.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === SPACE_KEYCODE) {
+    if (evt.keyCode === ENTER_KEYCODE) {
       renderCard(similarRentOffers[i]);
       element.classList.add('map__pin--active');
       closeCard(element);
@@ -109,6 +108,7 @@ var openCard = function (element, i) {
 };
 
 var closeCard = function (element) {
+
   var closeButton = document.querySelector('.popup__close');
   var mapCard = document.querySelector('.map__card');
   closeButton.addEventListener('click', function () {
