@@ -5,22 +5,22 @@
     'bungalo': {
       'title': 'Бунгало',
       'minprice': '0',
-      'errorText': 'Минимальная цена за ночь 0 ₽/ночь'
+      'errorText': 'Минимальная цена за ночь 0₽'
     },
     'flat': {
       'title': 'Квартира',
       'minprice': '1000',
-      'errorText': 'Минимальная цена за ночь 1000 ₽/ночь'
+      'errorText': 'Минимальная цена за ночь 1000₽'
     },
     'house': {
       'title': 'Дом',
       'minprice': '5000',
-      'errorText': 'Минимальная цена за ночь 5000 ₽/ночь'
+      'errorText': 'Минимальная цена за ночь 5000₽'
     },
     'palace': {
       'title': 'Дворец',
       'minprice': '10000',
-      'errorText': 'Минимальная цена за ночь 10000 ₽/ночь'
+      'errorText': 'Минимальная цена за ночь 10000₽'
     }
   };
 
@@ -79,15 +79,13 @@
     current.setAttribute('selected', 'selected');
   });
 
-  // Title-validation. 'border' при ошибке не виден из-за boxShadow
+  // Title-validation.
 
   titleInput.addEventListener('invalid', function () {
     if (titleInput.validity.tooShort) {
       titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
-      titleInput.style.border = 'red';
     } else if (titleInput.validity.valueMissing) {
       titleInput.setCustomValidity('Обязательное поле');
-      titleInput.style.border = 'red';
     } else {
       titleInput.setCustomValidity('');
     }

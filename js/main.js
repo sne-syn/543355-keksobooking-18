@@ -7,6 +7,7 @@ var CHECK_IN = ['12:00', '13:00', '14:00'];
 var CHECK_OUT = ['12:00', '13:00', '14:00'];
 var ENTER_KEYCODE = 13;
 // var ESC_KEYCODE = 27;
+var SPACE_KEYCODE = 13;
 
 var rentOffersQuantity = 8;
 var similarRentOffers = [];
@@ -97,19 +98,28 @@ var openCard = function (element, i) {
     element.classList.add('map__pin--active');
     closeCard(element);
   });
-};
 
-var closeCard = function (element) {
-  var closeButton = document.querySelector('.popup__close');
-  closeButton.addEventListener('click', function () {
-    element.classList.remove('map__pin--active');
-    var mapCard = document.querySelector('.map__card');
-    if (mapCard) {
-      mapCard.remove();
+  element.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === SPACE_KEYCODE) {
+      renderCard(similarRentOffers[i]);
+      element.classList.add('map__pin--active');
+      closeCard(element);
     }
   });
 };
 
+var closeCard = function (element) {
+  var closeButton = document.querySelector('.popup__close');
+  var mapCard = document.querySelector('.map__card');
+  closeButton.addEventListener('click', function () {
+
+    element.classList.remove('map__pin--active');
+    if (mapCard) {
+      mapCard.remove();
+    }
+  });
+
+};
 
 var addMapPins = function (items) {
   for (var i = 0; i < items.length; i++) {
@@ -123,7 +133,6 @@ var addMapPins = function (items) {
     mapPins.appendChild(pinElement);
 
     openCard(pinElement, i);
-
   }
 };
 
