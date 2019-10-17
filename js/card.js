@@ -9,14 +9,14 @@
   };
 
   window.card.openCardPopup = function (element, i) {
-      element.addEventListener('click', function () {
-        getCard(element, i);
-      });
+    element.addEventListener('click', function () {
+      getCard(element, i);
+    });
 
-      element.addEventListener('keydown', function (evt) {
-        window.util.isEnterEvent(evt, getCard(element, i));
-      });
-    };
+    element.addEventListener('keydown', function (evt) {
+      window.util.isEnterEvent(evt, getCard(element, i));
+    });
+  };
 
   var closeCardPopup = function (element) {
     var closeButton = document.querySelector('.popup__close');
