@@ -1,49 +1,43 @@
 'use strict';
 
 (function () {
-
-  window.pin = {
-    pinActiveY: Math.round(coordsTop + mapPinHeight),
-    addMapPins: function (items) {
-      for (var i = 0; i < items.length; i++) {
-        var pinElement = pinTemplate.cloneNode(true);
-
-        pinElement.style.left = (items[i].location.x - mapPinWidth / 2) + 'px';
-        pinElement.style.top = (items[i].location.y - mapPinHeight) + 'px';
-        pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
-        pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
-
-        mapPins.appendChild(pinElement);
-
-        window.card.openCardPopup(pinElement, i);
-      }
-    },
-    getPinCoordinate: function (pinModeY) {
-      addressInput.value = pinX + ', ' + pinModeY;
-    }
-  };
-
   var map = document.querySelector('.map');
-  var mapPinPointHeight = 22;
-  var mapPinButtonHeight = 63;
-  var mapPinHeight = mapPinPointHeight + mapPinButtonHeight;
-  var mapPinWidth = 40;
   var mainPin = document.querySelector('.map__pin--main');
-
-  var coordsLeft = parseInt(mainPin.style.left, 10);
-  var coordsTop = parseInt(mainPin.style.top, 10);
-
-  var pinX = Math.round(coordsLeft + mapPinWidth / 2);
-  var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
-
   var mapPins = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
 
-  // Перетаскивание основного пина
+  window.pin.addMapPins = function (items) {
+    for (var i = 0; i < items.length; i++) {
+      var pinElement = pinTemplate.cloneNode(true);
 
+      pinElement.style.left = (items[i].location.x - mapPinWidth / 2) + 'px';
+      pinElement.style.top = (items[i].location.y - mapPinHeight) + 'px';
+      pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
+      pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
+      mapPins.appendChild(pinElement);
+
+      window.card.openCardPopup(pinElement, i);
+    }
+  };
+
+  var mapPinPointHeight = 22;
+  var mapPinButtonHeight = 63;
+  var mapPinHeight = mapPinPointHeight + mapPinButtonHeight;
+  var mapPinWidth = 40;
+  var coordsLeft = parseInt(mainPin.style.left, 10);
+  var coordsTop = parseInt(mainPin.style.top, 10);
+  var pinX = Math.round(coordsLeft + mapPinWidth / 2);
+  var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
   var addressInput = document.querySelector('#address');
+  window.pin.pinActiveY = Math.round(coordsTop + mapPinHeight);
+
+  window.pin.getPinCoordinate = function (pinModeY) {
+    addressInput.value = pinX + ', ' + pinModeY;
+  };
+
+  window.pin.getPinCoordinate(pinNonActiveY);
 
   var fillAdressInput = function (x, y) {
     addressInput.value = x + ', ' + y;
@@ -89,10 +83,6 @@
     map.addEventListener('mousemove', onMouseMove);
     map.addEventListener('mouseup', onMouseUp);
   });
-
-  // Заполнение поля адреса
-
-  window.pin.getPinCoordinate(pinNonActiveY);
 
   mainPin.addEventListener('mousedown', function () {
     window.main.runActivePageMode();

@@ -6,7 +6,7 @@
     runActivePageMode: function () {
       window.form.toggleEnableDisable(fieldset, false);
       window.pin.getPinCoordinate(window.pin.pinActiveY);
-      window.pin.addMapPins(window.similarRentOffers);
+      window.pin.addMapPins(window.similarObjects.similarRentOffers);
       document.querySelector('.map').classList.remove('map--faded');
       document.querySelector('.ad-form').classList.remove('ad-form--disabled');
     }

@@ -8,8 +8,7 @@
     'bungalo': 'Бунгало'
   };
 
-  window.card = {
-    openCardPopup: function (element, i) {
+  window.card.openCardPopup = function (element, i) {
       element.addEventListener('click', function () {
         getCard(element, i);
       });
@@ -17,22 +16,7 @@
       element.addEventListener('keydown', function (evt) {
         window.util.isEnterEvent(evt, getCard(element, i));
       });
-    }
-  };
-
-  var getCard = function (element, i) {
-    renderCard(window.similarRentOffers[i]);
-    element.classList.add('map__pin--active');
-    closeCardPopup(element);
-  };
-
-  var removeCard = function (element) {
-    var mapCard = document.querySelector('.map__card');
-    element.classList.remove('map__pin--active');
-    if (mapCard) {
-      mapCard.remove();
-    }
-  };
+    };
 
   var closeCardPopup = function (element) {
     var closeButton = document.querySelector('.popup__close');
@@ -45,7 +29,21 @@
     });
   };
 
-  // Добавляет карточку
+  var getCard = function (element, i) {
+    renderCard(window.similarObjects.similarRentOffers[i]);
+    element.classList.add('map__pin--active');
+    closeCardPopup(element);
+  };
+
+  var removeCard = function (element) {
+    var mapCard = document.querySelector('.map__card');
+    element.classList.remove('map__pin--active');
+    if (mapCard) {
+      mapCard.remove();
+    }
+  };
+
+  // Добавляет карту
 
   var map = document.querySelector('.map');
   var cardTemplate = document.querySelector('#card')
@@ -110,4 +108,5 @@
     addCardsImg(obj.offer.photos, cardElement);
     addFeaturesItem(obj.offer.features, cardElement);
   };
+
 })();

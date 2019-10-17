@@ -8,12 +8,11 @@
   var CHECK_IN = ['12:00', '13:00', '14:00'];
   var CHECK_OUT = ['12:00', '13:00', '14:00'];
 
-  window.similarRentOffers = [];
+  window.similarObjects = {similarRentOffers: []};
   var rentOffersQuantity = 8;
   var mapWidth = 1200;
   var locationMinY = 130;
   var locationMaxY = 630;
-
 
   // Выдает случайное число в диапазоне
 
@@ -56,5 +55,5 @@
     }
   };
 
-  generateSimilarObject(rentOffersQuantity, window.similarRentOffers);
+  generateSimilarObject(rentOffersQuantity, window.similarObjects.similarRentOffers);
 })();
