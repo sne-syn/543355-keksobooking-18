@@ -1,24 +1,20 @@
 'use strict';
 
 (function () {
-  var typeMap = {
+  var validTypeMap = {
     'bungalo': {
-      'title': 'Бунгало',
       'minprice': '0',
       'errorText': 'Минимальная цена за ночь 0₽'
     },
     'flat': {
-      'title': 'Квартира',
       'minprice': '1000',
       'errorText': 'Минимальная цена за ночь 1000₽'
     },
     'house': {
-      'title': 'Дом',
       'minprice': '5000',
       'errorText': 'Минимальная цена за ночь 5000₽'
     },
     'palace': {
-      'title': 'Дворец',
       'minprice': '10000',
       'errorText': 'Минимальная цена за ночь 10000₽'
     }
@@ -95,14 +91,14 @@
 
   typeSelect.addEventListener('change', function (evt) {
     var types = evt.target.value;
-    priceInput.placeholder = typeMap[types].minprice;
-    priceInput.setAttribute('min', typeMap[types].minprice);
+    priceInput.placeholder = validTypeMap[types].minprice;
+    priceInput.setAttribute('min', validTypeMap[types].minprice);
 
     priceInput.addEventListener('invalid', function () {
       if (priceInput.validity.rangeOverflow) {
         priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
       } else if (priceInput.validity.rangeUnderflow) {
-        priceInput.setCustomValidity(typeMap[types].errorText);
+        priceInput.setCustomValidity(validTypeMap[types].errorText);
       } else if (priceInput.validity.valueMissing) {
         priceInput.setCustomValidity('Обязательное поле');
       } else {
