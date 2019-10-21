@@ -1,14 +1,22 @@
 'use strict';
 (function () {
-  var fieldset = document.querySelectorAll('.ad-form fieldset');
+
+    var fieldset = document.querySelectorAll('.ad-form fieldset');
+    var toggleEnableDisable = function (element, booleanType) {
+      for (var i = 0; i < element.length; i++) {
+        element[i].disabled = booleanType;
+      }
+    };
+  toggleEnableDisable(fieldset, true);
 
   window.main = {
     runActivePageMode: function () {
-      window.form.toggleEnableDisable(fieldset, false);
+      toggleEnableDisable(fieldset, false);
       window.pin.getPinCoordinate(window.pin.pinActiveY);
-      window.pin.addMapPins(window.similarObjects.similarRentOffers);
+      window.backend.setServerInteraction(window.successHandler, window.errorHandler);
       document.querySelector('.map').classList.remove('map--faded');
       document.querySelector('.ad-form').classList.remove('ad-form--disabled');
     }
   };
+
 })();

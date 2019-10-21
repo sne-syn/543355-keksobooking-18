@@ -8,18 +8,24 @@
     .content
     .querySelector('.map__pin');
 
-  window.pin.addMapPins = function (items) {
+  window.successHandler = function (items) {
     for (var i = 0; i < items.length; i++) {
       var pinElement = pinTemplate.cloneNode(true);
-
       pinElement.style.left = (items[i].location.x - mapPinWidth / 2) + 'px';
       pinElement.style.top = (items[i].location.y - mapPinHeight) + 'px';
       pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
       pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
       mapPins.appendChild(pinElement);
-
-      window.card.openCardPopup(pinElement, i);
+      window.card.openCardPopup(pinElement, items, i);
     }
+  };
+
+  window.errorHandler = function () {
+    var errorTemplate = document.querySelector('#error')
+      .content
+      .querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    document.querySelector('main').appendChild(errorElement);
   };
 
   var mapPinPointHeight = 22;

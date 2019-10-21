@@ -1,20 +1,24 @@
 'use strict';
 
 (function () {
-  var typeMap = {
+  window.typeMap = {
     'palace': 'Дворец',
     'flat': 'Квартира',
     'house': 'Дом',
     'bungalo': 'Бунгало'
   };
 
-  window.card.openCardPopup = function (element, i) {
+  window.card.openCardPopup = function (element, item, i) {
     element.addEventListener('click', function () {
-      getCard(element, i);
+      console.log (item);
+      console.log (i);
+      console.log (element);
+      console.log (item[i]);
+      // getCard(element, item);
     });
 
     element.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, getCard(element, i));
+      // window.util.isEnterEvent(evt, getCard(element, item));
     });
   };
 
@@ -29,8 +33,8 @@
     });
   };
 
-  var getCard = function (element, i) {
-    renderCard(window.similarObjects.similarRentOffers[i]);
+  var getCard = function (element, item) {
+    renderCard(item);
     element.classList.add('map__pin--active');
     closeCardPopup(element);
   };
@@ -77,7 +81,10 @@
   };
 
   var renderCard = function (obj) {
-
+    // var mapCard = document.querySelector('.map__card');
+    // if (mapCard) {
+    //   mapCard.remove();
+    // }
     var cardElement = cardTemplate.cloneNode(true);
     map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 
@@ -108,5 +115,4 @@
     addCardsImg(obj.offer.photos, cardElement);
     addFeaturesItem(obj.offer.features, cardElement);
   };
-
 })();
