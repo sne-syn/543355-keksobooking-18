@@ -1,49 +1,51 @@
 'use strict';
-
 (function () {
-  window.typeMap = {
+  var typeMap = {
     'palace': 'Дворец',
     'flat': 'Квартира',
     'house': 'Дом',
     'bungalo': 'Бунгало'
   };
 
-  window.card.openCardPopup = function (element, item, i) {
-    element.addEventListener('click', function () {
-      console.log (item);
-      console.log (i);
-      console.log (element);
-      console.log (item[i]);
-      // getCard(element, item);
-    });
+  window.card = {
+    openCard: function (element, card, i) {
+      element.addEventListener('click', function () {
+        getCard(element, card, i);
+      });
 
-    element.addEventListener('keydown', function (evt) {
-      // window.util.isEnterEvent(evt, getCard(element, item));
-    });
+      element.addEventListener('keydown', function (evt) {
+        window.util.isEnterEvent(evt, function () {
+          getCard(element, card, i);
+        });
+      });
+    }
   };
 
-  var closeCardPopup = function (element) {
+  var getCard = function (element, card, i) {
+    renderCard(card[i]);
+    element.classList.add('map__pin--active');
+    closeCard();
+  };
+
+  var closeCard = function () {
     var closeButton = document.querySelector('.popup__close');
     closeButton.addEventListener('click', function () {
-      removeCard(element);
+      removeCard();
     });
 
     document.addEventListener('keydown', function (evt) {
-      window.util.isEscEvent(evt, removeCard(element));
+      window.util.isEscEvent(evt, function () {
+        removeCard();
+      });
     });
   };
 
-  var getCard = function (element, item) {
-    renderCard(item);
-    element.classList.add('map__pin--active');
-    closeCardPopup(element);
-  };
-
-  var removeCard = function (element) {
+  var removeCard = function () {
     var mapCard = document.querySelector('.map__card');
-    element.classList.remove('map__pin--active');
+    var activePin = document.querySelector('.map__pin--active');
     if (mapCard) {
       mapCard.remove();
+      activePin.classList.remove('map__pin--active');
     }
   };
 
@@ -81,10 +83,7 @@
   };
 
   var renderCard = function (obj) {
-    // var mapCard = document.querySelector('.map__card');
-    // if (mapCard) {
-    //   mapCard.remove();
-    // }
+    removeCard();
     var cardElement = cardTemplate.cloneNode(true);
     map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 

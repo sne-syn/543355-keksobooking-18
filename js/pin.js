@@ -8,28 +8,30 @@
     .content
     .querySelector('.map__pin');
 
-  window.successHandler = function (items) {
-    for (var i = 0; i < items.length; i++) {
-      var pinElement = pinTemplate.cloneNode(true);
-      pinElement.style.left = (items[i].location.x - mapPinWidth / 2) + 'px';
-      pinElement.style.top = (items[i].location.y - mapPinHeight) + 'px';
-      pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
-      pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
-      mapPins.appendChild(pinElement);
-      window.card.openCardPopup(pinElement, items, i);
+  window.pin = {
+    successHandler: function (items) {
+      for (var i = 0; i < items.length; i++) {
+        var pinElement = pinTemplate.cloneNode(true);
+        pinElement.style.left = (items[i].location.x - mapPinWidth / 2) + 'px';
+        pinElement.style.top = (items[i].location.y - offerPinHeight) + 'px';
+        pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
+        pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
+        mapPins.appendChild(pinElement);
+        window.card.openCard(pinElement, items, i);
+      }
+    },
+    errorHandler: function () {
+      var errorTemplate = document.querySelector('#error')
+        .content
+        .querySelector('.error');
+      var errorElement = errorTemplate.cloneNode(true);
+      document.querySelector('main').appendChild(errorElement);
     }
-  };
-
-  window.errorHandler = function () {
-    var errorTemplate = document.querySelector('#error')
-      .content
-      .querySelector('.error');
-    var errorElement = errorTemplate.cloneNode(true);
-    document.querySelector('main').appendChild(errorElement);
   };
 
   var mapPinPointHeight = 22;
   var mapPinButtonHeight = 63;
+  var offerPinHeight = 70;
   var mapPinHeight = mapPinPointHeight + mapPinButtonHeight;
   var mapPinWidth = 40;
   var coordsLeft = parseInt(mainPin.style.left, 10);
@@ -95,7 +97,8 @@
   });
 
   mainPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.main.runActivePageMode());
+    window.util.isEnterEvent(evt, function () {
+      window.main.runActivePageMode();
+    });
   });
-
 })();
