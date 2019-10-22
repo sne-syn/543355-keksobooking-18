@@ -18,6 +18,15 @@
           getCard(element, card, i);
         });
       });
+    },
+
+    removeCard: function () {
+      var mapCard = document.querySelector('.map__card');
+      var activePin = document.querySelector('.map__pin--active');
+      if (mapCard) {
+        mapCard.remove();
+        activePin.classList.remove('map__pin--active');
+      }
     }
   };
 
@@ -30,23 +39,14 @@
   var closeCard = function () {
     var closeButton = document.querySelector('.popup__close');
     closeButton.addEventListener('click', function () {
-      removeCard();
+      window.card.removeCard();
     });
 
     document.addEventListener('keydown', function (evt) {
       window.util.isEscEvent(evt, function () {
-        removeCard();
+        window.card.removeCard();
       });
     });
-  };
-
-  var removeCard = function () {
-    var mapCard = document.querySelector('.map__card');
-    var activePin = document.querySelector('.map__pin--active');
-    if (mapCard) {
-      mapCard.remove();
-      activePin.classList.remove('map__pin--active');
-    }
   };
 
   // Добавляет карту
@@ -83,7 +83,7 @@
   };
 
   var renderCard = function (obj) {
-    removeCard();
+    window.card.removeCard();
     var cardElement = cardTemplate.cloneNode(true);
     map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 

@@ -36,16 +36,16 @@
   var mapPinWidth = 40;
   var coordsLeft = parseInt(mainPin.style.left, 10);
   var coordsTop = parseInt(mainPin.style.top, 10);
-  var pinX = Math.round(coordsLeft + mapPinWidth / 2);
-  var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
   var addressInput = document.querySelector('#address');
+  window.pin.pinX = Math.round(coordsLeft + mapPinWidth / 2);
+  window.pin.pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
   window.pin.pinActiveY = Math.round(coordsTop + mapPinHeight);
 
   window.pin.getPinCoordinate = function (pinModeY) {
-    addressInput.value = pinX + ', ' + pinModeY;
+    addressInput.value = window.pin.pinX + ', ' + pinModeY;
   };
 
-  window.pin.getPinCoordinate(pinNonActiveY);
+  window.pin.getPinCoordinate(window.pin.pinNonActiveY);
 
   var fillAdressInput = function (x, y) {
     addressInput.value = x + ', ' + y;
