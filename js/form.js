@@ -44,6 +44,8 @@
   var titleInput = form.querySelector('#title');
   var priceInput = form.querySelector('#price');
   var addressInput = form.querySelector('#address');
+  var descriptionArea = form.querySelector('#description');
+  var features = form.querySelectorAll('.feature');
 
   roomSelect.addEventListener('change', function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
@@ -116,12 +118,19 @@
 
   var cleanFieldset = function () {
     guestsCapacity.value = '';
+    //
     timeInSelect.value = '';
     timeOutSelect.value = '';
+    //
     typeSelect.value = '';
     titleInput.value = '';
     priceInput.value = '';
+
+    for (var i = 0; i < features.length; i++) {
+      form.features[i].checked = false;
+    }
     roomSelect.value = '';
+    descriptionArea.value = '';
     addressInput.value = window.pin.pinX + ', ' + window.pin.pinNonActiveY;
   };
 

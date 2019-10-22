@@ -59,27 +59,27 @@
   var addCardsImg = function (photos, cardElement) {
     var popupDiv = cardElement.querySelector('.popup__photos');
     popupDiv.innerHTML = '';
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (img) {
       var imgTag = document.createElement('img');
       imgTag.classList.add('popup__photo');
-      imgTag.src = photos[i];
+      imgTag.src = img;
       imgTag.width = '45';
       imgTag.height = '40';
       imgTag.alt = 'Фотография жилья';
       popupDiv.appendChild(imgTag);
-    }
+    });
   };
 
   var addFeaturesItem = function (features, cardElement) {
     var featuresList = cardElement.querySelector('.popup__features');
     featuresList.innerHTML = '';
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (featureName) {
       var featureItem = document.createElement('li');
-      var featureClassName = 'popup__feature--' + features[i];
+      var featureClassName = 'popup__feature--' + featureName;
       featureItem.classList.add('popup__feature');
       featureItem.classList.add(featureClassName);
       featuresList.appendChild(featureItem);
-    }
+    });
   };
 
   var renderCard = function (obj) {
