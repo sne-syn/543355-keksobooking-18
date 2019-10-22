@@ -47,14 +47,13 @@
 
   roomSelect.addEventListener('change', function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
+    secondSelectOptions.forEach(function (option) {
+      option.setAttribute('disabled', 'disabled');
+      option.removeAttribute('selected');
+    });
 
-    for (var i = 0; i < secondSelectOptions.length; i++) {
-      secondSelectOptions[i].setAttribute('disabled', 'disabled');
-      secondSelectOptions[i].removeAttribute('selected');
-    }
-
-    for (var j = 0; j < availableGuests.length; j++) {
-      var current = guestsCapacity.querySelector('[value="' + availableGuests[j] + '"]');
+    for (var i = 0; i < availableGuests.length; i++) {
+      var current = guestsCapacity.querySelector('[value="' + availableGuests[i] + '"]');
       current.removeAttribute('disabled');
       current.setAttribute('selected', 'selected');
     }
@@ -68,11 +67,10 @@
 
   timeInSelect.addEventListener('change', function () {
     var availableTimeOption = timeInOutMap[timeInSelect.value];
-
-    for (var i = 0; i < timeOutOption.length; i++) {
-      timeOutOption[i].setAttribute('disabled', 'disabled');
-      timeOutOption[i].removeAttribute('selected');
-    }
+    timeOutOption.forEach(function(item) {
+      item.setAttribute('disabled', 'disabled');
+      item.removeAttribute('selected');
+    });
 
     var current = timeOutSelect.querySelector('[value="' + availableTimeOption + '"]');
     current.removeAttribute('disabled');
@@ -130,9 +128,11 @@
   var removePins = function () {
     var mapPins = document.querySelector('.map__pins');
     var pins = mapPins.querySelectorAll('.map__pin');
-    for (var i = 1; i < pins.length; i++) {
-      pins[i].remove();
-    }
+    pins.forEach(function (items) {
+      if (items !== mainPin) {
+        items.remove();
+      }
+    });
   };
 
   var setNonActivePageMode = function () {
