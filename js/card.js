@@ -8,14 +8,14 @@
   };
 
   window.card = {
-    openCard: function (element, card, i) {
+    openCard: function (element, items, item) {
       element.addEventListener('click', function () {
-        getCard(element, card, i);
+        getCard(element, items, item);
       });
 
       element.addEventListener('keydown', function (evt) {
         window.util.isEnterEvent(evt, function () {
-          getCard(element, card, i);
+          getCard(element, items, item);
         });
       });
     },
@@ -30,8 +30,8 @@
     }
   };
 
-  var getCard = function (element, card, i) {
-    renderCard(card[i]);
+  var getCard = function (element, items, item) {
+    renderCard(item);
     element.classList.add('map__pin--active');
     closeCard();
   };

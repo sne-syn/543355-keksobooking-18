@@ -67,7 +67,7 @@
 
   timeInSelect.addEventListener('change', function () {
     var availableTimeOption = timeInOutMap[timeInSelect.value];
-    timeOutOption.forEach(function(item) {
+    timeOutOption.forEach(function (item) {
       item.setAttribute('disabled', 'disabled');
       item.removeAttribute('selected');
     });
@@ -115,13 +115,13 @@
   });
 
   var cleanFieldset = function () {
-    guestsCapacity.value = "";
-    timeInSelect.value = "";
-    timeOutSelect.value = "";
-    typeSelect.value = "";
-    titleInput.value = "";
-    priceInput.value = "";
-    roomSelect.value = "";
+    guestsCapacity.value = '';
+    timeInSelect.value = '';
+    timeOutSelect.value = '';
+    typeSelect.value = '';
+    titleInput.value = '';
+    priceInput.value = '';
+    roomSelect.value = '';
     addressInput.value = window.pin.pinX + ', ' + window.pin.pinNonActiveY;
   };
 

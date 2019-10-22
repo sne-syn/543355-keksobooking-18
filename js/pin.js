@@ -10,16 +10,17 @@
 
   window.pin = {
     successHandler: function (items) {
-      for (var i = 0; i < items.length; i++) {
+      items.forEach(function (item) {
         var pinElement = pinTemplate.cloneNode(true);
-        pinElement.style.left = (items[i].location.x - mapPinWidth / 2) + 'px';
-        pinElement.style.top = (items[i].location.y - offerPinHeight) + 'px';
-        pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
-        pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
+        pinElement.style.left = (item.location.x - mapPinWidth / 2) + 'px';
+        pinElement.style.top = (item.location.y - offerPinHeight) + 'px';
+        pinElement.querySelector('.map__pin img').alt = item.offer.title;
+        pinElement.querySelector('.map__pin img').src = item.author.avatar;
         mapPins.appendChild(pinElement);
-        window.card.openCard(pinElement, items, i);
-      }
+        window.card.openCard(pinElement, items, item);
+      });
     },
+
     errorHandler: function () {
       var errorTemplate = document.querySelector('#error')
         .content
