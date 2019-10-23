@@ -8,36 +8,54 @@
     .content
     .querySelector('.map__pin');
 
-  window.pin.addMapPins = function (items) {
-    for (var i = 0; i < items.length; i++) {
-      var pinElement = pinTemplate.cloneNode(true);
+  window.pin = {
+    successHandler: function (items) {
+      items.forEach(function (item) {
+        var pinElement = pinTemplate.cloneNode(true);
+        pinElement.style.left = (item.location.x - mapPinWidth / 2) + 'px';
+        pinElement.style.top = (item.location.y - offerPinHeight) + 'px';
+        pinElement.querySelector('.map__pin img').alt = item.offer.title;
+        pinElement.querySelector('.map__pin img').src = item.author.avatar;
+        mapPins.appendChild(pinElement);
+        window.card.openCard(pinElement, items, item);
+      });
+    },
 
-      pinElement.style.left = (items[i].location.x - mapPinWidth / 2) + 'px';
-      pinElement.style.top = (items[i].location.y - mapPinHeight) + 'px';
-      pinElement.querySelector('.map__pin img').alt = items[i].offer.title;
-      pinElement.querySelector('.map__pin img').src = items[i].author.avatar;
-      mapPins.appendChild(pinElement);
+    errorHandler: function () {
+      var errorTemplate = document.querySelector('#error')
+        .content
+        .querySelector('.error');
+      var errorElement = errorTemplate.cloneNode(true);
+      document.querySelector('main').appendChild(errorElement);
+    },
 
-      window.card.openCardPopup(pinElement, i);
+    removePins: function () {
+      var pins = mapPins.querySelectorAll('.map__pin');
+      pins.forEach(function (items) {
+        if (items !== mainPin) {
+          items.remove();
+        }
+      });
     }
   };
 
   var mapPinPointHeight = 22;
   var mapPinButtonHeight = 63;
+  var offerPinHeight = 70;
   var mapPinHeight = mapPinPointHeight + mapPinButtonHeight;
   var mapPinWidth = 40;
   var coordsLeft = parseInt(mainPin.style.left, 10);
   var coordsTop = parseInt(mainPin.style.top, 10);
-  var pinX = Math.round(coordsLeft + mapPinWidth / 2);
-  var pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
   var addressInput = document.querySelector('#address');
+  window.pin.pinX = Math.round(coordsLeft + mapPinWidth / 2);
+  window.pin.pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
   window.pin.pinActiveY = Math.round(coordsTop + mapPinHeight);
 
   window.pin.getPinCoordinate = function (pinModeY) {
-    addressInput.value = pinX + ', ' + pinModeY;
+    addressInput.value = window.pin.pinX + ', ' + pinModeY;
   };
 
-  window.pin.getPinCoordinate(pinNonActiveY);
+  window.pin.getPinCoordinate(window.pin.pinNonActiveY);
 
   var fillAdressInput = function (x, y) {
     addressInput.value = x + ', ' + y;
@@ -89,7 +107,8 @@
   });
 
   mainPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.main.runActivePageMode());
+    window.util.isEnterEvent(evt, function () {
+      window.main.runActivePageMode();
+    });
   });
-
 })();

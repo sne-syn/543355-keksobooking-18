@@ -1,5 +1,4 @@
 'use strict';
-
 (function () {
   var typeMap = {
     'palace': 'Дворец',
@@ -8,39 +7,46 @@
     'bungalo': 'Бунгало'
   };
 
-  window.card.openCardPopup = function (element, i) {
-    element.addEventListener('click', function () {
-      getCard(element, i);
-    });
+  window.card = {
+    openCard: function (element, items, item) {
+      element.addEventListener('click', function () {
+        getCard(element, items, item);
+      });
 
-    element.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, getCard(element, i));
-    });
+      element.addEventListener('keydown', function (evt) {
+        window.util.isEnterEvent(evt, function () {
+          getCard(element, items, item);
+        });
+      });
+    },
+
+    removeCard: function () {
+      var mapCard = document.querySelector('.map__card');
+      var activePin = document.querySelector('.map__pin--active');
+      if (mapCard) {
+        mapCard.remove();
+        activePin.classList.remove('map__pin--active');
+      }
+    }
   };
 
-  var closeCardPopup = function (element) {
+  var getCard = function (element, items, item) {
+    renderCard(item);
+    element.classList.add('map__pin--active');
+    closeCard();
+  };
+
+  var closeCard = function () {
     var closeButton = document.querySelector('.popup__close');
     closeButton.addEventListener('click', function () {
-      removeCard(element);
+      window.card.removeCard();
     });
 
     document.addEventListener('keydown', function (evt) {
-      window.util.isEscEvent(evt, removeCard(element));
+      window.util.isEscEvent(evt, function () {
+        window.card.removeCard();
+      });
     });
-  };
-
-  var getCard = function (element, i) {
-    renderCard(window.similarObjects.similarRentOffers[i]);
-    element.classList.add('map__pin--active');
-    closeCardPopup(element);
-  };
-
-  var removeCard = function (element) {
-    var mapCard = document.querySelector('.map__card');
-    element.classList.remove('map__pin--active');
-    if (mapCard) {
-      mapCard.remove();
-    }
   };
 
   // Добавляет карту
@@ -53,31 +59,31 @@
   var addCardsImg = function (photos, cardElement) {
     var popupDiv = cardElement.querySelector('.popup__photos');
     popupDiv.innerHTML = '';
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (img) {
       var imgTag = document.createElement('img');
       imgTag.classList.add('popup__photo');
-      imgTag.src = photos[i];
+      imgTag.src = img;
       imgTag.width = '45';
       imgTag.height = '40';
       imgTag.alt = 'Фотография жилья';
       popupDiv.appendChild(imgTag);
-    }
+    });
   };
 
   var addFeaturesItem = function (features, cardElement) {
     var featuresList = cardElement.querySelector('.popup__features');
     featuresList.innerHTML = '';
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (featureName) {
       var featureItem = document.createElement('li');
-      var featureClassName = 'popup__feature--' + features[i];
+      var featureClassName = 'popup__feature--' + featureName;
       featureItem.classList.add('popup__feature');
       featureItem.classList.add(featureClassName);
       featuresList.appendChild(featureItem);
-    }
+    });
   };
 
   var renderCard = function (obj) {
-
+    window.card.removeCard();
     var cardElement = cardTemplate.cloneNode(true);
     map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 
@@ -108,5 +114,4 @@
     addCardsImg(obj.offer.photos, cardElement);
     addFeaturesItem(obj.offer.features, cardElement);
   };
-
 })();
