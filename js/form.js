@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+
+
   var validTypeMap = {
     'bungalo': {
       'minprice': '0',
@@ -117,20 +119,7 @@
   });
 
   var cleanFieldset = function () {
-    guestsCapacity.value = '';
-    //
-    timeInSelect.value = '';
-    timeOutSelect.value = '';
-    //
-    typeSelect.value = '';
-    titleInput.value = '';
-    priceInput.value = '';
-
-    for (var i = 0; i < features.length; i++) {
-      form.features[i].checked = false;
-    }
-    roomSelect.value = '';
-    descriptionArea.value = '';
+    form.reset();
     addressInput.value = window.pin.pinX + ', ' + window.pin.pinNonActiveY;
   };
 
@@ -145,12 +134,13 @@
   };
 
   var setNonActivePageMode = function () {
+    cleanFieldset();
     document.querySelector('.map').classList.add('map--faded');
     document.activeElement.blur();
-    cleanFieldset();
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
     window.card.removeCard();
     removePins();
+    window.main.toggleEnableDisable(window.main.fieldset, true);
     mainPin.style.left = mainPinStyleLeft;
     mainPin.style.top = mainPinStyleTop;
   };
@@ -206,4 +196,8 @@
       removeErrorMessage();
     });
   });
+
+  var fieldset = document.querySelectorAll('.ad-form fieldset')
+  console.log(fieldset);
+
 })();
