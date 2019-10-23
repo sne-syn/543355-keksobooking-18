@@ -47,11 +47,11 @@
 
   var checkGuestOptions = function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
-    for (var i = 0; i < availableGuests.length; i++) {
-      var current = guestsCapacity.querySelector('[value="' + availableGuests[i] + '"]');
+    availableGuests.forEach(function (option) {
+      var current = guestsCapacity.querySelector('[value="' + option + '"]');
       current.removeAttribute('disabled');
       current.setAttribute('selected', 'selected');
-    }
+    });
   };
 
   roomSelect.addEventListener('change', function () {
@@ -68,7 +68,7 @@
   var timeOutSelect = form.querySelector('#timeout');
   var timeOutOption = form.querySelectorAll('#timeout option');
 
-  var checkTimeOutOptios = function () {
+  var checkTimeOutOptions = function () {
     var availableTimeOption = timeInOutMap[timeInSelect.value];
     var current = timeOutSelect.querySelector('[value="' + availableTimeOption + '"]');
     current.removeAttribute('disabled');
@@ -80,7 +80,7 @@
       item.setAttribute('disabled', 'disabled');
       item.removeAttribute('selected');
     });
-    checkTimeOutOptios();
+    checkTimeOutOptions();
   });
 
   // Title-validation.
@@ -93,6 +93,21 @@
     } else {
       titleInput.setCustomValidity('');
     }
+
+    // Пробы switch'a
+
+    // switch(titleInput) {
+    //   case titleInput.validity.tooShort:
+    //   titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
+    //   break;
+
+    //   case titleInput.validity.valueMissing:
+    //   titleInput.setCustomValidity('Обязательное поле');
+    //   break;
+
+    //   default:
+    //   titleInput.setCustomValidity('');
+    // }
   });
 
   // Type&price-validation
@@ -123,7 +138,7 @@
   var cleanFieldset = function () {
     form.reset();
     checkGuestOptions();
-    checkTimeOutOptios();
+    checkTimeOutOptions();
   };
 
   var removePins = function () {
