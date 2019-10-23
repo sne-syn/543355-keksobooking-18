@@ -2,7 +2,6 @@
 
 (function () {
 
-
   var validTypeMap = {
     'bungalo': {
       'minprice': '0',
@@ -45,22 +44,22 @@
   var typeSelect = form.querySelector('#type');
   var titleInput = form.querySelector('#title');
   var priceInput = form.querySelector('#price');
-  var addressInput = form.querySelector('#address');
-  var descriptionArea = form.querySelector('#description');
-  var features = form.querySelectorAll('.feature');
 
-  roomSelect.addEventListener('change', function () {
+  var checkGuestOptions = function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
-    secondSelectOptions.forEach(function (option) {
-      option.setAttribute('disabled', 'disabled');
-      option.removeAttribute('selected');
-    });
-
     for (var i = 0; i < availableGuests.length; i++) {
       var current = guestsCapacity.querySelector('[value="' + availableGuests[i] + '"]');
       current.removeAttribute('disabled');
       current.setAttribute('selected', 'selected');
     }
+  };
+
+  roomSelect.addEventListener('change', function () {
+    secondSelectOptions.forEach(function (option) {
+      option.setAttribute('disabled', 'disabled');
+      option.removeAttribute('selected');
+    });
+    checkGuestOptions();
   });
 
   // TimeInOut validation
@@ -69,16 +68,19 @@
   var timeOutSelect = form.querySelector('#timeout');
   var timeOutOption = form.querySelectorAll('#timeout option');
 
-  timeInSelect.addEventListener('change', function () {
+  var checkTimeOutOptios = function () {
     var availableTimeOption = timeInOutMap[timeInSelect.value];
+    var current = timeOutSelect.querySelector('[value="' + availableTimeOption + '"]');
+    current.removeAttribute('disabled');
+    current.setAttribute('selected', 'selected');
+  };
+
+  timeInSelect.addEventListener('change', function () {
     timeOutOption.forEach(function (item) {
       item.setAttribute('disabled', 'disabled');
       item.removeAttribute('selected');
     });
-
-    var current = timeOutSelect.querySelector('[value="' + availableTimeOption + '"]');
-    current.removeAttribute('disabled');
-    current.setAttribute('selected', 'selected');
+    checkTimeOutOptios();
   });
 
   // Title-validation.
@@ -120,7 +122,8 @@
 
   var cleanFieldset = function () {
     form.reset();
-    addressInput.value = window.pin.pinX + ', ' + window.pin.pinNonActiveY;
+    checkGuestOptions();
+    checkTimeOutOptios();
   };
 
   var removePins = function () {
@@ -135,6 +138,7 @@
 
   var setNonActivePageMode = function () {
     cleanFieldset();
+    window.pin.getPinCoordinate(window.pin.pinNonActiveY);
     document.querySelector('.map').classList.add('map--faded');
     document.activeElement.blur();
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
@@ -196,8 +200,5 @@
       removeErrorMessage();
     });
   });
-
-  var fieldset = document.querySelectorAll('.ad-form fieldset')
-  console.log(fieldset);
 
 })();
