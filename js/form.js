@@ -34,18 +34,25 @@
     100: [0]
   };
 
-  var mainPin = document.querySelector('.map__pin--main');
-  var mainPinStyleLeft = mainPin.style.left;
-  var mainPinStyleTop = mainPin.style.top;
   var form = document.querySelector('.ad-form');
   var guestsCapacity = form.querySelector('#capacity');
   var roomSelect = form.querySelector('#room_number');
-  var secondSelectOptions = form.querySelectorAll('#capacity option');
+  var capacitySelectOptions = form.querySelectorAll('#capacity option');
   var typeSelect = form.querySelector('#type');
   var titleInput = form.querySelector('#title');
   var priceInput = form.querySelector('#price');
+  var timeInSelect = form.querySelector('#timein');
+  var timeOutSelect = form.querySelector('#timeout');
+  var timeOutOption = form.querySelectorAll('#timeout option');
 
-  var checkGuestOptions = function () {
+  var setSelect = function (optionList) {
+    optionList.forEach(function (option) {
+      option.setAttribute('disabled', 'disabled');
+      option.removeAttribute('selected');
+    });
+  };
+
+  var limitGuestOptions = function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
     availableGuests.forEach(function (option) {
       var current = guestsCapacity.querySelector('[value="' + option + '"]');
@@ -54,33 +61,21 @@
     });
   };
 
-  roomSelect.addEventListener('change', function () {
-    secondSelectOptions.forEach(function (option) {
-      option.setAttribute('disabled', 'disabled');
-      option.removeAttribute('selected');
-    });
-    checkGuestOptions();
-  });
-
-  // TimeInOut validation
-
-  var timeInSelect = form.querySelector('#timein');
-  var timeOutSelect = form.querySelector('#timeout');
-  var timeOutOption = form.querySelectorAll('#timeout option');
-
-  var checkTimeOutOptions = function () {
+  var limitTimeOutOptions = function () {
     var availableTimeOption = timeInOutMap[timeInSelect.value];
     var current = timeOutSelect.querySelector('[value="' + availableTimeOption + '"]');
     current.removeAttribute('disabled');
     current.setAttribute('selected', 'selected');
   };
 
+  roomSelect.addEventListener('change', function () {
+    setSelect(capacitySelectOptions);
+    limitGuestOptions();
+  });
+
   timeInSelect.addEventListener('change', function () {
-    timeOutOption.forEach(function (item) {
-      item.setAttribute('disabled', 'disabled');
-      item.removeAttribute('selected');
-    });
-    checkTimeOutOptions();
+    setSelect(timeOutOption);
+    limitTimeOutOptions();
   });
 
   // Title-validation.
@@ -135,33 +130,12 @@
     evt.preventDefault();
   });
 
-  var cleanFieldset = function () {
-    form.reset();
-    checkGuestOptions();
-    checkTimeOutOptions();
-  };
-
-  var removePins = function () {
-    var mapPins = document.querySelector('.map__pins');
-    var pins = mapPins.querySelectorAll('.map__pin');
-    pins.forEach(function (items) {
-      if (items !== mainPin) {
-        items.remove();
-      }
-    });
-  };
-
-  var setNonActivePageMode = function () {
-    cleanFieldset();
-    window.pin.getPinCoordinate(window.pin.pinNonActiveY);
-    document.querySelector('.map').classList.add('map--faded');
-    document.activeElement.blur();
-    document.querySelector('.ad-form').classList.add('ad-form--disabled');
-    window.card.removeCard();
-    removePins();
-    window.main.toggleEnableDisable(window.main.fieldset, true);
-    mainPin.style.left = mainPinStyleLeft;
-    mainPin.style.top = mainPinStyleTop;
+  window.form = {
+    cleanFieldset: function () {
+      form.reset();
+      limitGuestOptions();
+      limitTimeOutOptions();
+    }
   };
 
   var formSuccessHandler = function () {
@@ -170,7 +144,7 @@
       .querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
     document.querySelector('main').appendChild(successElement);
-    setNonActivePageMode();
+    window.main.setNonActivePageMode();
   };
 
   var removeSuccessMessage = function () {
@@ -215,5 +189,16 @@
       removeErrorMessage();
     });
   });
+
+  var formReset = function () {
+    window.main.setNonActivePageMode();
+  };
+
+  var resetButton = form.querySelector('.ad-form__reset');
+  resetButton.addEventListener('click', function () {
+    formReset();
+    // window.form.cleanFieldset();
+  });
+
 
 })();

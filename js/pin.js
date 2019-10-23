@@ -27,6 +27,15 @@
         .querySelector('.error');
       var errorElement = errorTemplate.cloneNode(true);
       document.querySelector('main').appendChild(errorElement);
+    },
+
+    removePins: function () {
+      var pins = mapPins.querySelectorAll('.map__pin');
+      pins.forEach(function (items) {
+        if (items !== mainPin) {
+          items.remove();
+        }
+      });
     }
   };
 
