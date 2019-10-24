@@ -1,6 +1,14 @@
 'use strict';
 
 (function () {
+
+  var Pin = {
+    MAP_PIN_POINT_HEIGHT: 22,
+    MAP_PIN_BUTTON_HEIGHT: 63,
+    OFFER_PIN_HEIGHT: 70,
+    MAP_PIN_WIDTH: 40
+  };
+
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
@@ -8,54 +16,49 @@
     .content
     .querySelector('.map__pin');
 
-  window.pin = {
-    successHandler: function (items) {
-      items.forEach(function (item) {
-        var pinElement = pinTemplate.cloneNode(true);
-        pinElement.style.left = (item.location.x - mapPinWidth / 2) + 'px';
-        pinElement.style.top = (item.location.y - offerPinHeight) + 'px';
-        pinElement.querySelector('.map__pin img').alt = item.offer.title;
-        pinElement.querySelector('.map__pin img').src = item.author.avatar;
-        mapPins.appendChild(pinElement);
-        window.card.openCard(pinElement, items, item);
-      });
-    },
-
-    errorHandler: function () {
-      var errorTemplate = document.querySelector('#error')
-        .content
-        .querySelector('.error');
-      var errorElement = errorTemplate.cloneNode(true);
-      document.querySelector('main').appendChild(errorElement);
-    },
-
-    removePins: function () {
-      var pins = mapPins.querySelectorAll('.map__pin');
-      pins.forEach(function (items) {
-        if (items !== mainPin) {
-          items.remove();
-        }
-      });
-    }
+  var successHandler = function (items) {
+    items.forEach(function (item) {
+      var pinElement = pinTemplate.cloneNode(true);
+      pinElement.style.left = (item.location.x - Pin.MAP_PIN_WIDTH / 2) + 'px';
+      pinElement.style.top = (item.location.y - Pin.OFFER_PIN_HEIGHT) + 'px';
+      pinElement.querySelector('.map__pin img').alt = item.offer.title;
+      pinElement.querySelector('.map__pin img').src = item.author.avatar;
+      mapPins.appendChild(pinElement);
+      window.card.openCard(pinElement, items, item);
+    });
   };
 
-  var mapPinPointHeight = 22;
-  var mapPinButtonHeight = 63;
-  var offerPinHeight = 70;
-  var mapPinHeight = mapPinPointHeight + mapPinButtonHeight;
-  var mapPinWidth = 40;
+  var errorHandler = function () {
+    var errorTemplate = document.querySelector('#error')
+      .content
+      .querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    document.querySelector('main').appendChild(errorElement);
+  };
+
+  var removePins = function () {
+    var pins = mapPins.querySelectorAll('.map__pin');
+    pins.forEach(function (items) {
+      if (items !== mainPin) {
+        items.remove();
+      }
+    });
+  };
+
+
   var coordsLeft = parseInt(mainPin.style.left, 10);
   var coordsTop = parseInt(mainPin.style.top, 10);
   var addressInput = document.querySelector('#address');
-  window.pin.pinX = Math.round(coordsLeft + mapPinWidth / 2);
-  window.pin.pinNonActiveY = Math.round(coordsTop + mapPinButtonHeight / 2);
-  window.pin.pinActiveY = Math.round(coordsTop + mapPinHeight);
+  var mapPinHeight = Pin.MAP_PIN_POINT_HEIGHT + Pin.MAP_PIN_BUTTON_HEIGHT;
+  var pinX = Math.round(coordsLeft + Pin.MAP_PIN_WIDTH / 2);
+  var pinNonActiveY = Math.round(coordsTop + Pin.MAP_PIN_BUTTON_HEIGHT / 2);
+  var pinActiveY = Math.round(coordsTop + mapPinHeight);
 
-  window.pin.getPinCoordinate = function (pinModeY) {
-    addressInput.value = window.pin.pinX + ', ' + pinModeY;
+  var getPinCoordinate = function (pinModeY) {
+    addressInput.value = pinX + ', ' + pinModeY;
   };
 
-  window.pin.getPinCoordinate(window.pin.pinNonActiveY);
+  getPinCoordinate(pinNonActiveY);
 
   var fillAdressInput = function (x, y) {
     addressInput.value = x + ', ' + y;
@@ -111,4 +114,14 @@
       window.main.runActivePageMode();
     });
   });
+
+  window.pin = {
+    successHandler: successHandler,
+    errorHandler: errorHandler,
+    removePins: removePins,
+    getPinCoordinate: getPinCoordinate,
+    pinX: pinX,
+    pinNonActiveY: pinNonActiveY,
+    pinActiveY: pinActiveY
+  };
 })();

@@ -7,26 +7,24 @@
     'bungalo': 'Бунгало'
   };
 
-  window.card = {
-    openCard: function (element, items, item) {
-      element.addEventListener('click', function () {
+  var openCard = function (element, items, item) {
+    element.addEventListener('click', function () {
+      getCard(element, items, item);
+    });
+
+    element.addEventListener('keydown', function (evt) {
+      window.util.isEnterEvent(evt, function () {
         getCard(element, items, item);
       });
+    });
+  };
 
-      element.addEventListener('keydown', function (evt) {
-        window.util.isEnterEvent(evt, function () {
-          getCard(element, items, item);
-        });
-      });
-    },
-
-    removeCard: function () {
-      var mapCard = document.querySelector('.map__card');
-      var activePin = document.querySelector('.map__pin--active');
-      if (mapCard) {
-        mapCard.remove();
-        activePin.classList.remove('map__pin--active');
-      }
+  var removeCard = function () {
+    var mapCard = document.querySelector('.map__card');
+    var activePin = document.querySelector('.map__pin--active');
+    if (mapCard) {
+      mapCard.remove();
+      activePin.classList.remove('map__pin--active');
     }
   };
 
@@ -39,17 +37,15 @@
   var closeCard = function () {
     var closeButton = document.querySelector('.popup__close');
     closeButton.addEventListener('click', function () {
-      window.card.removeCard();
+      removeCard();
     });
 
     document.addEventListener('keydown', function (evt) {
       window.util.isEscEvent(evt, function () {
-        window.card.removeCard();
+        removeCard();
       });
     });
   };
-
-  // Добавляет карту
 
   var map = document.querySelector('.map');
   var cardTemplate = document.querySelector('#card')
@@ -83,7 +79,7 @@
   };
 
   var renderCard = function (obj) {
-    window.card.removeCard();
+    removeCard();
     var cardElement = cardTemplate.cloneNode(true);
     map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 
@@ -113,5 +109,10 @@
 
     addCardsImg(obj.offer.photos, cardElement);
     addFeaturesItem(obj.offer.features, cardElement);
+  };
+
+  window.card = {
+    openCard: openCard,
+    removeCard: removeCard
   };
 })();

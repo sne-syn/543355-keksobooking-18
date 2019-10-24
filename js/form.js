@@ -43,7 +43,7 @@
   var priceInput = form.querySelector('#price');
   var timeInSelect = form.querySelector('#timein');
   var timeOutSelect = form.querySelector('#timeout');
-  var timeOutOption = form.querySelectorAll('#timeout option');
+  var timeOutOptions = form.querySelectorAll('#timeout option');
 
   var setSelect = function (optionList) {
     optionList.forEach(function (option) {
@@ -74,7 +74,7 @@
   });
 
   timeInSelect.addEventListener('change', function () {
-    setSelect(timeOutOption);
+    setSelect(timeOutOptions);
     limitTimeOutOptions();
   });
 
@@ -126,16 +126,14 @@
   });
 
   form.addEventListener('submit', function (evt) {
-    window.backend.setServerInteraction(formSuccessHandler, formErrorHandler, new FormData(form));
+    window.backend.save(formSuccessHandler, formErrorHandler, new FormData(form));
     evt.preventDefault();
   });
 
-  window.form = {
-    cleanFieldset: function () {
-      form.reset();
-      limitGuestOptions();
-      limitTimeOutOptions();
-    }
+  var cleanFieldset = function () {
+    form.reset();
+    limitGuestOptions();
+    limitTimeOutOptions();
   };
 
   var formSuccessHandler = function () {
@@ -190,15 +188,12 @@
     });
   });
 
-  var formReset = function () {
-    window.main.setNonActivePageMode();
-  };
-
   var resetButton = form.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', function () {
-    formReset();
-    // window.form.cleanFieldset();
+    window.main.setNonActivePageMode();
   });
 
-
+  window.form = {
+    cleanFieldset: cleanFieldset
+  };
 })();
