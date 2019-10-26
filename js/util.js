@@ -20,5 +20,4 @@
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent
   };
-
 })();

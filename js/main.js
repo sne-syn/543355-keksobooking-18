@@ -35,9 +35,9 @@
   toggleEnableDisable(fieldset, true);
 
   window.main = {
+    fieldset: fieldset,
     toggleEnableDisable: toggleEnableDisable,
     runActivePageMode: runActivePageMode,
-    setNonActivePageMode: setNonActivePageMode,
-    fieldset: fieldset
+    setNonActivePageMode: setNonActivePageMode
   };
 })();

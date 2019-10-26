@@ -12,20 +12,9 @@
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
-  var pinTemplate = document.querySelector('#pin')
-    .content
-    .querySelector('.map__pin');
 
   var successHandler = function (items) {
-    items.forEach(function (item) {
-      var pinElement = pinTemplate.cloneNode(true);
-      pinElement.style.left = (item.location.x - Pin.MAP_PIN_WIDTH / 2) + 'px';
-      pinElement.style.top = (item.location.y - Pin.OFFER_PIN_HEIGHT) + 'px';
-      pinElement.querySelector('.map__pin img').alt = item.offer.title;
-      pinElement.querySelector('.map__pin img').src = item.author.avatar;
-      mapPins.appendChild(pinElement);
-      window.card.openCard(pinElement, items, item);
-    });
+    window.render(items);
   };
 
   var errorHandler = function () {
@@ -44,7 +33,6 @@
       }
     });
   };
-
 
   var coordsLeft = parseInt(mainPin.style.left, 10);
   var coordsTop = parseInt(mainPin.style.top, 10);
