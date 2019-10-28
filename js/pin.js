@@ -1,7 +1,28 @@
 'use strict';
-
 (function () {
+  // filter logic
+  var typeFilter = document.getElementById('housing-type');
+  var typeFilterValue;
 
+  var updateItems = function () {
+    var sameType = items.filter(function (it) {
+      return it.offer.type === typeFilterValue;
+    });
+    if (typeFilterValue === 'any') {
+      window.render(items);
+    } else {
+      window.render(sameType);
+    }
+  };
+
+  typeFilter.addEventListener('change', function () {
+    var newValue = typeFilter.value;
+    typeFilterValue = newValue;
+    console.log(newValue);
+    updateItems();
+  });
+
+  // pin logic
   var Pin = {
     MAP_PIN_POINT_HEIGHT: 22,
     MAP_PIN_BUTTON_HEIGHT: 63,
@@ -13,7 +34,9 @@
   var mainPin = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
 
-  var successHandler = function (items) {
+  var items = [];
+  var successHandler = function (data) {
+    items = data;
     window.render(items);
   };
 
@@ -110,6 +133,7 @@
     getPinCoordinate: getPinCoordinate,
     pinX: pinX,
     pinNonActiveY: pinNonActiveY,
-    pinActiveY: pinActiveY
+    pinActiveY: pinActiveY,
+    Pin: Pin
   };
 })();

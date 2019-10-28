@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var urlGet = 'https://js.dump.academy/keksobooking/data';
   var mainPin = document.querySelector('.map__pin--main');
   var mainPinStyleLeft = mainPin.style.left;
   var mainPinStyleTop = mainPin.style.top;
@@ -14,7 +15,7 @@
   var runActivePageMode = function () {
     window.pin.getPinCoordinate(window.pin.pinActiveY);
     toggleEnableDisable(fieldset, false);
-    window.backend.load(window.pin.successHandler, window.pin.errorHandler);
+    window.backend.load(window.pin.successHandler, window.pin.errorHandler, urlGet);
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
   };

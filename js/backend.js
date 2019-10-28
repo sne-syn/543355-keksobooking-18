@@ -1,11 +1,11 @@
 'use strict';
 (function () {
   var OK_STATUS_CODE = 200;
-  var urlGet = 'https://js.dump.academy/keksobooking/data';
+
   var urlPost = 'https://js.dump.academy/keksobooking';
   var timeOutLimit = 10000; // 10s
 
-  var load = function (onLoad, onError) {
+  var load = function (onLoad, onError, url) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -25,7 +25,7 @@
 
     xhr.timeout = timeOutLimit;
 
-    xhr.open('GET', urlGet);
+    xhr.open('GET', url);
     xhr.send();
   };
 
