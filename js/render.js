@@ -12,7 +12,7 @@
     element.style.top = (item.location.y - window.pin.Pin.OFFER_PIN_HEIGHT) + 'px';
     element.querySelector('.map__pin img').alt = item.offer.title;
     element.querySelector('.map__pin img').src = item.author.avatar;
-    // window.card.openCard(pinElement, item);
+    window.card.openCard(element, item);
 
     return element;
   };

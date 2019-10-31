@@ -1,82 +1,6 @@
 'use strict';
 
 (function () {
-  // filter logic
-  var priceMap = {
-    'low': 10000,
-    'middle': {
-      'from': 10000,
-      'to': 50000
-    },
-    'high': 50000,
-  };
-
-  var filter = document.querySelector('.map__filters');
-  var typeFilter = document.getElementById('housing-type');
-  var priceFilter = document.getElementById('housing-price');
-  var typeFilterValue;
-  var priceFilterValue;
-
-  var updateItems = function () {
-    // фильтрует по типу жилья
-    var sameType = oferrs.filter(function (it) {
-      return it.offer.type === typeFilterValue;
-    });
-
-    if (typeFilterValue === 'any') {
-      window.render(oferrs);
-    } else {
-      window.render(sameType);
-    }
-    // фильтрует по цене
-
-    var checkFittingPrice = oferrs.filter(function (it) {
-      switch (priceFilterValue) {
-        case 'low':
-          return it.offer.price < priceMap.low;
-        case 'middle':
-          return it.offer.price > priceMap.middle.from && it.offer.price < priceMap.middle.to;
-        case 'high':
-          return it.offer.price > priceMap.high;
-        default:
-          return it.offer.price;
-      }
-    });
-
-    if (priceFilterValue === 'any') {
-      window.render(oferrs);
-    } else {
-      window.render(checkFittingPrice);
-    }
-  };
-
-  // следит за изменением всего filter
-  var featuresList = [];
-  filter.addEventListener('change', function (evt) {
-    var newValue = evt.target.value;
-    var clickedFilter = evt.target.name;
-    if (clickedFilter === 'features') {
-      featuresList.push(newValue);
-    }
-    console.log('Option ' + newValue + ' from ' + clickedFilter + ' was chosen');
-    console.log(featuresList);
-  });
-
-  // следит за изменением type
-  typeFilter.addEventListener('change', function () {
-    var newValue = typeFilter.value;
-    typeFilterValue = newValue;
-    updateItems();
-  });
-
-  priceFilter.addEventListener('change', function () {
-    var newValue = priceFilter.value;
-    priceFilterValue = newValue;
-    updateItems();
-  });
-
-  // pin logic
-
   var Pin = {
     MAP_PIN_POINT_HEIGHT: 22,
     MAP_PIN_BUTTON_HEIGHT: 63,
@@ -88,10 +12,10 @@
   var mainPin = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
 
-  var oferrs = [];
+  var offers = [];
   var successHandler = function (data) {
-    oferrs = data;
-    window.render(oferrs);
+    offers = data;
+    window.render(offers);
   };
 
   var errorHandler = function () {
@@ -171,7 +95,11 @@
   });
 
   mainPin.addEventListener('mousedown', function () {
-    window.main.runActivePageMode();
+    if (offers.length === 0) {
+      window.main.runActivePageMode();
+    } else {
+      return false;
+    }
   });
 
   mainPin.addEventListener('keydown', function (evt) {
@@ -181,6 +109,7 @@
   });
 
   window.pin = {
+    offers: offers,
     successHandler: successHandler,
     errorHandler: errorHandler,
     removePins: removePins,

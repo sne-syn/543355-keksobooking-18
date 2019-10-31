@@ -7,14 +7,14 @@
     'bungalo': 'Бунгало'
   };
 
-  var openCard = function (element, items, item) {
+  var openCard = function (element, item) {
     element.addEventListener('click', function () {
-      getCard(element, items, item);
+      getCard(element, item);
     });
 
     element.addEventListener('keydown', function (evt) {
       window.util.isEnterEvent(evt, function () {
-        getCard(element, items, item);
+        getCard(element, item);
       });
     });
   };
@@ -28,7 +28,7 @@
     }
   };
 
-  var getCard = function (element, items, item) {
+  var getCard = function (element, item) {
     renderCard(item);
     element.classList.add('map__pin--active');
     closeCard();

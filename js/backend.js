@@ -8,7 +8,6 @@
   var load = function (onLoad, onError, url) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-
     xhr.addEventListener('load', function () {
       if (xhr.status === OK_STATUS_CODE) {
         onLoad(xhr.response);
@@ -24,7 +23,6 @@
     });
 
     xhr.timeout = timeOutLimit;
-
     xhr.open('GET', url);
     xhr.send();
   };
@@ -52,6 +50,7 @@
     xhr.open('POST', urlPost);
     xhr.send(data);
   };
+
 
   window.backend = {
     load: load,

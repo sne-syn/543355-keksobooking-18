@@ -15,9 +15,9 @@
   var runActivePageMode = function () {
     window.pin.getPinCoordinate(window.pin.pinActiveY);
     toggleEnableDisable(fieldset, false);
-    window.backend.load(window.pin.successHandler, window.pin.errorHandler, urlGet);
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+    window.backend.load(window.pin.successHandler, window.pin.errorHandler, urlGet);
   };
 
   var setNonActivePageMode = function () {
