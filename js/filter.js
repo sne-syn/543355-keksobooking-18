@@ -47,16 +47,17 @@
       }
     });
 
+    console.log(checkFittingPrice);
+
     window.render(checkFittingPrice);
   };
-
 
   filter.addEventListener('change', function (evt) {
     var newValue = evt.target.value;
     var clickedFilter = evt.target.name;
     var featureValue = state[clickedFilter].indexOf(newValue);
     if (clickedFilter === 'features') {
-      if (featureValue  == -1) {
+      if (featureValue == -1) {
         state[clickedFilter].push(newValue);
       } else {
         state[clickedFilter].splice(featureValue, 1);
@@ -65,6 +66,39 @@
       state[clickedFilter] = newValue;
     }
     console.log(state);
+    var filteredPins = window.pin.offers.filter(filterPins);
+    window.render(filteredPins);
   });
+
+  var filterPins = function (item) {
+    var count = [];
+    if (item.offer.type === state['housing-type'] || state['housing-type'] === 'any') {
+      count.push(1);
+      console.log(count);
+    }
+    if (item.offer.rooms === state['housing-rooms'] || state['housing-rooms'] === 'any') {
+      count.push(1);
+    }
+    if (item.offer.guests === state['housing-guests'] || state['housing-guests'] === 'any') {
+      count.push(1);
+    }
+
+    return count.length === 2;
+  };
+  var arrayCard = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
+  var arrayFilter = ["wifi", "dishwasher", "ggro", "parking", "washer", "elevator"];
+
+  // находим совпадения в массивах и копируем в отдельный массив, сравниваем, Если идентичны - тру.
+
+  var checkLength = function (count) {
+    var newArray = [];
+    arrayFilter.forEach(function (feature) {
+      newArray.push(arrayCard.includes(feature));
+    });
+    if (newArray.indexOf(false) === -1) {
+      count.push(1);
+    }
+  };
+  checkLength(count);
 
 })();
