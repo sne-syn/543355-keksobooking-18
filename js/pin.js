@@ -60,7 +60,7 @@
   var checkFittingPrice = function (priceCard) {
     if (priceCard < priceMap.low) {
       return 'low';
-    } else if (priceCard > priceMap.middle.from && priceCard < priceMap.middle.to) {
+    } else if (priceCard >= priceMap.middle.from && priceCard <= priceMap.middle.to) {
       return 'middle';
     } else if (priceCard > priceMap.high) {
       return 'high';

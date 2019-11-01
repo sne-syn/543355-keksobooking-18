@@ -83,26 +83,13 @@
   titleInput.addEventListener('invalid', function () {
     if (titleInput.validity.tooShort) {
       titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
+      titleInput.style.border = '1px solid red';
     } else if (titleInput.validity.valueMissing) {
       titleInput.setCustomValidity('Обязательное поле');
+      titleInput.style.border = 'red';
     } else {
       titleInput.setCustomValidity('');
     }
-
-    // Пробы switch'a
-
-    // switch(titleInput) {
-    //   case titleInput.validity.tooShort:
-    //   titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
-    //   break;
-
-    //   case titleInput.validity.valueMissing:
-    //   titleInput.setCustomValidity('Обязательное поле');
-    //   break;
-
-    //   default:
-    //   titleInput.setCustomValidity('');
-    // }
   });
 
   // Type&price-validation
@@ -115,10 +102,13 @@
     priceInput.addEventListener('invalid', function () {
       if (priceInput.validity.rangeOverflow) {
         priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
+        priceInput.style.border = '1px solid red';
       } else if (priceInput.validity.rangeUnderflow) {
         priceInput.setCustomValidity(validTypeMap[types].errorText);
+        priceInput.style.border = '1px solid red';
       } else if (priceInput.validity.valueMissing) {
         priceInput.setCustomValidity('Обязательное поле');
+        priceInput.style.border = '1px solid red';
       } else {
         priceInput.setCustomValidity('');
       }
