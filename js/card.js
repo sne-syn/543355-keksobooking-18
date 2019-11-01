@@ -9,12 +9,16 @@
 
   var openCard = function (element, item) {
     element.addEventListener('click', function () {
-      getCard(element, item);
+      if (Object.keys(item.offer).length !== 0) {
+        getCard(element, item);
+      }
     });
 
     element.addEventListener('keydown', function (evt) {
       window.util.isEnterEvent(evt, function () {
-        getCard(element, item);
+        if (Object.keys(item.offer).length !== 0) {
+          getCard(element, item);
+        }
       });
     });
   };
