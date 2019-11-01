@@ -23,8 +23,8 @@
     var mapCard = document.querySelector('.map__card');
     var activePin = document.querySelector('.map__pin--active');
     if (mapCard) {
-      mapCard.remove();
       activePin.classList.remove('map__pin--active');
+      mapCard.remove();
     }
   };
 
@@ -93,7 +93,7 @@
     price.textContent = obj.offer.price + '₽/ночь';
 
     var type = cardElement.querySelector('.popup__type');
-    type.textContent = typeMap[obj.offer.title];
+    type.textContent = typeMap[obj.offer.type];
 
     var rooms = cardElement.querySelector('.popup__text--capacity');
     rooms.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
