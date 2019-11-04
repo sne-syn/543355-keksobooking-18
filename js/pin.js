@@ -15,6 +15,7 @@
   window.pin = {
     offers: []
   };
+
   var successHandler = function (data) {
     window.pin.offers = data;
     window.render(window.pin.offers);
@@ -116,6 +117,7 @@
     pinX: pinX,
     pinNonActiveY: pinNonActiveY,
     pinActiveY: pinActiveY,
-    Pin: Pin
+    Pin: Pin,
+    offers: window.pin.offers
   };
 })();
