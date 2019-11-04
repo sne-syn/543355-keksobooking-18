@@ -79,7 +79,7 @@
       state[clickedFilter] = newValue;
     }
 
-    var filteredPins = window.offers.filter(filterPins);
+    var filteredPins = window.pin.offers.filter(filterPins);
     window.render(filteredPins);
   });
 

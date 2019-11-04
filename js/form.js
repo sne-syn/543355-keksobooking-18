@@ -92,8 +92,6 @@
     }
   });
 
-  // Type&price-validation
-
   typeSelect.addEventListener('change', function (evt) {
     var types = evt.target.value;
     priceInput.placeholder = validTypeMap[types].minprice;

@@ -12,11 +12,12 @@
   var mainPin = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
 
-  window.offers = [];
-
+  window.pin = {
+    offers: []
+  };
   var successHandler = function (data) {
-    window.offers = data;
-    window.render(window.offers);
+    window.pin.offers = data;
+    window.render(window.pin.offers);
   };
 
   var errorHandler = function () {
@@ -96,7 +97,7 @@
   });
 
   mainPin.addEventListener('mousedown', function () {
-    if (window.offers.length === 0) {
+    if (window.pin.offers.length === 0) {
       window.main.runActivePageMode();
     }
   });
