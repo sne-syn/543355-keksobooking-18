@@ -65,6 +65,7 @@
   };
 
   var filterChangeHandler = window.debounce(function (evt) {
+    window.card.removeCard();
     var newValue = evt.target.value;
     var clickedFilter = evt.target.name;
     if (clickedFilter === 'features') {
@@ -84,7 +85,6 @@
 
   var filter = document.querySelector('.map__filters');
   filter.addEventListener('change', function (evt) {
-    window.card.removeCard();
     filterChangeHandler(evt);
   });
 
