@@ -64,29 +64,32 @@
     return undefined;
   };
 
-  window.filter = {
-    filterPins: filterPins,
-    state: state
-  };
+  var filterChangeHandler = window.debounce(function (evt) {
+    var newValue = evt.target.value;
+    var clickedFilter = evt.target.name;
+    if (clickedFilter === 'features') {
+      var featureValue = state[clickedFilter].indexOf(newValue);
+      if (featureValue === -1) {
+        state[clickedFilter].push(newValue);
+      } else {
+        state[clickedFilter].splice(featureValue, 1);
+      }
+    } else {
+      state[clickedFilter] = newValue;
+    }
 
+    var filteredPins = window.offers.filter(filterPins);
+    window.render(filteredPins);
+  });
 
   var filter = document.querySelector('.map__filters');
   filter.addEventListener('change', function (evt) {
     window.card.removeCard();
-    var newValue = evt.target.value;
-    var clickedFilter = evt.target.name;
-    if (clickedFilter === 'features') {
-      var featureValue = window.filter.state[clickedFilter].indexOf(newValue);
-      if (featureValue === -1) {
-        window.filter.state[clickedFilter].push(newValue);
-      } else {
-        window.filter.state[clickedFilter].splice(featureValue, 1);
-      }
-    } else {
-      window.filter.state[clickedFilter] = newValue;
-    }
-
-    var filteredPins = window.offers.filter(window.filter.filterPins);
-    window.render(filteredPins);
+    filterChangeHandler(evt);
   });
+
+  window.filter = {
+    filterPins: filterPins,
+    state: state
+  };
 })();
