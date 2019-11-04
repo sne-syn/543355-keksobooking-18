@@ -83,10 +83,8 @@
   titleInput.addEventListener('invalid', function () {
     if (titleInput.validity.tooShort) {
       titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
-      titleInput.style.border = '1px solid red';
     } else if (titleInput.validity.valueMissing) {
       titleInput.setCustomValidity('Обязательное поле');
-      titleInput.style.border = 'red';
     } else {
       titleInput.setCustomValidity('');
     }
@@ -102,13 +100,10 @@
     priceInput.addEventListener('invalid', function () {
       if (priceInput.validity.rangeOverflow) {
         priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
-        priceInput.style.border = '1px solid red';
       } else if (priceInput.validity.rangeUnderflow) {
         priceInput.setCustomValidity(validTypeMap[types].errorText);
-        priceInput.style.border = '1px solid red';
       } else if (priceInput.validity.valueMissing) {
         priceInput.setCustomValidity('Обязательное поле');
-        priceInput.style.border = '1px solid red';
       } else {
         priceInput.setCustomValidity('');
       }
@@ -139,6 +134,7 @@
     var successMessage = document.querySelector('.success');
     if (successMessage) {
       successMessage.remove();
+      window.location.reload();
     }
   };
 
@@ -181,6 +177,7 @@
   var resetButton = form.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', function () {
     window.main.setNonActivePageMode();
+    window.location.reload();
   });
 
   window.form = {

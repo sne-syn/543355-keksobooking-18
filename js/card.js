@@ -9,9 +9,7 @@
 
   var openCard = function (element, item) {
     element.addEventListener('click', function () {
-      if (Object.keys(item.offer).length !== 0) {
-        getCard(element, item);
-      }
+      getCard(element, item);
     });
 
     element.addEventListener('keydown', function (evt) {

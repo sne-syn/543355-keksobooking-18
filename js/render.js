@@ -21,7 +21,9 @@
     window.pin.removePins();
     var takeNumber = data.length > 5 ? 5 : data.length;
     for (var i = 0; i < takeNumber; i++) {
-      mapPins.appendChild(renderOffer(data[i]));
+      if (Object.keys(data[i].offer).length !== 0) {
+        mapPins.appendChild(renderOffer(data[i]));
+      }
     }
   };
 

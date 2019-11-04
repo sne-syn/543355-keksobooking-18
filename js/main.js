@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
   var urlGet = 'https://js.dump.academy/keksobooking/data';
   var mainPin = document.querySelector('.map__pin--main');
