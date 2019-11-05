@@ -8,8 +8,8 @@
     MAP_PIN_WIDTH: 40
   };
   var MapLimit = {
-    MIN: 130,
-    MAX: 630
+    Y_MIN: 130,
+    Y_MAX: 630
   };
 
   var map = document.querySelector('.map');
@@ -57,10 +57,10 @@
   getPinCoordinate(pinNonActiveY);
 
   var setPinLimits = function (coord) {
-    if (coord > MapLimit.MAX) {
-      return MapLimit.MAX;
-    } else if (coord < MapLimit.MIN) {
-      return MapLimit.MIN;
+    if (coord > MapLimit.Y_MAX) {
+      return MapLimit.Y_MAX;
+    } else if (coord < MapLimit.Y_MIN) {
+      return MapLimit.Y_MIN;
     } else {
       return coord;
     }
