@@ -99,8 +99,7 @@
 
     var rooms = cardElement.querySelector('.popup__text--capacity');
     switch (true) {
-      case (obj.offer.rooms === 0):
-      case (obj.offer.guests === 0):
+      case (obj.offer.rooms === 0 && obj.offer.guests === 0):
         rooms.textContent = '';
         break;
       case (obj.offer.rooms === 0):

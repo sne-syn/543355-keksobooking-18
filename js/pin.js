@@ -7,6 +7,10 @@
     OFFER_PIN_HEIGHT: 70,
     MAP_PIN_WIDTH: 40
   };
+  var MapLimit = {
+    MIN: 130,
+    MAX: 630
+  };
 
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
@@ -52,6 +56,16 @@
 
   getPinCoordinate(pinNonActiveY);
 
+  var setPinLimits = function (coord) {
+    if (coord > MapLimit.MAX) {
+      return MapLimit.MAX;
+    } else if (coord < MapLimit.MIN) {
+      return MapLimit.MIN;
+    } else {
+      return coord;
+    }
+  };
+
   var fillAdressInput = function (x, y) {
     addressInput.value = x + ', ' + y;
   };
@@ -80,10 +94,10 @@
       var xCoords = (mainPin.offsetTop - shift.y);
       var yCoords = (mainPin.offsetLeft - shift.x);
 
-      mainPin.style.top = xCoords + 'px';
       mainPin.style.left = yCoords + 'px';
+      mainPin.style.top = setPinLimits(xCoords) + 'px';
 
-      fillAdressInput(xCoords, yCoords);
+      fillAdressInput(setPinLimits(xCoords), yCoords);
     };
 
     var onMouseUp = function (upEvt) {

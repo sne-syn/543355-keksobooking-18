@@ -78,38 +78,45 @@
     limitTimeOutOptions();
   });
 
-  // Title-validation.
+  var validateInput = function (el, mapElement) {
+    switch (true) {
+      case (el.validity.rangeOverflow):
+        el.setCustomValidity('Предельно допустимая стоимость - 1000000');
+        el.style.border = '1px solid red';
+        break;
+      case (el.validity.rangeUnderflow):
+        el.setCustomValidity(validTypeMap[mapElement].errorText);
+        el.style.border = '1px solid red';
+        break;
+      case (el.validity.tooShort):
+        el.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
+        el.style.border = '1px solid red';
+        break;
+      case (el.validity.valueMissing):
+        el.setCustomValidity('Обязательное поле');
+        el.style.border = '1px solid red';
+        break;
+      default:
+        el.setCustomValidity('');
+    }
+  };
 
   titleInput.addEventListener('invalid', function () {
-    if (titleInput.validity.tooShort) {
-      titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
-      titleInput.style.border = '1px solid red';
-    } else if (titleInput.validity.valueMissing) {
-      titleInput.setCustomValidity('Обязательное поле');
-      titleInput.style.border = '1px solid red';
-    } else {
-      titleInput.setCustomValidity('');
-    }
+    validateInput(titleInput);
+  });
+
+  priceInput.addEventListener('invalid', function () {
+    var typeValue = typeSelect.value;
+    validateInput(priceInput, typeValue);
   });
 
   typeSelect.addEventListener('change', function (evt) {
-    var types = evt.target.value;
-    priceInput.placeholder = validTypeMap[types].minprice;
-    priceInput.setAttribute('min', validTypeMap[types].minprice);
+    var typeValue = evt.target.value;
+    priceInput.placeholder = validTypeMap[typeValue].minprice;
+    priceInput.setAttribute('min', validTypeMap[typeValue].minprice);
 
     priceInput.addEventListener('invalid', function () {
-      if (priceInput.validity.rangeOverflow) {
-        priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
-        priceInput.style.border = '1px solid red';
-      } else if (priceInput.validity.rangeUnderflow) {
-        priceInput.setCustomValidity(validTypeMap[types].errorText);
-        priceInput.style.border = '1px solid red';
-      } else if (priceInput.validity.valueMissing) {
-        priceInput.setCustomValidity('Обязательное поле');
-        priceInput.style.border = '1px solid red';
-      } else {
-        priceInput.setCustomValidity('');
-      }
+      validateInput(priceInput, typeValue);
     });
   });
 
