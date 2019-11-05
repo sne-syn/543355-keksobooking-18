@@ -53,7 +53,6 @@
   var getPinCoordinate = function (pinModeY) {
     addressInput.value = pinX + ', ' + pinModeY;
   };
-
   getPinCoordinate(pinNonActiveY);
 
   var setPinLimits = function (coord) {

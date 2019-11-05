@@ -3,7 +3,7 @@
   var OK_STATUS_CODE = 200;
 
   var urlPost = 'https://js.dump.academy/keksobooking';
-  var timeOutLimit = 10000; // 10s
+  var timeOutLimit = 10000;
 
   var load = function (onLoad, onError, url) {
     var xhr = new XMLHttpRequest();

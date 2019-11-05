@@ -9,7 +9,7 @@
     'high': 50000,
   };
 
-  var state = {
+  var stateMap = {
     'housing-type': 'any',
     'housing-price': 'any',
     'housing-rooms': 'any',
@@ -35,22 +35,22 @@
 
   var filterPins = function (item) {
     var count = 0;
-    if (item.offer.type === state['housing-type'] || state['housing-type'] === 'any') {
+    if (item.offer.type === stateMap['housing-type'] || stateMap['housing-type'] === 'any') {
       count++;
     }
-    if (checkFittingPrice(item.offer.price) === state['housing-price'] || state['housing-price'] === 'any') {
+    if (checkFittingPrice(item.offer.price) === stateMap['housing-price'] || stateMap['housing-price'] === 'any') {
       count++;
     }
-    if (item.offer.rooms === convertToNumber(state['housing-rooms']) || state['housing-rooms'] === 'any') {
+    if (item.offer.rooms === convertToNumber(stateMap['housing-rooms']) || stateMap['housing-rooms'] === 'any') {
       count++;
     }
-    if (item.offer.guests === convertToNumber(state['housing-guests']) || state['housing-guests'] === 'any') {
+    if (item.offer.guests === convertToNumber(stateMap['housing-guests']) || stateMap['housing-guests'] === 'any') {
       count++;
     }
-    if (findMatchFeatures(state.features, item.offer.features)) {
+    if (findMatchFeatures(stateMap.features, item.offer.features)) {
       count++;
     }
-    return count === Object.keys(state).length;
+    return count === Object.keys(stateMap).length;
   };
 
   var checkFittingPrice = function (priceCard) {
@@ -69,14 +69,14 @@
     var newValue = evt.target.value;
     var clickedFilter = evt.target.name;
     if (clickedFilter === 'features') {
-      var featureValue = state[clickedFilter].indexOf(newValue);
+      var featureValue = stateMap[clickedFilter].indexOf(newValue);
       if (featureValue === -1) {
-        state[clickedFilter].push(newValue);
+        stateMap[clickedFilter].push(newValue);
       } else {
-        state[clickedFilter].splice(featureValue, 1);
+        stateMap[clickedFilter].splice(featureValue, 1);
       }
     } else {
-      state[clickedFilter] = newValue;
+      stateMap[clickedFilter] = newValue;
     }
 
     var filteredPins = window.pin.offers.filter(filterPins);
@@ -89,7 +89,6 @@
   });
 
   window.filter = {
-    filterPins: filterPins,
-    state: state
+    filterPins: filterPins
   };
 })();

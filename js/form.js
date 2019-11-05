@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var validTypeMap = {
     'bungalo': {
       'minprice': '0',
