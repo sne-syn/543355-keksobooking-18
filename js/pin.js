@@ -48,14 +48,14 @@
   var coordsLeft = parseInt(mainPin.style.left, 10);
   var coordsTop = parseInt(mainPin.style.top, 10);
   var addressInput = document.querySelector('#address');
-  var pinX = Math.round(coordsLeft + Pin.MAP_PIN_WIDTH / 2);
-  var pinNonActiveY = Math.round(coordsTop + Pin.MAP_PIN_ROUND_HEIGHT / 2);
-  var pinActiveY = Math.round(coordsTop + Pin.MAP_PIN_WITH_POINT_HIGHT);
+  var pinX = coordsLeft + Pin.MAP_PIN_WIDTH / 2;
+  var pinNonActiveY = coordsTop + Pin.MAP_PIN_ROUND_HEIGHT / 2;
+  var pinActiveY = coordsTop + Pin.MAP_PIN_WITH_POINT_HIGHT;
 
-  var getPinCoordinate = function (pinModeY) {
-    addressInput.value = pinX + ', ' + pinModeY;
+  var getPinCoordinate = function (x, y) {
+    addressInput.value = Math.floor(x) + ', ' + Math.floor(y);
   };
-  getPinCoordinate(pinNonActiveY);
+  getPinCoordinate(pinX, pinNonActiveY);
 
   var setPinLimits = function (axis, min, max) {
     if (axis > max) {
@@ -65,10 +65,6 @@
     } else {
       return axis;
     }
-  };
-
-  var fillAdressInput = function (x, y) {
-    addressInput.value = Math.floor(x) + ', ' + Math.floor(y);
   };
 
   mainPin.addEventListener('mousedown', function (evt) {
@@ -98,7 +94,7 @@
       mainPin.style.left = setPinLimits(yCoords, MapLimit.X_MIN, MapLimit.X_MAX) + 'px';
       mainPin.style.top = setPinLimits(xCoords, MapLimit.Y_MIN, MapLimit.Y_MAX) + 'px';
 
-      fillAdressInput(xCoords + Pin.MAP_PIN_WITH_POINT_HIGHT, yCoords + Pin.MAP_PIN_WIDTH / 2);
+      getPinCoordinate(xCoords + Pin.MAP_PIN_WITH_POINT_HIGHT, yCoords + Pin.MAP_PIN_WIDTH / 2);
     };
 
     var onMouseUp = function (upEvt) {
@@ -131,6 +127,7 @@
     getCoordinate: getPinCoordinate,
     nonActiveY: pinNonActiveY,
     activeY: pinActiveY,
+    x: pinX,
     enum: Pin,
     offers: window.pin.offers
   };

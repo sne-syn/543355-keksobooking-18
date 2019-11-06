@@ -14,7 +14,7 @@
   toggleEnableDisable(fieldset, true);
 
   var activatePage = function () {
-    window.pin.getCoordinate(window.pin.activeY);
+    window.pin.getCoordinate(window.pin.x, window.pin.activeY);
     toggleEnableDisable(fieldset, false);
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
@@ -29,7 +29,7 @@
     window.card.remove();
     window.pin.remove();
     toggleEnableDisable(fieldset, true);
-    window.pin.getCoordinate(window.pin.nonActiveY);
+    window.pin.getCoordinate(window.pin.x, window.pin.nonActiveY);
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
   };
