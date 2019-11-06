@@ -2,7 +2,7 @@
 
 (function () {
   var Pin = {
-    MAP_PIN_ROUND_HEIGHT: 63,
+    MAP_PIN_ROUND_HEIGHT: 35,
     MAP_PIN_WITH_POINT_HIGHT: 70,
     MAP_PIN_WIDTH: 65,
     OFFER_PIN_HEIGHT: 70
