@@ -133,7 +133,7 @@
   };
 
   window.card = {
-    openCard: openCard,
-    removeCard: removeCard
+    open: openCard,
+    remove: removeCard
   };
 })();

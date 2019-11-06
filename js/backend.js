@@ -1,11 +1,13 @@
 'use strict';
 (function () {
   var OK_STATUS_CODE = 200;
+  var Url = {
+    URL_POST: 'https://js.dump.academy/keksobookingg',
+    URL_GET: 'https://js.dump.academy/keksobooking/data'
+  };
+  var TIME_OUT_LIMIT = 10000;
 
-  var urlPost = 'https://js.dump.academy/keksobooking';
-  var timeOutLimit = 10000;
-
-  var load = function (onLoad, onError, url) {
+  var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -22,16 +24,14 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = timeOutLimit;
-    xhr.open('GET', url);
+    xhr.timeout = TIME_OUT_LIMIT;
+    xhr.open('GET', Url.URL_GET);
     xhr.send();
   };
 
   var save = function (onLoad, onError, data) {
-
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-
     xhr.addEventListener('load', function () {
       if (xhr.status === OK_STATUS_CODE) {
         onLoad(xhr.response);
@@ -46,11 +46,10 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = timeOutLimit;
-    xhr.open('POST', urlPost);
+    xhr.timeout = TIME_OUT_LIMIT;
+    xhr.open('POST', Url.URL_POST);
     xhr.send(data);
   };
-
 
   window.backend = {
     load: load,
