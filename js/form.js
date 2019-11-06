@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var validTypeMap = {
     'bungalo': {
       'minprice': '0',
@@ -43,7 +42,7 @@
   var priceInput = form.querySelector('#price');
   var timeInSelect = form.querySelector('#timein');
   var timeOutSelect = form.querySelector('#timeout');
-  var timeOutOption = form.querySelectorAll('#timeout option');
+  var timeOutOptions = form.querySelectorAll('#timeout option');
 
   var setSelect = function (optionList) {
     optionList.forEach(function (option) {
@@ -74,68 +73,61 @@
   });
 
   timeInSelect.addEventListener('change', function () {
-    setSelect(timeOutOption);
+    setSelect(timeOutOptions);
     limitTimeOutOptions();
   });
 
-  // Title-validation.
+  var validateInput = function (el, mapElement) {
+    switch (true) {
+      case (el.validity.rangeOverflow):
+        el.setCustomValidity('Предельно допустимая стоимость - 1000000');
+        el.style.border = '1px solid red';
+        break;
+      case (el.validity.rangeUnderflow):
+        el.setCustomValidity(validTypeMap[mapElement].errorText);
+        el.style.border = '1px solid red';
+        break;
+      case (el.validity.tooShort):
+        el.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
+        el.style.border = '1px solid red';
+        break;
+      case (el.validity.valueMissing):
+        el.setCustomValidity('Обязательное поле');
+        el.style.border = '1px solid red';
+        break;
+      default:
+        el.setCustomValidity('');
+    }
+  };
 
   titleInput.addEventListener('invalid', function () {
-    if (titleInput.validity.tooShort) {
-      titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
-    } else if (titleInput.validity.valueMissing) {
-      titleInput.setCustomValidity('Обязательное поле');
-    } else {
-      titleInput.setCustomValidity('');
-    }
-
-    // Пробы switch'a
-
-    // switch(titleInput) {
-    //   case titleInput.validity.tooShort:
-    //   titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
-    //   break;
-
-    //   case titleInput.validity.valueMissing:
-    //   titleInput.setCustomValidity('Обязательное поле');
-    //   break;
-
-    //   default:
-    //   titleInput.setCustomValidity('');
-    // }
+    validateInput(titleInput);
   });
 
-  // Type&price-validation
+  priceInput.addEventListener('invalid', function () {
+    var typeValue = typeSelect.value;
+    validateInput(priceInput, typeValue);
+  });
 
   typeSelect.addEventListener('change', function (evt) {
-    var types = evt.target.value;
-    priceInput.placeholder = validTypeMap[types].minprice;
-    priceInput.setAttribute('min', validTypeMap[types].minprice);
+    var typeValue = evt.target.value;
+    priceInput.placeholder = validTypeMap[typeValue].minprice;
+    priceInput.setAttribute('min', validTypeMap[typeValue].minprice);
 
     priceInput.addEventListener('invalid', function () {
-      if (priceInput.validity.rangeOverflow) {
-        priceInput.setCustomValidity('Предельно допустимая стоимость - 1000000');
-      } else if (priceInput.validity.rangeUnderflow) {
-        priceInput.setCustomValidity(validTypeMap[types].errorText);
-      } else if (priceInput.validity.valueMissing) {
-        priceInput.setCustomValidity('Обязательное поле');
-      } else {
-        priceInput.setCustomValidity('');
-      }
+      validateInput(priceInput, typeValue);
     });
   });
 
   form.addEventListener('submit', function (evt) {
-    window.backend.setServerInteraction(formSuccessHandler, formErrorHandler, new FormData(form));
+    window.backend.save(formSuccessHandler, formErrorHandler, new FormData(form));
     evt.preventDefault();
   });
 
-  window.form = {
-    cleanFieldset: function () {
-      form.reset();
-      limitGuestOptions();
-      limitTimeOutOptions();
-    }
+  var cleanFieldset = function () {
+    form.reset();
+    limitGuestOptions();
+    limitTimeOutOptions();
   };
 
   var formSuccessHandler = function () {
@@ -151,6 +143,7 @@
     var successMessage = document.querySelector('.success');
     if (successMessage) {
       successMessage.remove();
+      window.location.reload();
     }
   };
 
@@ -190,15 +183,13 @@
     });
   });
 
-  var formReset = function () {
-    window.main.setNonActivePageMode();
-  };
-
   var resetButton = form.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', function () {
-    formReset();
-    // window.form.cleanFieldset();
+    window.main.setNonActivePageMode();
+    window.location.reload();
   });
 
-
+  window.form = {
+    cleanFieldset: cleanFieldset
+  };
 })();

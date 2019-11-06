@@ -7,30 +7,30 @@
     'bungalo': 'Бунгало'
   };
 
-  window.card = {
-    openCard: function (element, items, item) {
-      element.addEventListener('click', function () {
-        getCard(element, items, item);
-      });
+  var openCard = function (element, item) {
+    element.addEventListener('click', function () {
+      getCard(element, item);
+    });
 
-      element.addEventListener('keydown', function (evt) {
-        window.util.isEnterEvent(evt, function () {
-          getCard(element, items, item);
-        });
+    element.addEventListener('keydown', function (evt) {
+      window.util.isEnterEvent(evt, function () {
+        if (Object.keys(item.offer).length !== 0) {
+          getCard(element, item);
+        }
       });
-    },
+    });
+  };
 
-    removeCard: function () {
-      var mapCard = document.querySelector('.map__card');
-      var activePin = document.querySelector('.map__pin--active');
-      if (mapCard) {
-        mapCard.remove();
-        activePin.classList.remove('map__pin--active');
-      }
+  var removeCard = function () {
+    var mapCard = document.querySelector('.map__card');
+    var activePin = document.querySelector('.map__pin--active');
+    if (mapCard) {
+      activePin.classList.remove('map__pin--active');
+      mapCard.remove();
     }
   };
 
-  var getCard = function (element, items, item) {
+  var getCard = function (element, item) {
     renderCard(item);
     element.classList.add('map__pin--active');
     closeCard();
@@ -39,17 +39,15 @@
   var closeCard = function () {
     var closeButton = document.querySelector('.popup__close');
     closeButton.addEventListener('click', function () {
-      window.card.removeCard();
+      removeCard();
     });
 
     document.addEventListener('keydown', function (evt) {
       window.util.isEscEvent(evt, function () {
-        window.card.removeCard();
+        removeCard();
       });
     });
   };
-
-  // Добавляет карту
 
   var map = document.querySelector('.map');
   var cardTemplate = document.querySelector('#card')
@@ -83,7 +81,7 @@
   };
 
   var renderCard = function (obj) {
-    window.card.removeCard();
+    removeCard();
     var cardElement = cardTemplate.cloneNode(true);
     map.insertBefore(cardElement, map.querySelector('.map__filters-container'));
 
@@ -97,13 +95,32 @@
     price.textContent = obj.offer.price + '₽/ночь';
 
     var type = cardElement.querySelector('.popup__type');
-    type.textContent = typeMap[obj.offer.title];
+    type.textContent = typeMap[obj.offer.type];
 
     var rooms = cardElement.querySelector('.popup__text--capacity');
-    rooms.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
+    switch (true) {
+      case (obj.offer.rooms === 0 && obj.offer.guests === 0):
+        rooms.textContent = '';
+        break;
+      case (obj.offer.rooms === 0):
+        rooms.textContent = 'Подходит ' + obj.offer.guests + ' гостей';
+        break;
+      case (obj.offer.guests === 0):
+        rooms.textContent = obj.offer.rooms + ' комнаты';
+        break;
+      default:
+        rooms.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
+    }
 
     var checkInOut = cardElement.querySelector('.popup__text--time');
-    checkInOut.textContent = 'Заезд после ' + obj.offer.checkin + ', выезд до ' + obj.offer.checkout;
+    switch (true) {
+      case (obj.offer.checkin === ''):
+      case (obj.offer.checkout === ''):
+        checkInOut.textContent = '';
+        break;
+      default:
+        checkInOut.textContent = 'Заезд после ' + obj.offer.checkin + ', выезд до ' + obj.offer.checkout;
+    }
 
     var description = cardElement.querySelector('.popup__description');
     description.textContent = obj.offer.description;
@@ -113,5 +130,10 @@
 
     addCardsImg(obj.offer.photos, cardElement);
     addFeaturesItem(obj.offer.features, cardElement);
+  };
+
+  window.card = {
+    openCard: openCard,
+    removeCard: removeCard
   };
 })();
