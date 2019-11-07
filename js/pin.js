@@ -18,6 +18,13 @@
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
+  var coordsLeft = parseInt(mainPin.style.left, 10);
+  var coordsTop = parseInt(mainPin.style.top, 10);
+  var addressInput = document.querySelector('#address');
+  var pinX = coordsLeft + Pin.MAP_PIN_WIDTH / 2;
+  var pinNonActiveY = coordsTop + Pin.MAP_PIN_ROUND_HEIGHT / 2;
+  var pinActiveY = coordsTop + Pin.MAP_PIN_WITH_POINT_HIGHT;
+
 
   window.pin = {
     offers: []
@@ -44,13 +51,6 @@
       }
     });
   };
-
-  var coordsLeft = parseInt(mainPin.style.left, 10);
-  var coordsTop = parseInt(mainPin.style.top, 10);
-  var addressInput = document.querySelector('#address');
-  var pinX = coordsLeft + Pin.MAP_PIN_WIDTH / 2;
-  var pinNonActiveY = coordsTop + Pin.MAP_PIN_ROUND_HEIGHT / 2;
-  var pinActiveY = coordsTop + Pin.MAP_PIN_WITH_POINT_HIGHT;
 
   var getPinCoordinate = function (x, y) {
     addressInput.value = Math.floor(x) + ', ' + Math.floor(y);

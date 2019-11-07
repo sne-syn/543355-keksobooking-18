@@ -128,6 +128,8 @@
     form.reset();
     limitGuestOptions();
     limitTimeOutOptions();
+    var typeValue = typeSelect.value;
+    priceInput.placeholder = validTypeMap[typeValue].minprice;
   };
 
   var formSuccessHandler = function () {
@@ -144,6 +146,8 @@
     if (successMessage) {
       successMessage.remove();
       window.pin.offers = '';
+      titleInput.style.border = '';
+      priceInput.style.border = '';
     }
   };
 
@@ -187,6 +191,8 @@
   resetButton.addEventListener('click', function () {
     window.main.deactivatePage();
     window.pin.offers = '';
+    titleInput.style.border = '';
+    priceInput.style.border = '';
   });
 
   window.form = {

@@ -2,7 +2,7 @@
 (function () {
   var OK_STATUS_CODE = 200;
   var Url = {
-    URL_POST: 'https://js.dump.academy/keksobookingg',
+    URL_POST: 'https://js.dump.academy/keksobooking',
     URL_GET: 'https://js.dump.academy/keksobooking/data'
   };
   var TIME_OUT_LIMIT = 10000;
