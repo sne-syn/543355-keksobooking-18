@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var urlGet = 'https://js.dump.academy/keksobooking/data';
   var mainPin = document.querySelector('.map__pin--main');
   var mainPinStyleLeft = mainPin.style.left;
   var mainPinStyleTop = mainPin.style.top;
@@ -12,34 +11,31 @@
       input.disabled = booleanType;
     });
   };
+  toggleEnableDisable(fieldset, true);
 
-  var runActivePageMode = function () {
-    window.pin.getPinCoordinate(window.pin.pinActiveY);
+  var activatePage = function () {
+    window.pin.getCoordinate(window.pin.x, window.pin.activeY);
     toggleEnableDisable(fieldset, false);
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-    window.backend.load(window.pin.successHandler, window.pin.errorHandler, urlGet);
+    window.backend.load(window.pin.successHandler, window.pin.errorHandler);
   };
 
-  var setNonActivePageMode = function () {
+  var deactivatePage = function () {
     mainPin.style.left = mainPinStyleLeft;
     mainPin.style.top = mainPinStyleTop;
     window.form.cleanFieldset();
     document.activeElement.blur();
-    window.card.removeCard();
-    window.pin.removePins();
+    window.card.remove();
+    window.pin.remove();
     toggleEnableDisable(fieldset, true);
-    window.pin.getPinCoordinate(window.pin.pinNonActiveY);
+    window.pin.getCoordinate(window.pin.x, window.pin.nonActiveY);
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
   };
 
-  toggleEnableDisable(fieldset, true);
-
   window.main = {
-    fieldset: fieldset,
-    toggleEnableDisable: toggleEnableDisable,
-    runActivePageMode: runActivePageMode,
-    setNonActivePageMode: setNonActivePageMode
+    activatePage: activatePage,
+    deactivatePage: deactivatePage
   };
 })();

@@ -136,14 +136,14 @@
       .querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
     document.querySelector('main').appendChild(successElement);
-    window.main.setNonActivePageMode();
+    window.main.deactivatePage();
   };
 
   var removeSuccessMessage = function () {
     var successMessage = document.querySelector('.success');
     if (successMessage) {
       successMessage.remove();
-      window.location.reload();
+      window.pin.offers = '';
     }
   };
 
@@ -185,8 +185,8 @@
 
   var resetButton = form.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', function () {
-    window.main.setNonActivePageMode();
-    window.location.reload();
+    window.main.deactivatePage();
+    window.pin.offers = '';
   });
 
   window.form = {

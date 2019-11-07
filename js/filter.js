@@ -65,7 +65,7 @@
   };
 
   var filterChangeHandler = window.debounce(function (evt) {
-    window.card.removeCard();
+    window.card.remove();
     var newValue = evt.target.value;
     var clickedFilter = evt.target.name;
     if (clickedFilter === 'features') {
@@ -87,8 +87,4 @@
   filter.addEventListener('change', function (evt) {
     filterChangeHandler(evt);
   });
-
-  window.filter = {
-    filterPins: filterPins
-  };
 })();
