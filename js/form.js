@@ -136,6 +136,12 @@
     });
   };
 
+  var removeStateMessage = function (message) {
+    if (message) {
+      message.remove();
+    }
+  };
+
   var formSuccessHandler = function () {
     var successTemplate = document.querySelector('#success')
       .content
@@ -145,20 +151,14 @@
     window.main.deactivatePage();
   };
 
-  var removeStateMessage = function (message) {
-    if (message) {
-      message.remove();
-    }
-  };
-
   document.addEventListener('click', function () {
     var successMessage = document.querySelector('.success');
     removeStateMessage(successMessage);
   });
 
   document.addEventListener('keydown', function (evt) {
-    var successMessage = document.querySelector('.success');
     window.util.isEscEvent(evt, function () {
+      var successMessage = document.querySelector('.success');
       removeStateMessage(successMessage);
     });
   });
@@ -177,8 +177,8 @@
   });
 
   document.addEventListener('keydown', function (evt) {
-    var errorMessage = document.querySelector('.error');
     window.util.isEscEvent(evt, function () {
+      var errorMessage = document.querySelector('.error');
       removeStateMessage(errorMessage);
     });
   });
