@@ -6,17 +6,21 @@
     'house': 'Дом',
     'bungalo': 'Бунгало'
   };
+  
+  var pinClickHandler = function (element, item) {
+    if (Object.keys(item.offer).length !== 0) {
+      getCard(element, item);
+    }
+  };
 
   var openCard = function (element, item) {
     element.addEventListener('click', function () {
-      getCard(element, item);
+      pinClickHandler(element, item);
     });
 
     element.addEventListener('keydown', function (evt) {
       window.util.isEnterEvent(evt, function () {
-        if (Object.keys(item.offer).length !== 0) {
-          getCard(element, item);
-        }
+        pinClickHandler(element, item);
       });
     });
   };
@@ -36,17 +40,18 @@
     closeCard();
   };
 
+  var popupEscHandler = function (evt) {
+    window.util.isEscEvent(evt, removeCard);
+  };
+
+  var closeButtonClickHandler = function () {
+    removeCard();
+  };
+
   var closeCard = function () {
     var closeButton = document.querySelector('.popup__close');
-    closeButton.addEventListener('click', function () {
-      removeCard();
-    });
-
-    document.addEventListener('keydown', function (evt) {
-      window.util.isEscEvent(evt, function () {
-        removeCard();
-      });
-    });
+    closeButton.addEventListener('click', closeButtonClickHandler);
+    document.addEventListener('keydown', popupEscHandler);
   };
 
   var map = document.querySelector('.map');
