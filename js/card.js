@@ -14,10 +14,14 @@
   };
 
   var openCard = function (element, item) {
-    element.addEventListener('click', pinClickHandler.bind(this, element, item), false);
+    element.addEventListener('click', function () {
+      pinClickHandler(element, item);
+    });
 
     element.addEventListener('keydown', function (evt) {
-      window.util.isEscEvent(evt, pinClickHandler.bind(this, element, item), false);
+      window.util.isEnterEvent(evt, function () {
+        pinClickHandler(element, item);
+      });
     });
   };
 
