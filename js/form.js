@@ -125,15 +125,15 @@
   });
 
   var cleanFieldset = function () {
+    var formInput = document.querySelectorAll('.ad-form input');
+    var typeValue = typeSelect.value;
     form.reset();
     limitGuestOptions();
     limitTimeOutOptions();
-    var formInput = document.querySelectorAll('.ad-form input');
+    priceInput.placeholder = validTypeMap[typeValue].minprice;
     formInput.forEach(function (input) {
       input.style.border = '';
     });
-    var typeValue = typeSelect.value;
-    priceInput.placeholder = validTypeMap[typeValue].minprice;
   };
 
   var formSuccessHandler = function () {
@@ -157,8 +157,8 @@
   });
 
   document.addEventListener('keydown', function (evt) {
+    var successMessage = document.querySelector('.success');
     window.util.isEscEvent(evt, function () {
-      var successMessage = document.querySelector('.success');
       removeStateMessage(successMessage);
     });
   });
@@ -186,7 +186,6 @@
   var resetButton = form.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', function () {
     window.main.deactivatePage();
-
   });
 
   window.form = {
