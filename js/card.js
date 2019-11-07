@@ -6,7 +6,7 @@
     'house': 'Дом',
     'bungalo': 'Бунгало'
   };
-  
+
   var pinClickHandler = function (element, item) {
     if (Object.keys(item.offer).length !== 0) {
       getCard(element, item);
@@ -14,14 +14,10 @@
   };
 
   var openCard = function (element, item) {
-    element.addEventListener('click', function () {
-      pinClickHandler(element, item);
-    });
+    element.addEventListener('click', pinClickHandler.bind(this, element, item), false);
 
     element.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, function () {
-        pinClickHandler(element, item);
-      });
+      window.util.isEscEvent(evt, pinClickHandler.bind(this, element, item), false);
     });
   };
 

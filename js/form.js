@@ -43,7 +43,6 @@
   var timeInSelect = form.querySelector('#timein');
   var timeOutSelect = form.querySelector('#timeout');
   var timeOutOptions = form.querySelectorAll('#timeout option');
-
   var setSelect = function (optionList) {
     optionList.forEach(function (option) {
       option.setAttribute('disabled', 'disabled');
@@ -129,12 +128,13 @@
   typeSelect.addEventListener('change', typeSelectHandler);
   form.addEventListener('submit', formSubmitHandler);
 
+
   var cleanFieldset = function () {
     var formInput = document.querySelectorAll('.ad-form input');
-    var typeValue = typeSelect.value;
     form.reset();
     limitGuestOptions();
     limitTimeOutOptions();
+    var typeValue = typeSelect.value;
     priceInput.placeholder = validTypeMap[typeValue].minprice;
     formInput.forEach(function (input) {
       input.style.border = '';
@@ -200,7 +200,8 @@
   });
 
   window.form = {
-    cleanFieldset: cleanFieldset
+    cleanFieldset: cleanFieldset,
+    errorMessageEscHandler: errorMessageEscHandler
   };
 
 })();
