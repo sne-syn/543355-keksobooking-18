@@ -128,6 +128,10 @@
     form.reset();
     limitGuestOptions();
     limitTimeOutOptions();
+    var formInput = document.querySelectorAll('.ad-form input');
+    formInput.forEach(function (input) {
+      input.style.border = '';
+    });
     var typeValue = typeSelect.value;
     priceInput.placeholder = validTypeMap[typeValue].minprice;
   };
@@ -141,30 +145,21 @@
     window.main.deactivatePage();
   };
 
-  var removeSuccessMessage = function () {
-    var successMessage = document.querySelector('.success');
-    if (successMessage) {
-      successMessage.remove();
-      window.pin.offers = '';
-      titleInput.style.border = '';
-      priceInput.style.border = '';
-    }
-  };
-
-  var removeErrorMessage = function () {
-    var errorMessage = document.querySelector('.error');
-    if (errorMessage) {
-      errorMessage.remove();
+  var removeStateMessage = function (message) {
+    if (message) {
+      message.remove();
     }
   };
 
   document.addEventListener('click', function () {
-    removeSuccessMessage();
+    var successMessage = document.querySelector('.success');
+    removeStateMessage(successMessage);
   });
 
   document.addEventListener('keydown', function (evt) {
     window.util.isEscEvent(evt, function () {
-      removeSuccessMessage();
+      var successMessage = document.querySelector('.success');
+      removeStateMessage(successMessage);
     });
   });
 
@@ -176,26 +171,26 @@
     document.querySelector('main').appendChild(errorElement);
   };
 
-
   document.addEventListener('click', function () {
-    removeErrorMessage();
+    var errorMessage = document.querySelector('.error');
+    removeStateMessage(errorMessage);
   });
 
   document.addEventListener('keydown', function (evt) {
+    var errorMessage = document.querySelector('.error');
     window.util.isEscEvent(evt, function () {
-      removeErrorMessage();
+      removeStateMessage(errorMessage);
     });
   });
 
   var resetButton = form.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', function () {
     window.main.deactivatePage();
-    window.pin.offers = '';
-    titleInput.style.border = '';
-    priceInput.style.border = '';
+
   });
 
   window.form = {
     cleanFieldset: cleanFieldset
   };
+
 })();

@@ -24,14 +24,14 @@
   var deactivatePage = function () {
     mainPin.style.left = mainPinStyleLeft;
     mainPin.style.top = mainPinStyleTop;
+    window.pin.offers = '';
     window.form.cleanFieldset();
-    document.activeElement.blur();
     window.card.remove();
     window.pin.remove();
     toggleEnableDisable(fieldset, true);
-    window.pin.getCoordinate(window.pin.x, window.pin.nonActiveY);
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
+    window.pin.getCoordinate(window.pin.x, window.pin.nonActiveY);
   };
 
   window.main = {
