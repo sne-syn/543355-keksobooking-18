@@ -3,7 +3,8 @@
 (function () {
   var Keycode = {
     ESC_KEYCODE: 27,
-    ENTER_KEYCODE: 13
+    ENTER_KEYCODE: 13,
+    SPACE_KEYCODE: 32
   };
 
   var isEscEvent = function (evt, action) {
@@ -19,6 +20,7 @@
   };
 
   window.util = {
+    Keycode: Keycode,
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent
   };

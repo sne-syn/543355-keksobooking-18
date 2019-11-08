@@ -43,6 +43,11 @@
   var timeInSelect = form.querySelector('#timein');
   var timeOutSelect = form.querySelector('#timeout');
   var timeOutOptions = form.querySelectorAll('#timeout option');
+  var features = form.querySelectorAll('.feature');
+
+  var SPACE_KEYCODE = 32;
+
+
   var setSelect = function (optionList) {
     optionList.forEach(function (option) {
       option.setAttribute('disabled', 'disabled');

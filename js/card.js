@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var SPACE_KEYCODE = 32;
   var typeMap = {
     'palace': 'Дворец',
     'flat': 'Квартира',
@@ -7,22 +8,10 @@
     'bungalo': 'Бунгало'
   };
 
-  var pinClickHandler = function (element, item) {
-    if (Object.keys(item.offer).length !== 0) {
-      getCard(element, item);
-    }
-  };
-
-  var openCard = function (element, item) {
-    element.addEventListener('click', function () {
-      pinClickHandler(element, item);
-    });
-
-    element.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, function () {
-        pinClickHandler(element, item);
-      });
-    });
+  window.getCard = function (element, item) {
+    renderCard(item);
+    element.classList.add('map__pin--active');
+    closeCard();
   };
 
   var removeCard = function () {
@@ -32,12 +21,7 @@
       activePin.classList.remove('map__pin--active');
       mapCard.remove();
     }
-  };
-
-  var getCard = function (element, item) {
-    renderCard(item);
-    element.classList.add('map__pin--active');
-    closeCard();
+    document.removeEventListener('keydown', popupEscHandler);
   };
 
   var popupEscHandler = function (evt) {
@@ -138,7 +122,7 @@
   };
 
   window.card = {
-    open: openCard,
+    get: getCard,
     remove: removeCard
   };
 })();
