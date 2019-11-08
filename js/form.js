@@ -53,7 +53,7 @@
   };
 
   features.addEventListener('keydown', function (evt) {
-    window.util.Keyaction.isEnterEvent(evt, function () {
+    window.util.keyaction.isEnterEvent(evt, function () {
       evt.preventDefault();
       var feature = evt.target;
       feature.checked = !feature.checked;
@@ -157,11 +157,11 @@
   };
 
   var successMessageEscHandler = function (evt) {
-    window.util.Keyaction.isEscEvent(evt, removeSuccessMessage);
+    window.util.keyaction.isEscEvent(evt, removeSuccessMessage);
   };
 
   var errorMessageEscHandler = function (evt) {
-    window.util.Keyaction.isEscEvent(evt, removeErrorMessage);
+    window.util.keyaction.isEscEvent(evt, removeErrorMessage);
   };
 
   var showSuccessMessage = function () {

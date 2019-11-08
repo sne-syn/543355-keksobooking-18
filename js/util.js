@@ -7,7 +7,7 @@
     SPACE_KEYCODE: 32
   };
 
-  var Keyaction = {
+  var keyaction = {
     isEscEvent: function (evt, action) {
       if (evt.keyCode === Keycode.ESC_KEYCODE) {
         action();
@@ -26,6 +26,6 @@
   };
 
   window.util = {
-    Keyaction: Keyaction
+    keyaction: keyaction
   };
 })();

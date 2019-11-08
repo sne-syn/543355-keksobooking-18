@@ -24,11 +24,11 @@
     });
 
     element.addEventListener('keydown', function (evt) {
-      window.util.Keyaction.isSpaceEvent(evt);
+      window.util.keyaction.isSpaceEvent(evt);
     });
 
     element.addEventListener('keydown', function (evt) {
-      window.util.Keyaction.isEnterEvent(evt, function () {
+      window.util.keyaction.isEnterEvent(evt, function () {
         pinClickHandler(element, item);
       });
     });
