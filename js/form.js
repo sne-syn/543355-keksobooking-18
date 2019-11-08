@@ -52,14 +52,12 @@
     });
   };
 
-  form.addEventListener('keydown', function (evt) {
+  features.addEventListener('keydown', function (evt) {
     window.util.Keyaction.isEnterEvent(evt, function () {
-        if (evt.targe == features) {
           evt.preventDefault();
           var feature = evt.target;
           feature.checked = !feature.checked;
-        }
-    });
+        });
   });
 
   var limitGuestOptions = function () {
@@ -139,7 +137,6 @@
   priceInput.addEventListener('invalid', priceCheckHandler);
   typeSelect.addEventListener('change', typeSelectHandler);
   form.addEventListener('submit', formSubmitHandler);
-
 
   var cleanFieldset = function () {
     var formInput = document.querySelectorAll('.ad-form input');
