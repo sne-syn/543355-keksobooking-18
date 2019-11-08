@@ -131,7 +131,7 @@
   form.addEventListener('submit', formSubmitHandler);
 
   features.addEventListener('keydown', function (evt) {
-    window.util.keyaction.isEnterEvent(evt, function () {
+    window.util.keyaction.addEnterEvent(evt, function () {
       evt.preventDefault();
       var feature = evt.target;
       feature.checked = !feature.checked;
@@ -157,11 +157,11 @@
   };
 
   var successMessageEscHandler = function (evt) {
-    window.util.keyaction.isEscEvent(evt, removeSuccessMessage);
+    window.util.keyaction.addEscEvent(evt, removeSuccessMessage);
   };
 
   var errorMessageEscHandler = function (evt) {
-    window.util.keyaction.isEscEvent(evt, removeErrorMessage);
+    window.util.keyaction.addEscEvent(evt, removeErrorMessage);
   };
 
   var showSuccessMessage = function () {

@@ -8,17 +8,17 @@
   };
 
   var keyaction = {
-    isEscEvent: function (evt, action) {
+    addEscEvent: function (evt, action) {
       if (evt.keyCode === Keycode.ESC_KEYCODE) {
         action();
       }
     },
-    isEnterEvent: function (evt, action) {
+    addEnterEvent: function (evt, action) {
       if (evt.keyCode === Keycode.ENTER_KEYCODE) {
         action();
       }
     },
-    isSpaceEventRemove: function (evt) {
+    removeSpaceEvent: function (evt) {
       if (evt.keyCode === Keycode.SPACE_KEYCODE) {
         evt.preventDefault();
       }

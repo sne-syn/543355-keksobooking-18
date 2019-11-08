@@ -24,7 +24,7 @@
   };
 
   var popupEscHandler = function (evt) {
-    window.util.keyaction.isEscEvent(evt, removeCard);
+    window.util.keyaction.addEscEvent(evt, removeCard);
   };
 
   var closeButtonClickHandler = function () {

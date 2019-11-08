@@ -89,7 +89,7 @@
   });
 
   filter.addEventListener('keydown', function (evt) {
-    window.util.keyaction.isEnterEvent(evt, function () {
+    window.util.keyaction.addEnterEvent(evt, function () {
       var feature = evt.target;
       var clickedFilter = evt.target.name;
       if (clickedFilter === 'features') {
