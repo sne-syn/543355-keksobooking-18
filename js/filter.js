@@ -89,14 +89,14 @@
   });
 
   filter.addEventListener('keydown', function (evt) {
-    window.util.Keyaction.isSpaceEvent(evt);
-  });
-
-  filter.addEventListener('keydown', function (evt) {
     window.util.Keyaction.isEnterEvent(evt, function () {
-      filterChangeHandler(evt);
       var feature = evt.target;
-      feature.checked = !feature.checked;
+      var clickedFilter = evt.target.name;
+      filterChangeHandler(evt);
+      if (clickedFilter === 'features') {
+        evt.preventDefault();
+        feature.checked = !feature.checked;
+      }
     });
 
   });
