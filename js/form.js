@@ -54,10 +54,10 @@
 
   features.addEventListener('keydown', function (evt) {
     window.util.Keyaction.isEnterEvent(evt, function () {
-          evt.preventDefault();
-          var feature = evt.target;
-          feature.checked = !feature.checked;
-        });
+      evt.preventDefault();
+      var feature = evt.target;
+      feature.checked = !feature.checked;
+    });
   });
 
   var limitGuestOptions = function () {

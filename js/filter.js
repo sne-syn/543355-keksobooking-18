@@ -98,7 +98,6 @@
         feature.checked = !feature.checked;
       }
     });
-
   });
 
 })();

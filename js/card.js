@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var SPACE_KEYCODE = 32;
   var typeMap = {
     'palace': 'Дворец',
     'flat': 'Квартира',
