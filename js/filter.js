@@ -88,15 +88,5 @@
     filterChangeHandler(evt);
   });
 
-  filter.addEventListener('keydown', function (evt) {
-    window.util.keyaction.addEnterEvent(evt, function () {
-      var feature = evt.target;
-      var clickedFilter = evt.target.name;
-      if (clickedFilter === 'features') {
-        feature.checked = !feature.checked;
-        filterChangeHandler(evt);
-      }
-    });
-  });
 
 })();

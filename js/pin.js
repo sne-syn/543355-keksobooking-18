@@ -53,10 +53,10 @@
     });
   };
 
-  var getPinCoordinate = function (x, y) {
+  var setPinCoordinate = function (x, y) {
     addressInput.value = Math.floor(x) + ', ' + Math.floor(y);
   };
-  getPinCoordinate(pinX, pinNonActiveY);
+  setPinCoordinate(pinX, pinNonActiveY);
 
   var setPinLimits = function (axis, min, max) {
     if (axis > max) {
@@ -95,7 +95,7 @@
       mainPin.style.left = setPinLimits(yCoords, MapLimit.X_MIN, MapLimit.X_MAX) + 'px';
       mainPin.style.top = setPinLimits(xCoords, MapLimit.Y_MIN, MapLimit.Y_MAX) + 'px';
 
-      getPinCoordinate(xCoords + Pin.MAP_PIN_WITH_POINT_HIGHT, yCoords + Pin.MAP_PIN_WIDTH / 2);
+      setPinCoordinate(xCoords + Pin.MAP_PIN_WITH_POINT_HIGHT, yCoords + Pin.MAP_PIN_WIDTH / 2);
     };
 
     var onMouseUp = function (upEvt) {
@@ -125,7 +125,7 @@
     successHandler: successHandler,
     errorHandler: errorHandler,
     remove: removePins,
-    getCoordinate: getPinCoordinate,
+    setCoordinate: setPinCoordinate,
     nonActiveY: pinNonActiveY,
     activeY: pinActiveY,
     x: pinX,

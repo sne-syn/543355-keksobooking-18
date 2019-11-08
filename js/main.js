@@ -14,7 +14,7 @@
   toggleEnableDisable(fieldset, true);
 
   var activatePage = function () {
-    window.pin.getCoordinate(window.pin.x, window.pin.activeY);
+    window.pin.setCoordinate(window.pin.x, window.pin.activeY);
     toggleEnableDisable(fieldset, false);
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
@@ -31,7 +31,7 @@
     toggleEnableDisable(fieldset, true);
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
-    window.pin.getCoordinate(window.pin.x, window.pin.nonActiveY);
+    window.pin.setCoordinate(window.pin.x, window.pin.nonActiveY);
   };
 
   window.main = {

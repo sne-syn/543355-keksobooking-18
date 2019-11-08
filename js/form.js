@@ -43,7 +43,6 @@
   var timeInSelect = form.querySelector('#timein');
   var timeOutSelect = form.querySelector('#timeout');
   var timeOutOptions = form.querySelectorAll('#timeout option');
-  var features = form.querySelector('.feature');
 
   var setSelect = function (optionList) {
     optionList.forEach(function (option) {
@@ -130,14 +129,6 @@
   typeSelect.addEventListener('change', typeSelectHandler);
   form.addEventListener('submit', formSubmitHandler);
 
-  features.addEventListener('keydown', function (evt) {
-    window.util.keyaction.addEnterEvent(evt, function () {
-      evt.preventDefault();
-      var feature = evt.target;
-      feature.checked = !feature.checked;
-    });
-  });
-
   var cleanFieldset = function () {
     var formInput = document.querySelectorAll('.ad-form input');
     form.reset();
@@ -159,9 +150,14 @@
   var successMessageEscHandler = function (evt) {
     window.util.keyaction.addEscEvent(evt, removeSuccessMessage);
   };
-
   var errorMessageEscHandler = function (evt) {
     window.util.keyaction.addEscEvent(evt, removeErrorMessage);
+  };
+  var successMessageClickHandler = function () {
+    removeSuccessMessage();
+  };
+  var errorMessageClickHandler = function () {
+    removeErrorMessage();
   };
 
   var showSuccessMessage = function () {
@@ -172,6 +168,7 @@
     document.querySelector('main').appendChild(successElement);
     window.main.deactivatePage();
     document.addEventListener('keydown', successMessageEscHandler);
+    document.addEventListener('click', successMessageClickHandler);
   };
 
   var showErrorMessage = function () {
@@ -181,30 +178,26 @@
     var errorElement = errorTemplate.cloneNode(true);
     document.querySelector('main').appendChild(errorElement);
     document.addEventListener('keydown', errorMessageEscHandler);
+    document.addEventListener('click', errorMessageClickHandler);
   };
 
   var removeSuccessMessage = function () {
     var successMessage = document.querySelector('.success');
     removeStateMessage(successMessage);
     document.removeEventListener('keydown', successMessageEscHandler);
+    document.removeEventListener('click', successMessageClickHandler);
   };
 
   var removeErrorMessage = function () {
     var errorMessage = document.querySelector('.error');
     removeStateMessage(errorMessage);
     document.removeEventListener('keydown', errorMessageEscHandler);
+    document.removeEventListener('click', errorMessageClickHandler);
   };
 
-  document.addEventListener('click', function () {
-    removeSuccessMessage();
-  });
-
-  document.addEventListener('click', function () {
-    removeErrorMessage();
-  });
-
   var resetButton = form.querySelector('.ad-form__reset');
-  resetButton.addEventListener('click', function () {
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
     window.main.deactivatePage();
   });
 
