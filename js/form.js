@@ -52,14 +52,6 @@
     });
   };
 
-  features.addEventListener('keydown', function (evt) {
-    window.util.keyaction.isEnterEvent(evt, function () {
-      evt.preventDefault();
-      var feature = evt.target;
-      feature.checked = !feature.checked;
-    });
-  });
-
   var limitGuestOptions = function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
     availableGuests.forEach(function (option) {
@@ -137,6 +129,14 @@
   priceInput.addEventListener('invalid', priceCheckHandler);
   typeSelect.addEventListener('change', typeSelectHandler);
   form.addEventListener('submit', formSubmitHandler);
+
+  features.addEventListener('keydown', function (evt) {
+    window.util.keyaction.isEnterEvent(evt, function () {
+      evt.preventDefault();
+      var feature = evt.target;
+      feature.checked = !feature.checked;
+    });
+  });
 
   var cleanFieldset = function () {
     var formInput = document.querySelectorAll('.ad-form input');

@@ -18,7 +18,7 @@
         action();
       }
     },
-    isSpaceEvent: function (evt) {
+    isSpaceEventRemove: function (evt) {
       if (evt.keyCode === Keycode.SPACE_KEYCODE) {
         evt.preventDefault();
       }

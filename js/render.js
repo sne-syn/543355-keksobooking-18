@@ -24,7 +24,7 @@
     });
 
     element.addEventListener('keydown', function (evt) {
-      window.util.keyaction.isSpaceEvent(evt);
+      window.util.keyaction.isSpaceEventRemove(evt);
     });
 
     element.addEventListener('keydown', function (evt) {
@@ -43,7 +43,6 @@
       if (Object.keys(data[i].offer).length !== 0) {
         mapPins.appendChild(renderOffer(data[i]));
       }
-
     }
   };
 

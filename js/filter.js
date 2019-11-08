@@ -92,10 +92,9 @@
     window.util.keyaction.isEnterEvent(evt, function () {
       var feature = evt.target;
       var clickedFilter = evt.target.name;
-      filterChangeHandler(evt);
       if (clickedFilter === 'features') {
-        evt.preventDefault();
         feature.checked = !feature.checked;
+        filterChangeHandler(evt);
       }
     });
   });
