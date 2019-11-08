@@ -116,7 +116,7 @@
   });
 
   mainPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, function () {
+    window.util.Keyaction.isEnterEvent(evt, function () {
       window.main.activatePage();
     });
   });

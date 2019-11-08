@@ -7,21 +7,25 @@
     SPACE_KEYCODE: 32
   };
 
-  var isEscEvent = function (evt, action) {
-    if (evt.keyCode === Keycode.ESC_KEYCODE) {
-      action();
-    }
-  };
-
-  var isEnterEvent = function (evt, action) {
-    if (evt.keyCode === Keycode.ENTER_KEYCODE) {
-      action();
+  var Keyaction = {
+    isEscEvent: function (evt, action) {
+      if (evt.keyCode === Keycode.ESC_KEYCODE) {
+        action();
+      }
+    },
+    isEnterEvent: function (evt, action) {
+      if (evt.keyCode === Keycode.ENTER_KEYCODE) {
+        action();
+      }
+    },
+    isSpaceEvent: function (evt) {
+      if (evt.keyCode === Keycode.SPACE_KEYCODE) {
+        evt.preventDefault();
+      }
     }
   };
 
   window.util = {
-    Keycode: Keycode,
-    isEscEvent: isEscEvent,
-    isEnterEvent: isEnterEvent
+    Keyaction: Keyaction
   };
 })();

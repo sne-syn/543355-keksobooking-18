@@ -24,10 +24,11 @@
     });
 
     element.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.util.Keycode.SPACE_KEYCODE) {
-        evt.preventDefault();
-      }
-      window.util.isEnterEvent(evt, function () {
+      window.util.Keyaction.isSpaceEvent(evt);
+    });
+
+    element.addEventListener('keydown', function (evt) {
+      window.util.Keyaction.isEnterEvent(evt, function () {
         pinClickHandler(element, item);
       });
     });

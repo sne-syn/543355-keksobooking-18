@@ -8,7 +8,7 @@
     'bungalo': 'Бунгало'
   };
 
-  window.getCard = function (element, item) {
+  var getCard = function (element, item) {
     renderCard(item);
     element.classList.add('map__pin--active');
     closeCard();
@@ -25,7 +25,7 @@
   };
 
   var popupEscHandler = function (evt) {
-    window.util.isEscEvent(evt, removeCard);
+    window.util.Keyaction.isEscEvent(evt, removeCard);
   };
 
   var closeButtonClickHandler = function () {

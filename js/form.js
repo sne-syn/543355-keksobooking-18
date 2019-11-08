@@ -43,10 +43,7 @@
   var timeInSelect = form.querySelector('#timein');
   var timeOutSelect = form.querySelector('#timeout');
   var timeOutOptions = form.querySelectorAll('#timeout option');
-  var features = form.querySelectorAll('.feature');
-
-  var SPACE_KEYCODE = 32;
-
+  var features = form.querySelector('.feature');
 
   var setSelect = function (optionList) {
     optionList.forEach(function (option) {
@@ -54,6 +51,16 @@
       option.removeAttribute('selected');
     });
   };
+
+  form.addEventListener('keydown', function (evt) {
+    window.util.Keyaction.isEnterEvent(evt, function () {
+        if (evt.targe == features) {
+          evt.preventDefault();
+          var feature = evt.target;
+          feature.checked = !feature.checked;
+        }
+    });
+  });
 
   var limitGuestOptions = function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
@@ -153,11 +160,11 @@
   };
 
   var successMessageEscHandler = function (evt) {
-    window.util.isEscEvent(evt, removeSuccessMessage);
+    window.util.Keyaction.isEscEvent(evt, removeSuccessMessage);
   };
 
   var errorMessageEscHandler = function (evt) {
-    window.util.isEscEvent(evt, removeErrorMessage);
+    window.util.Keyaction.isEscEvent(evt, removeErrorMessage);
   };
 
   var showSuccessMessage = function () {
