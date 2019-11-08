@@ -42,6 +42,7 @@
     var errorElement = errorTemplate.cloneNode(true);
     document.querySelector('main').appendChild(errorElement);
     document.addEventListener('keydown', window.form.errorMessageEscHandler);
+    document.addEventListener('click', window.form.errorMessageClickHandler);
   };
 
   var removePins = function () {

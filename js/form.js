@@ -203,7 +203,8 @@
 
   window.form = {
     cleanFieldset: cleanFieldset,
-    errorMessageEscHandler: errorMessageEscHandler
+    errorMessageEscHandler: errorMessageEscHandler,
+    errorMessageClickHandler: errorMessageClickHandler
   };
 
 })();
