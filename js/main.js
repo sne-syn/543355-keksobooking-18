@@ -26,6 +26,7 @@
     mainPin.style.top = mainPinStyleTop;
     window.pin.offers = '';
     window.form.cleanFieldset();
+    document.activeElement.blur();
     window.card.remove();
     window.pin.remove();
     toggleEnableDisable(fieldset, true);
