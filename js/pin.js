@@ -18,6 +18,13 @@
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
+  var coordsLeft = parseInt(mainPin.style.left, 10);
+  var coordsTop = parseInt(mainPin.style.top, 10);
+  var addressInput = document.querySelector('#address');
+  var pinX = coordsLeft + Pin.MAP_PIN_WIDTH / 2;
+  var pinNonActiveY = coordsTop + Pin.MAP_PIN_ROUND_HEIGHT / 2;
+  var pinActiveY = coordsTop + Pin.MAP_PIN_WITH_POINT_HIGHT;
+
 
   window.pin = {
     offers: []
@@ -34,6 +41,8 @@
       .querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
     document.querySelector('main').appendChild(errorElement);
+    document.addEventListener('keydown', window.form.errorMessageEscHandler);
+    document.addEventListener('click', window.form.errorMessageClickHandler);
   };
 
   var removePins = function () {
@@ -45,17 +54,10 @@
     });
   };
 
-  var coordsLeft = parseInt(mainPin.style.left, 10);
-  var coordsTop = parseInt(mainPin.style.top, 10);
-  var addressInput = document.querySelector('#address');
-  var pinX = coordsLeft + Pin.MAP_PIN_WIDTH / 2;
-  var pinNonActiveY = coordsTop + Pin.MAP_PIN_ROUND_HEIGHT / 2;
-  var pinActiveY = coordsTop + Pin.MAP_PIN_WITH_POINT_HIGHT;
-
-  var getPinCoordinate = function (x, y) {
+  var setPinCoordinate = function (x, y) {
     addressInput.value = Math.floor(x) + ', ' + Math.floor(y);
   };
-  getPinCoordinate(pinX, pinNonActiveY);
+  setPinCoordinate(pinX, pinNonActiveY);
 
   var setPinLimits = function (axis, min, max) {
     if (axis > max) {
@@ -94,7 +96,7 @@
       mainPin.style.left = setPinLimits(yCoords, MapLimit.X_MIN, MapLimit.X_MAX) + 'px';
       mainPin.style.top = setPinLimits(xCoords, MapLimit.Y_MIN, MapLimit.Y_MAX) + 'px';
 
-      getPinCoordinate(xCoords + Pin.MAP_PIN_WITH_POINT_HIGHT, yCoords + Pin.MAP_PIN_WIDTH / 2);
+      setPinCoordinate(xCoords + Pin.MAP_PIN_WITH_POINT_HIGHT, yCoords + Pin.MAP_PIN_WIDTH / 2);
     };
 
     var onMouseUp = function (upEvt) {
@@ -115,7 +117,7 @@
   });
 
   mainPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, function () {
+    window.util.keyaction.addEnterEvent(evt, function () {
       window.main.activatePage();
     });
   });
@@ -124,7 +126,7 @@
     successHandler: successHandler,
     errorHandler: errorHandler,
     remove: removePins,
-    getCoordinate: getPinCoordinate,
+    setCoordinate: setPinCoordinate,
     nonActiveY: pinNonActiveY,
     activeY: pinActiveY,
     x: pinX,

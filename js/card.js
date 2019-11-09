@@ -7,18 +7,10 @@
     'bungalo': 'Бунгало'
   };
 
-  var openCard = function (element, item) {
-    element.addEventListener('click', function () {
-      getCard(element, item);
-    });
-
-    element.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, function () {
-        if (Object.keys(item.offer).length !== 0) {
-          getCard(element, item);
-        }
-      });
-    });
+  var getCard = function (element, item) {
+    renderCard(item);
+    element.classList.add('map__pin--active');
+    closeCard();
   };
 
   var removeCard = function () {
@@ -28,25 +20,21 @@
       activePin.classList.remove('map__pin--active');
       mapCard.remove();
     }
+    document.removeEventListener('keydown', popupEscHandler);
   };
 
-  var getCard = function (element, item) {
-    renderCard(item);
-    element.classList.add('map__pin--active');
-    closeCard();
+  var popupEscHandler = function (evt) {
+    window.util.keyaction.addEscEvent(evt, removeCard);
+  };
+
+  var closeButtonClickHandler = function () {
+    removeCard();
   };
 
   var closeCard = function () {
     var closeButton = document.querySelector('.popup__close');
-    closeButton.addEventListener('click', function () {
-      removeCard();
-    });
-
-    document.addEventListener('keydown', function (evt) {
-      window.util.isEscEvent(evt, function () {
-        removeCard();
-      });
-    });
+    closeButton.addEventListener('click', closeButtonClickHandler);
+    document.addEventListener('keydown', popupEscHandler);
   };
 
   var map = document.querySelector('.map');
@@ -133,7 +121,7 @@
   };
 
   window.card = {
-    open: openCard,
+    get: getCard,
     remove: removeCard
   };
 })();

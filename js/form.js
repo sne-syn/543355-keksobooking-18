@@ -100,16 +100,16 @@
     }
   };
 
-  titleInput.addEventListener('invalid', function () {
-    validateInput(titleInput);
-  });
-
-  priceInput.addEventListener('invalid', function () {
+  var priceCheckHandler = function () {
     var typeValue = typeSelect.value;
     validateInput(priceInput, typeValue);
-  });
+  };
 
-  typeSelect.addEventListener('change', function (evt) {
+  var titleCheckHandler = function () {
+    validateInput(titleInput);
+  };
+
+  var typeSelectHandler = function (evt) {
     var typeValue = evt.target.value;
     priceInput.placeholder = validTypeMap[typeValue].minprice;
     priceInput.setAttribute('min', validTypeMap[typeValue].minprice);
@@ -117,79 +117,94 @@
     priceInput.addEventListener('invalid', function () {
       validateInput(priceInput, typeValue);
     });
-  });
+  };
 
-  form.addEventListener('submit', function (evt) {
-    window.backend.save(formSuccessHandler, formErrorHandler, new FormData(form));
+  var formSubmitHandler = function (evt) {
+    window.backend.save(showSuccessMessage, showErrorMessage, new FormData(form));
     evt.preventDefault();
-  });
+  };
+
+  titleInput.addEventListener('invalid', titleCheckHandler);
+  priceInput.addEventListener('invalid', priceCheckHandler);
+  typeSelect.addEventListener('change', typeSelectHandler);
+  form.addEventListener('submit', formSubmitHandler);
 
   var cleanFieldset = function () {
+    var formInput = document.querySelectorAll('.ad-form input');
     form.reset();
     limitGuestOptions();
     limitTimeOutOptions();
+    var typeValue = typeSelect.value;
+    priceInput.placeholder = validTypeMap[typeValue].minprice;
+    formInput.forEach(function (input) {
+      input.style.border = '';
+    });
   };
 
-  var formSuccessHandler = function () {
+  var removeStateMessage = function (message) {
+    if (message) {
+      message.remove();
+    }
+  };
+
+  var successMessageEscHandler = function (evt) {
+    window.util.keyaction.addEscEvent(evt, removeSuccessMessage);
+  };
+  var errorMessageEscHandler = function (evt) {
+    window.util.keyaction.addEscEvent(evt, removeErrorMessage);
+  };
+  var successMessageClickHandler = function () {
+    removeSuccessMessage();
+  };
+  var errorMessageClickHandler = function () {
+    removeErrorMessage();
+  };
+
+  var showSuccessMessage = function () {
     var successTemplate = document.querySelector('#success')
       .content
       .querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
     document.querySelector('main').appendChild(successElement);
     window.main.deactivatePage();
+    document.addEventListener('keydown', successMessageEscHandler);
+    document.addEventListener('click', successMessageClickHandler);
   };
 
-  var removeSuccessMessage = function () {
-    var successMessage = document.querySelector('.success');
-    if (successMessage) {
-      successMessage.remove();
-      window.pin.offers = '';
-    }
-  };
-
-  var removeErrorMessage = function () {
-    var errorMessage = document.querySelector('.error');
-    if (errorMessage) {
-      errorMessage.remove();
-    }
-  };
-
-  document.addEventListener('click', function () {
-    removeSuccessMessage();
-  });
-
-  document.addEventListener('keydown', function (evt) {
-    window.util.isEscEvent(evt, function () {
-      removeSuccessMessage();
-    });
-  });
-
-  var formErrorHandler = function () {
+  var showErrorMessage = function () {
     var errorTemplate = document.querySelector('#error')
       .content
       .querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
     document.querySelector('main').appendChild(errorElement);
+    document.addEventListener('keydown', errorMessageEscHandler);
+    document.addEventListener('click', errorMessageClickHandler);
   };
 
+  var removeSuccessMessage = function () {
+    var successMessage = document.querySelector('.success');
+    removeStateMessage(successMessage);
+    document.removeEventListener('keydown', successMessageEscHandler);
+    document.removeEventListener('click', successMessageClickHandler);
+  };
 
-  document.addEventListener('click', function () {
-    removeErrorMessage();
-  });
-
-  document.addEventListener('keydown', function (evt) {
-    window.util.isEscEvent(evt, function () {
-      removeErrorMessage();
-    });
-  });
+  var removeErrorMessage = function () {
+    var errorMessage = document.querySelector('.error');
+    removeStateMessage(errorMessage);
+    document.removeEventListener('keydown', errorMessageEscHandler);
+    document.removeEventListener('click', errorMessageClickHandler);
+  };
 
   var resetButton = form.querySelector('.ad-form__reset');
-  resetButton.addEventListener('click', function () {
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
     window.main.deactivatePage();
-    window.pin.offers = '';
   });
 
   window.form = {
-    cleanFieldset: cleanFieldset
+    cleanFieldset: cleanFieldset,
+    errorMessageEscHandler: errorMessageEscHandler,
+    errorMessageClickHandler: errorMessageClickHandler
   };
+
 })();

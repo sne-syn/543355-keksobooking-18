@@ -87,4 +87,6 @@
   filter.addEventListener('change', function (evt) {
     filterChangeHandler(evt);
   });
+
+
 })();
