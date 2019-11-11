@@ -1,17 +1,8 @@
 'use strict';
 
 (function () {
-  var DEFAULT = 'any';
-
-  var FilterName = {
-    TYPE_NAME: 'housing-type',
-    PRICE_NAME: 'housing-price',
-    ROOMS_NAME: 'housing-rooms',
-    GUESTS_NAME: 'housing-guests',
-    FEATURES_NAME: 'features'
-  };
-
-  var priceMap = {
+  var DEFAULT_VALUE = 'any';
+  var Price = {
     LOW_PRICE: 10000,
     MIDDLE_PRICE: {
       FROM: 10000,
@@ -36,7 +27,7 @@
   };
 
   var convertToNumber = function (value) {
-    if (value !== DEFAULT) {
+    if (value !== DEFAULT_VALUE) {
       var newValue = parseInt(value, 10);
       return newValue;
     }
@@ -45,16 +36,16 @@
 
   var filterPins = function (item) {
     var count = 0;
-    if (item.offer.type === stateMap[FilterName.TYPE_NAME] || stateMap[FilterName.TYPE_NAME] === DEFAULT) {
+    if (item.offer.type === stateMap['housing-type'] || stateMap['housing-type'] === DEFAULT_VALUE) {
       count++;
     }
-    if (checkFittingPrice(item.offer.price) === stateMap[FilterName.PRICE_NAME] || stateMap[FilterName.PRICE_NAME] === DEFAULT) {
+    if (checkFittingPrice(item.offer.price) === stateMap['housing-price'] || stateMap['housing-price'] === DEFAULT_VALUE) {
       count++;
     }
-    if (item.offer.rooms === convertToNumber(stateMap[FilterName.ROOMS_NAME]) || stateMap[FilterName.ROOMS_NAME] === DEFAULT) {
+    if (item.offer.rooms === convertToNumber(stateMap['housing-rooms']) || stateMap['housing-rooms'] === DEFAULT_VALUE) {
       count++;
     }
-    if (item.offer.guests === convertToNumber(stateMap[FilterName.GUESTS_NAME]) || stateMap[FilterName.GUESTS_NAME] === DEFAULT) {
+    if (item.offer.guests === convertToNumber(stateMap['housing-guests']) || stateMap['housing-guests'] === DEFAULT_VALUE) {
       count++;
     }
     if (findMatchFeatures(stateMap[FilterName.FEATURES], item.offer.features)) {
@@ -65,11 +56,11 @@
 
   var checkFittingPrice = function (priceCard) {
     switch (true) {
-      case (priceCard < priceMap.LOW_PRICE):
+      case (priceCard < Price.LOW_PRICE):
         return 'low';
-      case (priceCard >= priceMap.MIDDLE_PRICE.FROM && priceCard <= priceMap.MIDDLE_PRICE.TO):
+      case (priceCard >= Price.MIDDLE_PRICE.FROM && priceCard <= Price.MIDDLE_PRICE.TO):
         return 'middle';
-      case (priceCard > priceMap.HIGH_PRICE):
+      case (priceCard > Price.HIGH_PRICE):
         return 'high';
       default:
         return false;

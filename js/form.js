@@ -1,12 +1,10 @@
 'use strict';
 
 (function () {
-  var Price = {
-    BUNGALO_MIN_PRICE: 0,
-    FLAT_MIN_PRICE: 1000,
-    HOUSE_MIN_PRICE: 5000,
-    PALACE_MIN_PRICE: 10000
-  };
+  var BUNGALO_MIN_PRICE = 0;
+  var FLAT_MIN_PRICE = 1000;
+  var HOUSE_MIN_PRICE = 5000;
+  var PALACE_MIN_PRICE = 10000;
 
   var Type = function (minprice) {
     this.minprice = minprice;
@@ -14,10 +12,10 @@
   };
 
   var validTypeMap = {
-    bungalo: new Type(Price.BUNGALO_MIN_PRICE),
-    flat: new Type(Price.FLAT_MIN_PRICE),
-    house: new Type(Price.HOUSE_MIN_PRICE),
-    palace: new Type(Price.PALACE_MIN_PRICE)
+    bungalo: new Type(BUNGALO_MIN_PRICE),
+    flat: new Type(FLAT_MIN_PRICE),
+    house: new Type(HOUSE_MIN_PRICE),
+    palace: new Type(PALACE_MIN_PRICE)
   };
 
   var timeInOutMap = {
@@ -44,14 +42,14 @@
   var timeOutSelect = form.querySelector('#timeout');
   var timeOutOptions = form.querySelectorAll('#timeout option');
 
-  var setSelect = function (optionList) {
+  var setDisabledValue = function (optionList) {
     optionList.forEach(function (option) {
       option.setAttribute('disabled', 'disabled');
       option.removeAttribute('selected');
     });
   };
 
-  var limitOptions = function (select, option) {
+  var setSelectedValue = function (select, option) {
     var current = select.querySelector('[value="' + option + '"]');
     current.removeAttribute('disabled');
     current.setAttribute('selected', 'selected');
@@ -60,22 +58,22 @@
   var limitGuestOptions = function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
     availableGuests.forEach(function (option) {
-      limitOptions(guestsCapacity, option);
+      setSelectedValue(guestsCapacity, option);
     });
   };
 
   var limitTimeOutOptions = function () {
     var availableTimeOption = timeInOutMap[timeInSelect.value];
-    limitOptions(timeOutSelect, availableTimeOption);
+    setSelectedValue(timeOutSelect, availableTimeOption);
   };
 
   roomSelect.addEventListener('change', function () {
-    setSelect(capacitySelectOptions);
+    setDisabledValue(capacitySelectOptions);
     limitGuestOptions();
   });
 
   timeInSelect.addEventListener('change', function () {
-    setSelect(timeOutOptions);
+    setDisabledValue(timeOutOptions);
     limitTimeOutOptions();
   });
 
