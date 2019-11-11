@@ -1,23 +1,23 @@
 'use strict';
 
 (function () {
+  var Price = {
+    BUNGALO_MIN_PRICE: 0,
+    FLAT_MIN_PRICE: 1000,
+    HOUSE_MIN_PRICE: 5000,
+    PALACE_MIN_PRICE: 10000
+  };
+
+  var Type = function (minprice) {
+    this.minprice = minprice;
+    this.errorText = 'Минимальная цена за ночь ' + minprice + '₽';
+  };
+
   var validTypeMap = {
-    'bungalo': {
-      'minprice': '0',
-      'errorText': 'Минимальная цена за ночь 0₽'
-    },
-    'flat': {
-      'minprice': '1000',
-      'errorText': 'Минимальная цена за ночь 1000₽'
-    },
-    'house': {
-      'minprice': '5000',
-      'errorText': 'Минимальная цена за ночь 5000₽'
-    },
-    'palace': {
-      'minprice': '10000',
-      'errorText': 'Минимальная цена за ночь 10000₽'
-    }
+    bungalo: new Type(Price.BUNGALO_MIN_PRICE),
+    flat: new Type(Price.FLAT_MIN_PRICE),
+    house: new Type(Price.HOUSE_MIN_PRICE),
+    palace: new Type(Price.PALACE_MIN_PRICE)
   };
 
   var timeInOutMap = {
@@ -51,20 +51,22 @@
     });
   };
 
+  var limitOptions = function (select, option) {
+    var current = select.querySelector('[value="' + option + '"]');
+    current.removeAttribute('disabled');
+    current.setAttribute('selected', 'selected');
+  };
+
   var limitGuestOptions = function () {
     var availableGuests = roomGuestsMap[roomSelect.value];
     availableGuests.forEach(function (option) {
-      var current = guestsCapacity.querySelector('[value="' + option + '"]');
-      current.removeAttribute('disabled');
-      current.setAttribute('selected', 'selected');
+      limitOptions(guestsCapacity, option);
     });
   };
 
   var limitTimeOutOptions = function () {
     var availableTimeOption = timeInOutMap[timeInSelect.value];
-    var current = timeOutSelect.querySelector('[value="' + availableTimeOption + '"]');
-    current.removeAttribute('disabled');
-    current.setAttribute('selected', 'selected');
+    limitOptions(timeOutSelect, availableTimeOption);
   };
 
   roomSelect.addEventListener('change', function () {

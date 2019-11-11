@@ -1,6 +1,6 @@
 'use strict';
-(function () {
 
+(function () {
   var mapPins = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin');
 
