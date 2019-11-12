@@ -16,7 +16,7 @@
     'housing-price': DEFAULT_VALUE,
     'housing-rooms': DEFAULT_VALUE,
     'housing-guests': DEFAULT_VALUE,
-    features: []
+    'features': []
   };
 
   var findMatchFeatures = function (arrFilter, arrOffer) {
