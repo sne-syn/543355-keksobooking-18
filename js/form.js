@@ -1,10 +1,12 @@
 'use strict';
 
 (function () {
-  var BUNGALO_MIN_PRICE = 0;
-  var FLAT_MIN_PRICE = 1000;
-  var HOUSE_MIN_PRICE = 5000;
-  var PALACE_MIN_PRICE = 10000;
+  var Price = {
+    BUNGALO_MIN_PRICE: 0,
+    FLAT_MIN_PRICE: 1000,
+    HOUSE_MIN_PRICE: 5000,
+    PALACE_MIN_PRICE: 10000
+  };
 
   var Type = function (minprice) {
     this.minprice = minprice;
@@ -12,10 +14,10 @@
   };
 
   var validTypeMap = {
-    bungalo: new Type(BUNGALO_MIN_PRICE),
-    flat: new Type(FLAT_MIN_PRICE),
-    house: new Type(HOUSE_MIN_PRICE),
-    palace: new Type(PALACE_MIN_PRICE)
+    bungalo: new Type(Price.BUNGALO_MIN_PRICE),
+    flat: new Type(Price.FLAT_MIN_PRICE),
+    house: new Type(Price.HOUSE_MIN_PRICE),
+    palace: new Type(Price.PALACE_MIN_PRICE)
   };
 
   var timeInOutMap = {

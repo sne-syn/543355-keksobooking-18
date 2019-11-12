@@ -11,12 +11,13 @@
     HIGH_PRICE: 50000,
   };
 
-  var stateMap = {};
-  stateMap[FilterName.TYPE_NAME] = DEFAULT;
-  stateMap[FilterName.PRICE_NAME] = DEFAULT;
-  stateMap[FilterName.ROOMS_NAME] = DEFAULT;
-  stateMap[FilterName.GUESTS_NAME] = DEFAULT;
-  stateMap[FilterName.FEATURES] = [];
+  var stateMap = {
+    'housing-type': DEFAULT_VALUE,
+    'housing-price': DEFAULT_VALUE,
+    'housing-rooms': DEFAULT_VALUE,
+    'housing-guests': DEFAULT_VALUE,
+    features: []
+  };
 
   var findMatchFeatures = function (arrFilter, arrOffer) {
     var answers = [];
@@ -48,7 +49,7 @@
     if (item.offer.guests === convertToNumber(stateMap['housing-guests']) || stateMap['housing-guests'] === DEFAULT_VALUE) {
       count++;
     }
-    if (findMatchFeatures(stateMap[FilterName.FEATURES], item.offer.features)) {
+    if (findMatchFeatures(stateMap.features, item.offer.features)) {
       count++;
     }
     return count === Object.keys(stateMap).length;
