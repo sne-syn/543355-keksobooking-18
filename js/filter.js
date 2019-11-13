@@ -2,13 +2,13 @@
 
 (function () {
   var DEFAULT_VALUE = 'any';
-  var Price = {
-    LOW_PRICE: 10000,
-    MIDDLE_PRICE: {
-      FROM: 10000,
-      TO: 50000
+  var priceMap = {
+    'low': 10000,
+    'middle': {
+      'from': 10000,
+      'to': 50000
     },
-    HIGH_PRICE: 50000,
+    'high': 50000,
   };
 
   var stateMap = {
@@ -35,6 +35,8 @@
     return false;
   };
 
+  // если предложение соответствует выбранному фильтру или если оно не ограничивается фильтром вообще - +1 к переменной count. В конце сравниваем количество фильтров и сумму баллов в count.
+
   var filterPins = function (item) {
     var count = 0;
     if (item.offer.type === stateMap['housing-type'] || stateMap['housing-type'] === DEFAULT_VALUE) {
@@ -57,11 +59,11 @@
 
   var checkFittingPrice = function (priceCard) {
     switch (true) {
-      case (priceCard < Price.LOW_PRICE):
+      case (priceCard < priceMap.low):
         return 'low';
-      case (priceCard >= Price.MIDDLE_PRICE.FROM && priceCard <= Price.MIDDLE_PRICE.TO):
+      case (priceCard >= priceMap.middle.from && priceCard <= priceMap.middle.to):
         return 'middle';
-      case (priceCard > Price.HIGH_PRICE):
+      case (priceCard > priceMap.high):
         return 'high';
       default:
         return false;

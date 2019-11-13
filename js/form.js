@@ -8,16 +8,16 @@
     PALACE_MIN_PRICE: 10000
   };
 
-  var Type = function (minprice) {
+  var AccomodationType = function (minprice) {
     this.minprice = minprice;
     this.errorText = 'Минимальная цена за ночь ' + minprice + '₽';
   };
 
   var validTypeMap = {
-    bungalo: new Type(Price.BUNGALO_MIN_PRICE),
-    flat: new Type(Price.FLAT_MIN_PRICE),
-    house: new Type(Price.HOUSE_MIN_PRICE),
-    palace: new Type(Price.PALACE_MIN_PRICE)
+    bungalo: new AccomodationType(Price.BUNGALO_MIN_PRICE),
+    flat: new AccomodationType(Price.FLAT_MIN_PRICE),
+    house: new AccomodationType(Price.HOUSE_MIN_PRICE),
+    palace: new AccomodationType(Price.PALACE_MIN_PRICE)
   };
 
   var timeInOutMap = {
