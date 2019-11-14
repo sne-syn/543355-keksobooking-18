@@ -1,11 +1,11 @@
 'use strict';
 
 (function () {
-  var Price = {
-    BUNGALO_MIN_PRICE: 0,
-    FLAT_MIN_PRICE: 1000,
-    HOUSE_MIN_PRICE: 5000,
-    PALACE_MIN_PRICE: 10000
+  var MinPrice = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
   };
 
   var AccomodationType = function (minprice) {
@@ -14,10 +14,10 @@
   };
 
   var validTypeMap = {
-    bungalo: new AccomodationType(Price.BUNGALO_MIN_PRICE),
-    flat: new AccomodationType(Price.FLAT_MIN_PRICE),
-    house: new AccomodationType(Price.HOUSE_MIN_PRICE),
-    palace: new AccomodationType(Price.PALACE_MIN_PRICE)
+    bungalo: new AccomodationType(MinPrice.BUNGALO),
+    flat: new AccomodationType(MinPrice.FLAT),
+    house: new AccomodationType(MinPrice.HOUSE),
+    palace: new AccomodationType(MinPrice.PALACE)
   };
 
   var timeInOutMap = {

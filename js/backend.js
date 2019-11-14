@@ -3,8 +3,8 @@
 (function () {
   var OK_STATUS_CODE = 200;
   var Url = {
-    URL_POST: 'https://js.dump.academy/keksobooking',
-    URL_GET: 'https://js.dump.academy/keksobooking/data'
+    POST: 'https://js.dump.academy/keksobooking',
+    GET: 'https://js.dump.academy/keksobooking/data'
   };
   var TIME_OUT_LIMIT = 10000;
 
@@ -26,7 +26,7 @@
     });
 
     xhr.timeout = TIME_OUT_LIMIT;
-    xhr.open('GET', Url.URL_GET);
+    xhr.open('GET', Url.GET);
     xhr.send();
   };
 
@@ -48,7 +48,7 @@
     });
 
     xhr.timeout = TIME_OUT_LIMIT;
-    xhr.open('POST', Url.URL_POST);
+    xhr.open('POST', Url.POST);
     xhr.send(data);
   };
 

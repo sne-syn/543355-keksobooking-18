@@ -1,11 +1,19 @@
 'use strict';
 
 (function () {
+
+  var TypeTranslate = {
+    PALACE_RU: 'Дворец',
+    FLAT_RU: 'Квартира',
+    HOUSE_RU: 'Дом',
+    BUNGALO_RU: 'Бунгало'
+  };
+
   var typeMap = {
-    palace: 'Дворец',
-    flat: 'Квартира',
-    house: 'Дом',
-    bungalo: 'Бунгало'
+    palace: TypeTranslate.PALACE_RU,
+    flat: TypeTranslate.FLAT_RU,
+    house: TypeTranslate.HOUSE_RU,
+    bungalo: TypeTranslate.BUNGALO_RU
   };
 
   var getCard = function (element, item) {
