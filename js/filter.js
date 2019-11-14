@@ -3,8 +3,8 @@
 (function () {
   var DEFAULT_VALUE = 'any';
   var PriceRange = {
-    LOW_POINT: 1000,
-    HIGH_POINT: 5000
+    LOW_POINT: 10000,
+    HIGH_POINT: 50000
   };
 
   var stateMap = {
