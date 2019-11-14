@@ -29,6 +29,8 @@
     document.activeElement.blur();
     window.card.remove();
     window.pin.remove();
+    window.avatar.remove();
+    window.imgload.remove();
     toggleEnableDisable(fieldset, true);
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');

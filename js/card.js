@@ -1,10 +1,11 @@
 'use strict';
+
 (function () {
   var typeMap = {
-    'palace': 'Дворец',
-    'flat': 'Квартира',
-    'house': 'Дом',
-    'bungalo': 'Бунгало'
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
   };
 
   var getCard = function (element, item) {

@@ -1,5 +1,7 @@
 'use strict';
+
 (function () {
+  var DEFAULT_VALUE = 'any';
   var priceMap = {
     'low': 10000,
     'middle': {
@@ -10,10 +12,10 @@
   };
 
   var stateMap = {
-    'housing-type': 'any',
-    'housing-price': 'any',
-    'housing-rooms': 'any',
-    'housing-guests': 'any',
+    'housing-type': DEFAULT_VALUE,
+    'housing-price': DEFAULT_VALUE,
+    'housing-rooms': DEFAULT_VALUE,
+    'housing-guests': DEFAULT_VALUE,
     'features': []
   };
 
@@ -26,25 +28,27 @@
   };
 
   var convertToNumber = function (value) {
-    if (value !== 'any') {
+    if (value !== DEFAULT_VALUE) {
       var newValue = parseInt(value, 10);
       return newValue;
     }
-    return undefined;
+    return false;
   };
+
+  // если предложение соответствует выбранному фильтру || если оно не ограничивается фильтром вообще - +1 к переменной count. В конце сравниваем количество фильтров и сумму баллов в count.
 
   var filterPins = function (item) {
     var count = 0;
-    if (item.offer.type === stateMap['housing-type'] || stateMap['housing-type'] === 'any') {
+    if (item.offer.type === stateMap['housing-type'] || stateMap['housing-type'] === DEFAULT_VALUE) {
       count++;
     }
-    if (checkFittingPrice(item.offer.price) === stateMap['housing-price'] || stateMap['housing-price'] === 'any') {
+    if (checkFittingPrice(item.offer.price) === stateMap['housing-price'] || stateMap['housing-price'] === DEFAULT_VALUE) {
       count++;
     }
-    if (item.offer.rooms === convertToNumber(stateMap['housing-rooms']) || stateMap['housing-rooms'] === 'any') {
+    if (item.offer.rooms === convertToNumber(stateMap['housing-rooms']) || stateMap['housing-rooms'] === DEFAULT_VALUE) {
       count++;
     }
-    if (item.offer.guests === convertToNumber(stateMap['housing-guests']) || stateMap['housing-guests'] === 'any') {
+    if (item.offer.guests === convertToNumber(stateMap['housing-guests']) || stateMap['housing-guests'] === DEFAULT_VALUE) {
       count++;
     }
     if (findMatchFeatures(stateMap.features, item.offer.features)) {
@@ -54,14 +58,16 @@
   };
 
   var checkFittingPrice = function (priceCard) {
-    if (priceCard < priceMap.low) {
-      return 'low';
-    } else if (priceCard >= priceMap.middle.from && priceCard <= priceMap.middle.to) {
-      return 'middle';
-    } else if (priceCard > priceMap.high) {
-      return 'high';
+    switch (true) {
+      case (priceCard < priceMap.low):
+        return 'low';
+      case (priceCard >= priceMap.middle.from && priceCard <= priceMap.middle.to):
+        return 'middle';
+      case (priceCard > priceMap.high):
+        return 'high';
+      default:
+        return false;
     }
-    return undefined;
   };
 
   var filterChangeHandler = window.debounce(function (evt) {
@@ -87,6 +93,5 @@
   filter.addEventListener('change', function (evt) {
     filterChangeHandler(evt);
   });
-
 
 })();

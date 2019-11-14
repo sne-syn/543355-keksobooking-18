@@ -64,9 +64,8 @@
       return max;
     } else if (axis < min) {
       return min;
-    } else {
-      return axis;
     }
+    return axis;
   };
 
   mainPin.addEventListener('mousedown', function (evt) {

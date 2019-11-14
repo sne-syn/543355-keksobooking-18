@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
   var OK_STATUS_CODE = 200;
   var Url = {
