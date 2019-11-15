@@ -44,26 +44,56 @@
     }
   };
 
-  // если предложение соответствует выбранному фильтру || если оно не ограничивается фильтром вообще - +1 к переменной count. В конце сравниваем количество фильтров и сумму баллов в count.
+  var isTypeOk = function (item) {
+    switch (true) {
+      case (item.offer.type === stateMap['housing-type']):
+      case (stateMap['housing-type'] === DEFAULT_VALUE):
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  var isPriceOk = function (item) {
+    switch (true) {
+      case (convertCardPriceForFilter(item.offer.price) === stateMap['housing-price']):
+      case (stateMap['housing-price'] === DEFAULT_VALUE):
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  var isRoomsOk = function (item) {
+    switch (true) {
+      case (item.offer.rooms === convertToNumber(stateMap['housing-rooms'])):
+      case (stateMap['housing-rooms'] === DEFAULT_VALUE):
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  var isGuestsOk = function (item) {
+    switch (true) {
+      case (item.offer.guests === convertToNumber(stateMap['housing-guests'])):
+      case (stateMap['housing-guests'] === DEFAULT_VALUE):
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  var isFeaturesOk = function (item) {
+    if (findMatchFeatures(stateMap.features, item.offer.features)) {
+      return true;
+    }
+  };
 
   var filterPins = function (item) {
-    var count = 0;
-    if (item.offer.type === stateMap['housing-type'] || stateMap['housing-type'] === DEFAULT_VALUE) {
-      count++;
+    if (isTypeOk(item) && isPriceOk(item) && isRoomsOk(item) && isGuestsOk(item) && isFeaturesOk(item)) {
+      return true;
     }
-    if (convertCardPriceForFilter(item.offer.price) === stateMap['housing-price'] || stateMap['housing-price'] === DEFAULT_VALUE) {
-      count++;
-    }
-    if (item.offer.rooms === convertToNumber(stateMap['housing-rooms']) || stateMap['housing-rooms'] === DEFAULT_VALUE) {
-      count++;
-    }
-    if (item.offer.guests === convertToNumber(stateMap['housing-guests']) || stateMap['housing-guests'] === DEFAULT_VALUE) {
-      count++;
-    }
-    if (findMatchFeatures(stateMap.features, item.offer.features)) {
-      count++;
-    }
-    return count === Object.keys(stateMap).length;
   };
 
   var filterChangeHandler = window.debounce(function (evt) {
