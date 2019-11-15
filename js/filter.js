@@ -2,13 +2,9 @@
 
 (function () {
   var DEFAULT_VALUE = 'any';
-  var priceMap = {
-    'low': 10000,
-    'middle': {
-      'from': 10000,
-      'to': 50000
-    },
-    'high': 50000,
+  var PriceRange = {
+    LOW_POINT: 10000,
+    HIGH_POINT: 50000
   };
 
   var stateMap = {
@@ -35,6 +31,19 @@
     return false;
   };
 
+  var convertCardPriceForFilter = function (priceCard) {
+    switch (true) {
+      case (priceCard < PriceRange.LOW_POINT):
+        return 'low';
+      case (priceCard >= PriceRange.LOW_POINT && priceCard <= PriceRange.HIGH_POINT):
+        return 'middle';
+      case (priceCard > PriceRange.HIGH_POINT):
+        return 'high';
+      default:
+        return false;
+    }
+  };
+
   // если предложение соответствует выбранному фильтру || если оно не ограничивается фильтром вообще - +1 к переменной count. В конце сравниваем количество фильтров и сумму баллов в count.
 
   var filterPins = function (item) {
@@ -42,7 +51,7 @@
     if (item.offer.type === stateMap['housing-type'] || stateMap['housing-type'] === DEFAULT_VALUE) {
       count++;
     }
-    if (checkFittingPrice(item.offer.price) === stateMap['housing-price'] || stateMap['housing-price'] === DEFAULT_VALUE) {
+    if (convertCardPriceForFilter(item.offer.price) === stateMap['housing-price'] || stateMap['housing-price'] === DEFAULT_VALUE) {
       count++;
     }
     if (item.offer.rooms === convertToNumber(stateMap['housing-rooms']) || stateMap['housing-rooms'] === DEFAULT_VALUE) {
@@ -55,19 +64,6 @@
       count++;
     }
     return count === Object.keys(stateMap).length;
-  };
-
-  var checkFittingPrice = function (priceCard) {
-    switch (true) {
-      case (priceCard < priceMap.low):
-        return 'low';
-      case (priceCard >= priceMap.middle.from && priceCard <= priceMap.middle.to):
-        return 'middle';
-      case (priceCard > priceMap.high):
-        return 'high';
-      default:
-        return false;
-    }
   };
 
   var filterChangeHandler = window.debounce(function (evt) {

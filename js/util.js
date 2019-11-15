@@ -2,24 +2,24 @@
 
 (function () {
   var Keycode = {
-    ESC_KEYCODE: 27,
-    ENTER_KEYCODE: 13,
-    SPACE_KEYCODE: 32
+    ESC: 27,
+    ENTER: 13,
+    SPACE: 32
   };
 
   var keyaction = {
     addEscEvent: function (evt, action) {
-      if (evt.keyCode === Keycode.ESC_KEYCODE) {
+      if (evt.keyCode === Keycode.ESC) {
         action();
       }
     },
     addEnterEvent: function (evt, action) {
-      if (evt.keyCode === Keycode.ENTER_KEYCODE) {
+      if (evt.keyCode === Keycode.ENTER) {
         action();
       }
     },
     removeSpaceEvent: function (evt) {
-      if (evt.keyCode === Keycode.SPACE_KEYCODE) {
+      if (evt.keyCode === Keycode.SPACE) {
         evt.preventDefault();
       }
     }
