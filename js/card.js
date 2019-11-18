@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var TypeTranslate = {
     PALACE_RU: 'Дворец',
     FLAT_RU: 'Квартира',
